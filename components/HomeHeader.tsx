@@ -19,23 +19,26 @@ export default function HomeHeader() {
                 lightColor="rgba(0,0,0,0.8)"
                 darkColor="rgba(255,255,255,0.8)"
                 style={tw`font-bold text-4xl w-[80%]`}>our new items</Text>
-            <ScrollView horizontal style={tw`h-11 mt-2`}>
+            <ScrollView horizontal style={tw`h-10 mt-3`} showsHorizontalScrollIndicator={false} >
                 <View
-                    lightColor="white"
+                    lightColor="#89A67E"
                     darkColor="#89A67E"
                     style={tw`px-3 rounded-xl flex justify-center items-center mr-2`}
-                ><Text style={tw`text-black dark:text-white font-semibold text-lg`}>Trending now</Text></View>
+                >
+                    <Text
+                        lightColor="black"
+                        style={tw` font-semibold text-lg text-white`}>Trending now</Text></View>
                 
                 <View
                     lightColor="white"
-                    darkColor="#72706E"
+                    darkColor="#52525b"
                     style={tw`px-3 rounded-xl flex justify-center items-center mr-2`}
-                ><Text style={tw`text-black dark:text-white font-semibold text-lg`}>Recent</Text></View>
+                ><Text style={tw` font-semibold text-lg`}>Recent</Text></View>
                 <View
                     lightColor="white"
-                    darkColor="#72706E"
+                    darkColor="#52525b"
                     style={tw`px-3 rounded-xl flex justify-center items-center mr-2`}
-                ><Text style={tw`text-black dark:text-white font-semibold text-lg`}>Recommended</Text></View>
+                ><Text style={tw` font-semibold text-lg`}>Recommended</Text></View>
             </ScrollView>
         </View>
     )

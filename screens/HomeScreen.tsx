@@ -7,6 +7,7 @@ import HomeHeader from '../components/HomeHeader';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import Products from '../components/Products';
+import HeaderIcon from '../components/HeaderIcon';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
     return (
@@ -19,13 +20,13 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 <View style={tw`flex flex-row justify-between items-center bg-transparent px-5 pt-5 pb-2`}>
                     <View
                         lightColor="white"
-                        darkColor="#474644"
+                        darkColor="#52525b"
                         style={tw`py-1.5 pr-3.5 rounded-lg shadow-lg`}
                     >
-                        <HeaderIcon name='menu' /></View>
+                        <HeaderIcon name='menu' customStyle={tw`text-black dark:text-white`} /></View>
                     <View style={tw`flex flex-row bg-transparent`}>
-                        <HeaderIcon name='search' />
-                        <HeaderIcon name='crop-free' />
+                        <HeaderIcon name='search' customStyle={tw`text-black dark:text-white`} />
+                        <HeaderIcon name='crop-free' customStyle={tw`text-black dark:text-white`} />
                     </View>
                 </View>
                 <HomeHeader />
@@ -39,10 +40,5 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 /**
  * Header Icon component.
  */
-function HeaderIcon(props: {
-    name: React.ComponentProps<typeof MaterialIcons>['name'];
-    color?: string;
-}) {
-    return <MaterialIcons size={25} style={tw`text-black dark:text-white ml-4`} {...props} />;
-}
+
 

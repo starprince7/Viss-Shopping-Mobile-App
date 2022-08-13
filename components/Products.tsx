@@ -1,8 +1,12 @@
-import { Image, FlatList } from "react-native"
-import { View, Text } from "./Themed"
+import { Image, FlatList, TouchableOpacity } from "react-native"
 import tw from "twrnc"
+import { useNavigation } from "@react-navigation/native"
+
+import { View, Text } from "./Themed"
+
 
 export default function Products() {
+    const navigation = useNavigation()
     const data = [
         {
             key: 1,
@@ -69,32 +73,36 @@ export default function Products() {
             darkColor="#1B1F22"
         >
             <FlatList
+                showsVerticalScrollIndicator={false}
                 data={data}
                 numColumns={2}
                 renderItem={({ item }) => (
-                    <View
-                        lightColor="white"
-                        darkColor="#72706E"
-                        style={tw`mx-3 mt-3 mb-8 flex-1 rounded-2xl w-[43%] shadow-sm`}
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('ProductDetail')}
+                        style={tw`mx-3 mb-8 flex-1 rounded-2xl w-[43%] shadow-sm`}
                     >
-                        <Image
-                            style={tw`w-full h-36 rounded-t-2xl`}
-                            source={require("../assets/images/sample-watch.jpeg")} />
                         <View
                             lightColor="white"
                             darkColor="#72706E"
-                            style={tw`px-3 pt-2 rounded-b-2xl`}
+                            style={tw`rounded-2xl`}
                         >
-                            <Text style={tw`font-semibold`}>{item.title}</Text>
+                            <Image
+                                style={tw`w-full h-33 rounded-t-2xl`}
+                                source={require("../assets/images/sample-watch.jpeg")} />
                             <View
                                 lightColor="white"
-                                darkColor="#72706E" style={tw`flex flex-row items-center mt-1`}
+                                darkColor="#52525b"
+                                style={tw`px-3 pt-1.5 rounded-b-2xl`}
                             >
-                                <Text style={tw`line-through mr-2 text-sm text-gray-300`}>${item.beforePrice}</Text>
-                                <Text style={tw`text-lg text-[#89A67E]`}>${item.price}</Text>
+                                <Text style={tw`font-semibold`}>{item.title}</Text>
+                                <View style={tw`flex flex-row items-center bg-transparent `}
+                                >
+                                    <Text style={tw`line-through mr-2 text-sm text-gray-300`}>${item.beforePrice}</Text>
+                                    <Text style={tw`text-lg text-[#89A67E]`}>${item.price}</Text>
+                                </View>
                             </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 )}
             />
         </View>

@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName, KeyboardAvoidingView, Platform } from 'react-native';
 import tw from "twrnc"
 
 import Colors from '../constants/Colors';
@@ -16,19 +16,23 @@ import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import CartScreen from '../screens/CartScreen';
 import HomeScreen from '../screens/HomeScreen';
 
 import { RootStackParamList, MainRootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ProfileScreen from '../screens/ProfileScreen';
+import ProductDetailScreen from '../screens/ProductDetailScreen';
+import ShippingInfo from '../screens/ShippingInfoScreen';
+import OrderDetails from '../screens/OrderDetails';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
+      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+    >
+        <RootNavigator />
     </NavigationContainer>
   );
 }
@@ -45,7 +49,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function PublicNavigator() {
   return (
     <Stack.Navigator>
-      
+
     </Stack.Navigator>
   )
 }
@@ -58,14 +62,17 @@ function PublicNavigator() {
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
-    </Stack.Navigator>
+      <Stack.Navigator>
+        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+        <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ShippingInfo" component={ShippingInfo} options={{ headerShown: false }} />
+        <Stack.Screen name="OrderDetails" component={OrderDetails} options={{ headerShown: false }} />
+        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+        <Stack.Group screenOptions={{ presentation: 'modal' }}>
+          <Stack.Screen name="Modal" component={ModalScreen} />
+        </Stack.Group>
+      </Stack.Navigator>
   );
 }
 
@@ -82,20 +89,21 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"  /* "TabOne" */
       screenOptions={{
+        tabBarItemStyle: [tw`h-96`],
         tabBarActiveTintColor: Colors[colorScheme].tint,
         tabBarShowLabel: true,
         tabBarLabelPosition: 'beside-icon',
         tabBarStyle: [{
           position: 'absolute',
           bottom: 25,
-          left: 20,
-          right: 20,
+          left: 19,
+          right: 19,
           elevation: 0,
           borderRadius: 20
-        }, tw`shadow-lg py-4 px-3 bg-gray-700`]
+        }, tw`shadow-lg py-4 px-3 bg-gray-800 dark:bg-gray-700`]
       }}
-      >
-      
+    >
+
       <BottomTab.Screen
         name="Home"
         component={HomeScreen}
@@ -110,12 +118,13 @@ function BottomTabNavigator() {
 
       <BottomTab.Screen
         name="Cart" /* "TabTwo" */
-        component={TabTwoScreen}
+        component={CartScreen}
         options={({ navigation }) => ({
-          title: navigation.isFocused() ? "Basket" : "",
+          headerShown: false,
+          title: navigation.isFocused() ? "Bag" : "",
           tabBarActiveBackgroundColor: '#89A67E',
           tabBarItemStyle: { borderRadius: 10 },
-          tabBarIcon: ({ color }) => <TabBarIcon name="shopping-basket" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="shopping-bag" color={color} />,
         }
         )}
       />
