@@ -13,13 +13,13 @@ export default function ShippingInfo() {
                 darkColor="#1B1F22"
                 style={tw`flex-1 pt-6`}
             >
+                <TouchableOpacity
+                    onPress={navigation.goBack}
+                    style={tw`w-10.5 ml-5 px-0.5 py-1.5 mb-3 rounded-[10px] bg-[#89A67E]`}
+                >
+                    <HeaderIcon name='arrow-back' customStyle={tw`text-black mx-auto text-white`} />
+                </TouchableOpacity>
                 <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
-                    <TouchableOpacity
-                        onPress={navigation.goBack}
-                        style={tw`w-10.5 ml-5 px-0.5 py-1.5 rounded-[10px] bg-[#89A67E]`}
-                    >
-                        <HeaderIcon name='arrow-back' customStyle={tw`text-black mx-auto text-white`} />
-                    </TouchableOpacity>
                     <View style={tw`p-5 bg-transparent`}>
                         <Text style={tw`text-2xl font-bold`}>Shipping Information</Text>
                     </View>
@@ -54,10 +54,10 @@ export default function ShippingInfo() {
                     </View>
                 </ScrollView>
                 <TouchableOpacity
-                onPress={() => navigation.navigate("OrderDetails")}
-                 style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-6 px-3.5 py-3 flex-row items-center justify-between`}>
+                    onPress={() => navigation.navigate("OrderDetails")}
+                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-6 px-3.5 py-3 flex-row items-center justify-between`}>
                     <HeaderIcon name='next-week' customStyle={tw`text-white mx-auto mr-1.5`} />
-                    <Text style={tw`font-bold text-white`}>Continue to Payment</Text>
+                    <Text style={tw`font-bold text-white`}>Proceed to Payment</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

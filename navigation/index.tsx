@@ -25,6 +25,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import ShippingInfo from '../screens/ShippingInfoScreen';
 import OrderDetails from '../screens/OrderDetails';
+import OrderSuccessScreen from '../screens/OrderSuccessScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -68,6 +69,7 @@ function RootNavigator() {
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ShippingInfo" component={ShippingInfo} options={{ headerShown: false }} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} options={{ headerShown: false }} />
+        <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="Modal" component={ModalScreen} />

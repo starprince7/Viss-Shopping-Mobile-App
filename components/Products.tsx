@@ -79,7 +79,7 @@ export default function Products() {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() => navigation.navigate('ProductDetail')}
-                        style={tw`mx-3 mb-8 flex-1 rounded-2xl w-[43%] shadow-sm`}
+                        style={tw`mx-2 mb-5 flex-1 rounded-2xl w-[43%] shadow-sm`}
                     >
                         <View
                             lightColor="white"
@@ -95,10 +95,10 @@ export default function Products() {
                                 style={tw`px-3 pt-1.5 rounded-b-2xl`}
                             >
                                 <Text style={tw`font-semibold`}>{item.title}</Text>
-                                <View style={tw`flex flex-row items-center bg-transparent `}
+                                <View style={tw`flex flex-row items-center bg-transparent py-0.5`}
                                 >
                                     <Text style={tw`line-through mr-2 text-sm text-gray-300`}>${item.beforePrice}</Text>
-                                    <Text style={tw`text-lg text-[#89A67E]`}>${item.price}</Text>
+                                    <Text style={tw`font-extrabold text-[#89A67E]`}>${item.price}</Text>
                                 </View>
                             </View>
                         </View>
