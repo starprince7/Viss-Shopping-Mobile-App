@@ -3,10 +3,15 @@ import tw from "twrnc"
 import { useNavigation } from "@react-navigation/native"
 
 import { View, Text } from "./Themed"
+import { useSelector } from "react-redux"
+import { selectProducts } from "../redux/slices/productSlice"
 
 
 export default function Products() {
     const navigation = useNavigation()
+    const products = useSelector(selectProducts)
+    console.log("The Products: ", products[0].image)
+
     const data = [
         {
             key: 1,
@@ -74,11 +79,11 @@ export default function Products() {
         >
             <FlatList
                 showsVerticalScrollIndicator={false}
-                data={data}
+                data={products}
                 numColumns={2}
                 renderItem={({ item }) => (
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('ProductDetail')}
+                        onPress={() => navigation.navigate('ProductDetail', item)}
                         style={tw`mx-2 mb-5 flex-1 rounded-2xl w-[43%] shadow-sm`}
                     >
                         <View
@@ -88,7 +93,8 @@ export default function Products() {
                         >
                             <Image
                                 style={tw`w-full h-33 rounded-t-2xl`}
-                                source={require("../assets/images/sample-watch.jpeg")} />
+                                // source={require("../assets/images/sample-watch.jpeg")} />
+                                source={{uri: `${item.image}`}} />
                             <View
                                 lightColor="white"
                                 darkColor="#52525b"
@@ -97,7 +103,7 @@ export default function Products() {
                                 <Text style={tw`font-semibold`}>{item.title}</Text>
                                 <View style={tw`flex flex-row items-center bg-transparent py-0.5`}
                                 >
-                                    <Text style={tw`line-through mr-2 text-sm text-gray-300`}>${item.beforePrice}</Text>
+                                    {/* <Text style={tw`line-through mr-2 text-sm text-gray-300`}>$0.00{item.beforePrice}</Text> */}
                                     <Text style={tw`font-extrabold text-[#89A67E]`}>${item.price}</Text>
                                 </View>
                             </View>

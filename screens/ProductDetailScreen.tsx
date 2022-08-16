@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Image, Pressable, StatusBar, TouchableOpacity } from 'react-native';
 import * as Haptics from "expo-haptics"
 import tw from "twrnc"
@@ -7,13 +7,21 @@ import tw from "twrnc"
 import EditScreenInfo from '../components/EditScreenInfo';
 import HeaderIcon from '../components/HeaderIcon';
 import { Text, View } from '../components/Themed';
+import { Product } from '../redux/slices/productSlice';
+import { useDispatch } from 'react-redux';
+import { increaseItemQty } from '../redux/slices/cartSlice';
 
 
 export default function ProductDetailScreen() {
     const navigation = useNavigation()
+    const route = useRoute()
+    const dispatch = useDispatch()
+
+    const { image, description, title, price } = route.params as Product
 
     const increaseQty = () => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+        dispatch(increaseItemQty)
     }
 
     const decreaseQty = () => {
@@ -40,19 +48,19 @@ export default function ProductDetailScreen() {
             <View style={tw`h-[51.8%] rounded-b-3xl absolute z-10 top-0 left-0 right-0`}>
                 <Image
                     style={tw`w-full h-full rounded-b-3xl`}
-                    source={require("../assets/images/sample-watch.jpeg")}
+                    source={{ uri: image }}
                 />
             </View>
             <View style={tw`h-[52%] bg-gray-800 dark:bg-[#1B1F22] absolute bottom-0 left-0 right-0 px-5 pt-12`}>
                 <View
                     style={tw`bg-transparent pt-2`}
                 >
-                    <Text style={tw`font-semibold text-2xl w-64 text-white`}>Apple Watch Mini 2</Text>
+                    <Text style={tw`font-semibold text-2xl w-64 text-white`}>{ title }</Text>
                     <View
                         style={tw`bg-transparent flex flex-row items-center mt-3`}
                     >
                         <Text style={tw`line-through mr-2 text-sm text-gray-300`}>$300</Text>
-                        <Text style={tw`text-xl text-[#89A67E]`}>$200</Text>
+                        <Text style={tw`text-xl text-[#89A67E]`}>${ price }</Text>
                     </View>
                 </View>
                 {/* >>>> Quantity Button <<<<<<< */}
@@ -65,7 +73,7 @@ export default function ProductDetailScreen() {
                 {/* >>>> Quantity Button <<<<<<< */}
                 <View style={tw`mt-10 bg-transparent`}>
                     <Text style={tw`leading-5 text-gray-200`}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque sapiente velit sequi distinctio hic. Soluta aperiam quas voluptate, exercitationem iure rem explicabo neque deserunt animi, laudantium eaque quam molestiae ad!
+                        { description }
                     </Text>
                 </View>
                 <TouchableOpacity

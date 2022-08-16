@@ -18,9 +18,9 @@ export default function OrderSuccessScreen() {
         <View style={tw`flex-1 bg-[#89A67E] pt-6`}>
             <SafeAreaView style={tw`flex-1`}>
                 <View style={tw`bg-transparent flex-1 items-center justify-center px-5`}>
-                    <MaterialIcons size={130} name="check-circle" style={tw`text-[#eee]`} />
+                    <MaterialIcons size={150} name="check-circle" style={tw`text-[#eee]`} />
                     <Text style={tw`text-lg font-bold text-[#eee] mt-1 text-center`}>Order Successful</Text>
-                    <Text style={tw`text-sm text-[#eee] mt-1 text-center`}>Your order was received and is been sent for processing</Text>
+                    <Text style={tw`text-sm text-[#eee] mt-1 text-center`}>Your order has been sent for processing, you will get a confirmation email shortly.</Text>
                 </View>
             </SafeAreaView>
         </View>

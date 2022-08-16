@@ -123,7 +123,8 @@ function BottomTabNavigator() {
         component={CartScreen}
         options={({ navigation }) => ({
           headerShown: false,
-          title: navigation.isFocused() ? "Bag" : "",
+          title: navigation.isFocused() ? "Baggage" : "",
+          tabBarBadge: navigation.isFocused() ? null : '3',
           tabBarActiveBackgroundColor: '#89A67E',
           tabBarItemStyle: { borderRadius: 10 },
           tabBarIcon: ({ color }) => <TabBarIcon name="shopping-bag" color={color} />,

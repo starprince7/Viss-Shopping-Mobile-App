@@ -1,15 +1,20 @@
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { Alert, FlatList, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { useSelector } from 'react-redux';
 import tw from "twrnc"
-import CartItem from '../components/CartItem';
 
 import EditScreenInfo from '../components/EditScreenInfo';
+import CartItem from '../components/CartItem';
 import HeaderIcon from '../components/HeaderIcon';
 import { Text, View } from '../components/Themed';
+import { selectCartItems } from '../redux/slices/cartSlice';
 
 export default function CartScreen() {
   const navigation = useNavigation()
+  const cartItems = useSelector(selectCartItems)
+  // console.log("Cart screen Items ", cartItems)
+
   return (
     <SafeAreaView style={tw`flex-1`}>
       <StatusBar style='auto' />
@@ -22,14 +27,15 @@ export default function CartScreen() {
           <Text
             lightColor='black'
             darkColor='white'
-            style={tw`capitalize font-medium text-lg`}
+            style={tw`capitalize font-medium text-lg my-2`}
           >
-            Check Out
+            {/* Checkout */}
           </Text>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate("ShippingInfo")}
-          style={tw`px-0.5 py-1.5 rounded-[10px] bg-[#89A67E] absolute top-7.5 right-3 z-10 flex-row items-center`}>
+          style={tw`px-0.5 py-1.5 rounded-[8px] bg-[#89A67E] absolute top-7.5 right-3 z-10 flex-row items-center`}>
+          <Text style={tw`ml-2`}>Checkout</Text>
           <HeaderIcon name="arrow-forward" customStyle={tw`text-white ml-0.5 px-1.5`} />
         </TouchableOpacity>
         {/* >>>>>>>>>>>>>>>> Cart Content View <<<<<<<<<<<<<<<< */}
@@ -47,10 +53,24 @@ export default function CartScreen() {
             >
               Selected Items
             </Text>
-            <CartItem />
-            <CartItem />
-            <CartItem />
+            {
+              cartItems.length > 0
+              ? (
+                  cartItems.map(item =>
+                    <CartItem {...item} />
+                  )
+                )
+              :
+              (<Text>You haven't bagged any item </Text>)
+            }
           </ScrollView>
+          {/* <FlatList
+            data={cartItems}
+            extraData={cartItems}
+            // onRefresh={() => Alert.alert("refreshing...")}
+            // refreshing={false}
+            renderItem={({ item }) => <CartItem {...item} />}
+          /> */}
         </View>
       </View>
     </SafeAreaView>
