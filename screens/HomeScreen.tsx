@@ -8,8 +8,11 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import Products from '../components/Products';
 import HeaderIcon from '../components/HeaderIcon';
+import useProducts from '../hooks/useProducts';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
+    const { isLoading } = useProducts()
+    
     return (
         <SafeAreaView style={tw`flex-1`}>
             <View

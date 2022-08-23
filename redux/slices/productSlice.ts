@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { ReduxStore } from "../../types";
 
 export interface Product {
-  key?: string;
+  _id?: string;
   title?: string;
   image?: string;
   brand?: string;
@@ -16,44 +17,14 @@ export interface Product {
 
 type Products = Product[];
 
-const initialState: Products = [
-  {
-    key: "1",
-    title: "Apple Mini 2",
-    price: 300,
-    image: "https://links.papareact.com/3pn",
-    description: "This is a text description",
-  },
-  {
-    key: "2",
-    title: "Apple Mini 2",
-    price: 300,
-    image: "https://links.papareact.com/3pn",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque sapiente velit sequi distinctio hic. Soluta aperiam quas voluptate, exercitationem iure rem explicabo neque deserunt animi, laudantium eaque quam molestiae ad!",
-  },
-  {
-    key: "3",
-    title: "Apple Mini 2",
-    price: 300,
-    image: "https://links.papareact.com/3pn",
-    description: "This is a text description",
-  },
-  {
-    key: "4",
-    title: "Apple Mini 2",
-    price: 300,
-    image: "https://links.papareact.com/3pn",
-    description: "This is a text description",
-  },
-];
+const initialState: Products = [];
 
 export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
     setProducts: (state, action: PayloadAction<any>) => {
-      state = action.payload;
+      return state = action.payload;
     },
   },
 });
@@ -62,7 +33,8 @@ export const productSlice = createSlice({
 export const { setProducts } = productSlice.actions;
 
 // Export state selectors
-export const selectProducts = (state) => state.Products;
+type SelectProducts = (state: ReduxStore) => Products
+export const selectProducts: SelectProducts = (state) => state.Products;
 
 // Export reducer as default export
 export default productSlice.reducer;

@@ -11,7 +11,7 @@ export default function OrderSuccessScreen() {
 
     /* 
      * Function below will be called when This screen closes
-     * For iOS function is called when this screen slides down.
+     * For iOS this function will be called when this screen slides down.
    */
     navigation.addListener('blur', () => Alert.alert("Modal is Closed!"))
     return (
