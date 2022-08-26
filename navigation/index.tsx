@@ -26,6 +26,8 @@ import ProductDetailScreen from '../screens/ProductDetailScreen';
 import ShippingInfo from '../screens/ShippingInfoScreen';
 import OrderDetails from '../screens/OrderDetails';
 import OrderSuccessScreen from '../screens/OrderSuccessScreen';
+import { useSelector } from 'react-redux';
+import { selectCartItems } from '../redux/slices/cartSlice';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -87,6 +89,21 @@ const BottomTab = createBottomTabNavigator<MainRootTabParamList>();
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
+  // Get Cart length
+  const cart = useSelector(selectCartItems)
+
+  function isCartEmptyAndIsFocused(navigation) {
+    /* *** 
+    * Watch cart if empty, And check if cart is focused
+    * One truthy expression is need alone.
+    * `The expression below needs to resolve to true 
+    * before the notification badge can become hidden`.
+    * 
+    * if the Expression is true I won't display a notification badge
+    */
+    return cart.length === 0 || navigation.isFocused()
+  }
+
   return (
     <BottomTab.Navigator
       initialRouteName="Home"  /* "TabOne" */
@@ -124,7 +141,7 @@ function BottomTabNavigator() {
         options={({ navigation }) => ({
           headerShown: false,
           title: navigation.isFocused() ? "Baggage" : "",
-          tabBarBadge: navigation.isFocused() ? null : '3',
+          tabBarBadge: isCartEmptyAndIsFocused(navigation) ? null : `${cart.length}`,
           tabBarActiveBackgroundColor: '#89A67E',
           tabBarItemStyle: { borderRadius: 10 },
           tabBarIcon: ({ color }) => <TabBarIcon name="shopping-bag" color={color} />,

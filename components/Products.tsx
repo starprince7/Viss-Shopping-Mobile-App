@@ -1,13 +1,18 @@
 import { Image, FlatList, TouchableOpacity } from "react-native"
 import tw from "twrnc"
 import { useNavigation } from "@react-navigation/native"
+import Naira from "./FormatToNaira"
 
 import { View, Text } from "./Themed"
 import { useSelector } from "react-redux"
 import { selectProducts } from "../redux/slices/productSlice"
 
 
-export default function Products() {
+type ProductsProps = {
+    fetchProducts: () => Promise<void>
+}
+
+export default function Products({ fetchProducts }: ProductsProps) {
     const navigation = useNavigation()
     const products = useSelector(selectProducts)
 
@@ -19,7 +24,14 @@ export default function Products() {
         >
             {
                 products.length === 0
-                    ? (<Text style={tw`dark:text-white font-semibold p-5`}>Please wait fetching products</Text>)
+                    ? (
+                        <TouchableOpacity
+                            onPress={fetchProducts}
+                            style={tw`px-0.5 py-0.5 rounded-[8px] bg-[#89A67E]  z-10 flex-row items-center`}
+                        >
+                            <Text style={tw`text-gray-100 font-bold mx-auto p-3.6`}>Reload</Text>
+                        </TouchableOpacity>
+                    )
                     : (
                         <FlatList
                             numColumns={2}
@@ -49,7 +61,9 @@ export default function Products() {
                                             <View style={tw`flex flex-row items-center bg-transparent py-0.5`}
                                             >
                                                 {/* <Text style={tw`line-through mr-2 text-sm text-gray-300`}>$0.00{item.beforePrice}</Text> */}
-                                                <Text style={tw`font-extrabold text-[#89A67E]`}>${item.price}</Text>
+                                                <Text style={tw`font-extrabold text-[#89A67E]`}>
+                                                    {item.price && <Naira style={tw`text-[#89A67E]`}>{item.price}</Naira>}
+                                                </Text>
                                             </View>
                                         </View>
                                     </View>

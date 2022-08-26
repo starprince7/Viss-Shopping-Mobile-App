@@ -6,6 +6,7 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Product } from './redux/slices/productSlice';
 import Store from './redux/store';
 
 declare global {
@@ -16,7 +17,7 @@ declare global {
 
 export type RootStackParamList = {
   HomeScreen: NavigatorScreenParams<MainRootTabParamList | undefined>;
-  ProductDetail: undefined;
+  ProductDetail: Product;
   ShippingInfo: undefined;
   OrderDetails: undefined;
   OrderSuccessScreen: undefined;

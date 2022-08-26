@@ -3,11 +3,11 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { ReduxStore } from "../../types";
 
 export interface Product {
-  _id?: string;
+  _id: string;
   title?: string;
   image?: string;
   brand?: string;
-  price?: number;
+  price: number;
   description?: string;
   countInStock?: number;
   category?: string;

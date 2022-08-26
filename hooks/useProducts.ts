@@ -5,27 +5,28 @@ import { setProducts } from "../redux/slices/productSlice";
 
 const useProducts = () => {
   const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(false);
+  const [isFetchingProduct, setIsFetchingProduct] = useState(false);
+
+  async function fetchProducts() {
+    setIsFetchingProduct(true);
+    
+    try {
+      const res = await fetch(`${BASE_URL}/api/products`);
+      const data = await res.json();
+      dispatch(setProducts(data))
+      setIsFetchingProduct(false);
+    }
+    catch (e) {
+      console.log("Error No Products found :>>>>>", e)
+    }
+  }
 
   useEffect(() => {
-    async function fetchProducts() {
-      setIsLoading(true);
-      
-      try {
-        const res = await fetch(`${BASE_URL}/api/products`);
-        const data = await res.json();
-        dispatch(setProducts(data))
-        setIsLoading(false);
-      }
-      catch (e) {
-        console.log("Error No Products found :>>>>>", e)
-      }
-    }
 
     fetchProducts();
   }, []);
 
-  return { isLoading };
+  return { isFetchingProduct, fetchProducts };
 };
 
 export default useProducts

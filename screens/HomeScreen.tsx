@@ -11,7 +11,7 @@ import HeaderIcon from '../components/HeaderIcon';
 import useProducts from '../hooks/useProducts';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
-    const { isLoading } = useProducts()
+    const { isFetchingProduct, fetchProducts } = useProducts()
     
     return (
         <SafeAreaView style={tw`flex-1`}>
@@ -34,7 +34,11 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 </View>
                 <HomeHeader />
                 {/* <=================> Dynamic Categories Component Will Show Here <===================> */}
-                <Products />
+                {
+                    isFetchingProduct
+                        ? (<Text style={tw`dark:text-white font-semibold p-5 mx-auto`}>Please wait fetching products...</Text>)
+                        : <Products fetchProducts={fetchProducts} />
+                }
             </View>
         </SafeAreaView>
     );

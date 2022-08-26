@@ -1,11 +1,19 @@
 import HeaderIcon from '../components/HeaderIcon';
-import { Text, View } from '../components/Themed';
+import { Modal, Text, View } from '../components/Themed';
 import tw from "twrnc"
-import { SafeAreaView, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView, TextInput, ScrollView, TouchableOpacity, Button } from 'react-native';
 import { useNavigation } from "@react-navigation/native"
+import AddShippingInfo from '../components/AddShippingInfo';
+import { useState } from 'react';
 
 export default function ShippingInfo() {
     const navigation = useNavigation()
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen)
+    }
+
     return (
         <SafeAreaView style={tw`flex-1`}>
             <View
@@ -23,33 +31,44 @@ export default function ShippingInfo() {
                     <View style={tw`p-5 bg-transparent`}>
                         <Text style={tw`text-2xl font-bold`}>Shipping Information</Text>
                     </View>
-                    {/* >>>>> Form Of Shipping Information <<<<< */}
+
+                    {/* **** Modal Screen Start **** */}
+                    <Modal
+                        visible={isModalOpen}
+                        animationType="slide"
+                    >
+                        <View
+                            lightColor="#eee"
+                            darkColor="#1B1F22"
+                            style={tw`bg-[#eee] dark:bg-[#1B1F22] flex-1`}>
+                            <AddShippingInfo closeModal={toggleModal} />
+                        </View>
+                    </Modal>
+                    {/* **** Modal Screen End **** */}
+
+
+                    <View style={tw`w-full bg-transparent`}>
+                        <Button onPress={toggleModal} color={"#89A67E"} title='Add Shipping Information' />
+                    </View>
+
+                    {/* >>>>> Card Container <<<<< */}
                     <View style={tw`p-5 bg-transparent`}>
-                        <View style={tw`bg-transparent mb-6`}>
-                            <Text lightColor='#64748b'>Email</Text>
-                            <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
-                        </View>
-
-                        <View style={tw`bg-transparent mb-6`}>
-                            <Text lightColor='#64748b'>Address</Text>
-                            <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
-                        </View>
-
-
-                        <View style={tw`flex-row justify-between items-center bg-transparent w-50`}>
-                            <View style={tw`bg-transparent mb-6 w-[80.6%] mr-1.5`}>
-                                <Text lightColor='#64748b'>City</Text>
-                                <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
-                            </View>
-                            <View style={tw`bg-transparent mb-6 w-[80.6%] ml-1.5`}>
-                                <Text lightColor='#64748b'>Zip Code</Text>
-                                <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
-                            </View>
-                        </View>
-
-                        <View style={tw`bg-transparent mb-6`}>
-                            <Text lightColor='#64748b'>Country</Text>
-                            <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
+                        {/* *** Shipping Info Card *** */}
+                        < View
+                            style={tw`w-full border p-5 bg-transparent border-gray-700 rounded-lg`}
+                        >
+                            <Text style={tw`mt-2 mb-1 font-semibold`}>Delivery Address</Text>
+                            <Text style={tw`mb-2 `}>Place holder street opp site 2</Text>
+                            <Text style={tw`mt-2 mb-1 font-semibold`}>Phone</Text>
+                            <Text style={tw`mb-2 `}>0904985085</Text>
+                            <Text style={tw`mt-2 mb-1 font-semibold`}>City</Text>
+                            <Text style={tw`mb-2 `}>Place Holder city town, Jos</Text>
+                            <Text style={tw`mt-2 mb-1 font-semibold`}>Country</Text>
+                            <Text style={tw`mb-2 `}>Nigeria</Text>
+                            <Text style={tw`mt-2 mb-1 font-semibold`}>Zip Code</Text>
+                            <Text style={tw`mb-2 `}>120120</Text>
+                            
+                            <Button color="#89A67E" title='Update Info' />
                         </View>
                     </View>
                 </ScrollView>
