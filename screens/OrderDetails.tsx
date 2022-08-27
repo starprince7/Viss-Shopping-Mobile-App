@@ -5,6 +5,7 @@ import tw from "twrnc"
 
 import { Text, View } from '../components/Themed';
 import HeaderIcon from "../components/HeaderIcon"
+import Naira from '../components/FormatToNaira';
 
 export default function OrderDetails() {
     const navigation = useNavigation()
@@ -16,7 +17,7 @@ export default function OrderDetails() {
         }, 5000)
     }
     return (
-        <SafeAreaView style={tw`flex-1`}>
+        <SafeAreaView style={tw`flex-1 bg-[#eee] dark:bg-[#1B1F22]`}>
             <View
                 lightColor="#eee"
                 darkColor="#1B1F22"
@@ -89,9 +90,9 @@ export default function OrderDetails() {
                 <TouchableOpacity
                     // onPress={() => Alert.alert("Payment processing will start now")}
                     onPress={handlePaymentProcessing}
-                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-6 px-10.5 py-3 flex-row items-center justify-between`}>
+                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-0 px-10.5 py-3 flex-row items-center justify-between`}>
                     <HeaderIcon name='payment' customStyle={tw`text-white mx-auto mr-1.5`} />
-                    <Text style={tw`font-semibold text-white`}>Pay <Text style={tw`font-extrabold text-white`}>$600</Text> </Text>
+                    <Text style={tw`font-semibold text-white`}>Pay <Text style={tw`font-extrabold text-white`}><Naira>{ Number(60000) }</Naira></Text> </Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

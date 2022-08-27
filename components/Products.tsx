@@ -45,17 +45,15 @@ export default function Products({ fetchProducts }: ProductsProps) {
                                 >
                                     <View
                                         lightColor="white"
-                                        darkColor="#72706E"
-                                        style={tw`rounded-2xl`}
+                                        darkColor="#52525b"
+                                        style={tw`rounded-2xl h-50`}
                                     >
                                         <Image
                                             style={tw`w-full h-33 rounded-t-2xl`}
                                             // source={require("../assets/images/sample-watch.jpeg")} />
                                             source={{ uri: `${item.image}` }} />
                                         <View
-                                            lightColor="white"
-                                            darkColor="#52525b"
-                                            style={tw`px-3 pt-1.5 rounded-b-2xl`}
+                                            style={tw`px-3 pt-1.5 bg-transparent rounded-b-2xl`}
                                         >
                                             <Text style={tw`font-semibold`}>{item.title}</Text>
                                             <View style={tw`flex flex-row items-center bg-transparent py-0.5`}

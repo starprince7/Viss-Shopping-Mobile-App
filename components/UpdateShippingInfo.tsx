@@ -4,11 +4,11 @@ import tw from "twrnc"
 import { SafeAreaView, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation } from "@react-navigation/native"
 
-type AddShippingInfoProps = {
+type UpdateShippingInfoProps = {
     closeModal: () => void;
 }
 
-const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
+const UpdateShippingInfo = ({ closeModal }: UpdateShippingInfoProps) => {
     const navigation = useNavigation()
 
     /* ***
@@ -21,14 +21,12 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
         city: string;
     };
 */
-
-    const saveNewShippingInfomartion = () => {
-        closeModal()
-        navigation.navigate("OrderDetails")
-    }
+    
+const saveUpdatedShippingInfomartion = () => {
+    closeModal()
+}
 
     return (
-
         <SafeAreaView style={tw`flex-1`}>
             <View
                 lightColor="#eee"
@@ -48,7 +46,7 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
                     </TouchableOpacity>
                     <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                         <View style={tw`p-5 bg-transparent`}>
-                            <Text style={tw`text-2xl font-bold`}>Add Delivery Address</Text>
+                            <Text style={tw`text-2xl font-bold`}>Update Shipping Info</Text>
                             <Text style={tw` font-semibold my-2`}>Packages are delivered using this information</Text>
                         </View>
                         {/* >>>>> Form Of Shipping Information <<<<< */}
@@ -83,15 +81,14 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
                     </ScrollView>
                 </KeyboardAvoidingView>
                 <TouchableOpacity
-                    onPress={saveNewShippingInfomartion}
+                    onPress={saveUpdatedShippingInfomartion}
                     style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-2 px-3.5 py-3 flex-row items-center justify-between`}>
-                    <Text style={tw`font-bold text-white`}>Save</Text>
+                    <Text style={tw`font-bold text-white`}>Update</Text>
                     <HeaderIcon name='done' customStyle={tw`text-white mx-auto ml-1.5`} />
                 </TouchableOpacity>
             </View>
-        </SafeAreaView >
-
+        </SafeAreaView>
     )
 }
 
-export default AddShippingInfo
+export default UpdateShippingInfo

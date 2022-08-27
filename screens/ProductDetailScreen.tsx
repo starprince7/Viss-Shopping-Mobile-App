@@ -10,6 +10,7 @@ import { Text, View } from '../components/Themed';
 import { Product } from '../redux/slices/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { decreaseItemQty, getItemQuantityFromCart, increaseItemQty, selectCartItems } from '../redux/slices/cartSlice';
+import Naira from '../components/FormatToNaira';
 
 
 export default function ProductDetailScreen() {
@@ -67,8 +68,8 @@ export default function ProductDetailScreen() {
                     <View
                         style={tw`bg-transparent flex flex-row items-center mt-3`}
                     >
-                        <Text style={tw`line-through mr-2 text-sm text-gray-300`}>$300</Text>
-                        <Text style={tw`text-xl text-[#89A67E]`}>${price}</Text>
+                        <Text style={tw`line-through mr-2 text-sm text-gray-300`}><Naira>{ Number(3000) }</Naira></Text>
+                        <Text style={tw`text-xl text-[#89A67E]`}><Naira>{price}</Naira></Text>
                     </View>
                 </View>
                 {/* >>>> Quantity Button <<<<<<< */}

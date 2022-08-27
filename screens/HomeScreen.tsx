@@ -14,7 +14,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
     const { isFetchingProduct, fetchProducts } = useProducts()
     
     return (
-        <SafeAreaView style={tw`flex-1`}>
+        <SafeAreaView style={tw`flex-1 bg-[#eee] dark:bg-[#1B1F22]`}>
             <View
                 style={tw`flex-1`}
                 lightColor="#eee"

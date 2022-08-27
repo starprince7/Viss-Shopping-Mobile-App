@@ -1,21 +1,30 @@
 import HeaderIcon from '../components/HeaderIcon';
 import { Modal, Text, View } from '../components/Themed';
 import tw from "twrnc"
-import { SafeAreaView, TextInput, ScrollView, TouchableOpacity, Button } from 'react-native';
+import { SafeAreaView, ScrollView, TouchableOpacity, Button } from 'react-native';
 import { useNavigation } from "@react-navigation/native"
 import AddShippingInfo from '../components/AddShippingInfo';
 import { useState } from 'react';
+import ShippingInfoCard from '../components/ShippingInfoCard';
+import UpdateShippingInfo from '../components/UpdateShippingInfo';
 
 export default function ShippingInfo() {
     const navigation = useNavigation()
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isAddShippingInfoModalOpen, setAddShippingInfoModalOpen] = useState(false)
+    const [isUpdateShippingInfoModalOpen, setUpdateShippingInfoModalOpen] = useState(false)
 
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen)
+    // close `Add` new shipping info modal
+    const toggleAddShippingInfoModal = () => {
+        setAddShippingInfoModalOpen(!isAddShippingInfoModalOpen)
+    }
+
+    // close `Update` shipping info modal
+    const toggleUpdateShippingInfoModal = () => {
+        setUpdateShippingInfoModalOpen(!isUpdateShippingInfoModalOpen)
     }
 
     return (
-        <SafeAreaView style={tw`flex-1`}>
+        <SafeAreaView style={tw`flex-1 bg-[#eee] dark:bg-[#1B1F22]`}>
             <View
                 lightColor="#eee"
                 darkColor="#1B1F22"
@@ -30,53 +39,57 @@ export default function ShippingInfo() {
                 <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                     <View style={tw`p-5 bg-transparent`}>
                         <Text style={tw`text-2xl font-bold`}>Shipping Information</Text>
+                        <Text style={tw`font-semibold mt-2 mb-5`}>Please confirm these information below</Text>
                     </View>
 
-                    {/* **** Modal Screen Start **** */}
+                    {/* ************* Modal to `Create` Shipping Information Screen Start ********** */}
                     <Modal
-                        visible={isModalOpen}
+                        visible={isAddShippingInfoModalOpen}
                         animationType="slide"
                     >
                         <View
                             lightColor="#eee"
                             darkColor="#1B1F22"
                             style={tw`bg-[#eee] dark:bg-[#1B1F22] flex-1`}>
-                            <AddShippingInfo closeModal={toggleModal} />
+                            <AddShippingInfo closeModal={toggleAddShippingInfoModal} />
                         </View>
                     </Modal>
-                    {/* **** Modal Screen End **** */}
+
+                    {/* *****************************************************************************
+                      * In-between Two Modals -- 2nd Modal is Below.
+                     *******************************************************************************/}
+                    
+
+                    {/* ************* Modal to `Update` Shipping Information Screen Start ********** */}
+                    <Modal
+                        visible={isUpdateShippingInfoModalOpen}
+                        animationType="slide"
+                    >
+                        <View
+                            lightColor="#eee"
+                            darkColor="#1B1F22"
+                            style={tw`bg-[#eee] dark:bg-[#1B1F22] flex-1`}>
+                            <UpdateShippingInfo closeModal={toggleUpdateShippingInfoModal} />
+                        </View>
+                    </Modal>
+                    {/* ************ Modal to `Update` Shipping Information Screen End ********** */}
 
 
                     <View style={tw`w-full bg-transparent`}>
-                        <Button onPress={toggleModal} color={"#89A67E"} title='Add Shipping Information' />
+                        <Button onPress={toggleAddShippingInfoModal} color={"#89A67E"} title='Add Shipping Information' />
                     </View>
 
                     {/* >>>>> Card Container <<<<< */}
                     <View style={tw`p-5 bg-transparent`}>
                         {/* *** Shipping Info Card *** */}
-                        < View
-                            style={tw`w-full border p-5 bg-transparent border-gray-700 rounded-lg`}
-                        >
-                            <Text style={tw`mt-2 mb-1 font-semibold`}>Delivery Address</Text>
-                            <Text style={tw`mb-2 `}>Place holder street opp site 2</Text>
-                            <Text style={tw`mt-2 mb-1 font-semibold`}>Phone</Text>
-                            <Text style={tw`mb-2 `}>0904985085</Text>
-                            <Text style={tw`mt-2 mb-1 font-semibold`}>City</Text>
-                            <Text style={tw`mb-2 `}>Place Holder city town, Jos</Text>
-                            <Text style={tw`mt-2 mb-1 font-semibold`}>Country</Text>
-                            <Text style={tw`mb-2 `}>Nigeria</Text>
-                            <Text style={tw`mt-2 mb-1 font-semibold`}>Zip Code</Text>
-                            <Text style={tw`mb-2 `}>120120</Text>
-                            
-                            <Button color="#89A67E" title='Update Info' />
-                        </View>
+                        <ShippingInfoCard toggleUpdateShippingInfoModal={toggleUpdateShippingInfoModal} />
                     </View>
                 </ScrollView>
                 <TouchableOpacity
                     onPress={() => navigation.navigate("OrderDetails")}
-                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-6 px-3.5 py-3 flex-row items-center justify-between`}>
-                    <HeaderIcon name='next-week' customStyle={tw`text-white mx-auto mr-1.5`} />
+                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-2 px-3.5 py-3 flex-row items-center justify-between`}>
                     <Text style={tw`font-bold text-white`}>Proceed to Payment</Text>
+                    <HeaderIcon name='navigate-next' customStyle={tw`text-white mx-auto ml-1.5`} />
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
