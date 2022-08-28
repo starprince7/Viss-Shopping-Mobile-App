@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Alert } from "react-native";
 import { ReduxStore } from "../../types";
+import { addItemToCart, removeItemFromCart } from "../../utills/updateCartHelpers";
 
 export interface CartItemType {
   id: string;
@@ -18,7 +18,7 @@ export interface CartItemType {
   date_created?: string;
 }
 
-type CartState = CartItemType[];
+export type CartState = CartItemType[];
 
 const initialState: CartState = [];
 
@@ -53,38 +53,3 @@ export const selectCartItems: SelectCartItem = (state) => state.Cart;
 // Get Reducer from `CartSlice` and export it.
 export default cartSlice.reducer;
 
-// >>>>>>>>>>>>>>>>>>>>>>>>> Utilities for Cart Update <<<<<<<<<<<<<<<<<<<<<<<<<<<<
-function addItemToCart(state: CartState, action: PayloadAction<any>) {
-  let id = action.payload.id;
-  let price = action.payload.price
-
-  // Here the item is not Found inside of cart
-  if (state.find((item) => item.id === id) == null) {
-    return [...state, { id, price, quantity: 1 }];
-  } else {
-    // Here the item is found in cart
-    console.log("Item exist in cart Old cart state: ", state[0].quantity);
-    const new_array = state.map((item) => {
-      if (item.id == id) {
-        return { ...item, quantity: item.quantity + 1 };
-      } else return item;
-    });
-    console.log("The new Array b4 returning it!", new_array[0].quantity);
-    return new_array;
-  }
-}
-
-// Remove from cart or Reduce Item Qty
-function removeItemFromCart(state: CartState, action: PayloadAction<any>) {
-  let id = action.payload.id;
-
-  // If Item quantity is just one in cart remove it
-  if (state.find((item) => item.id === id)?.quantity === 1) {
-    return state.filter((item) => item.id !== id);
-  } else {
-    // Here Item quantity is more than one so reduce quantity
-    return state.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-    );
-  }
-}

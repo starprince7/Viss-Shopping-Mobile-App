@@ -51,3 +51,62 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 // Store Type
 const _Store = Store.getState()
 export type ReduxStore = typeof _Store
+
+
+export type ShippingInfo = {
+  phoneNumber: string;
+  homeAddress: string;
+  country: string;
+  state: string;
+  zipcode: number;
+  city: string;
+};
+
+export type Customer = {
+  _id: string | number | null;
+  name: { firstname: string | null; lastname: string | null };
+  email: string | null;
+  cart: {}[];
+  isEmailVerified: boolean | null;
+  isPhoneVerified: boolean | null;
+  date_registered: string | null;
+  verification_code: string | number | null;
+  shippingInfo: ShippingInfo[];
+};
+
+export type SignupData = {
+  name: { firstname: string; lastname: string };
+  email: string;
+  password: string;
+  cart?: {}[];
+  isEmailVerified?: boolean | null;
+  isPhoneVerified?: boolean | null;
+  date_registered?: string | null;
+  verification_code?: string | number | null;
+  shippingInfo?: ShippingInfo[];
+};
+
+export type LoginData = {
+  email: string;
+  password: string;
+};
+
+// For Auth Slice
+export type AuthError = {
+  name: { firstname: string; lastname: string };
+  email: string;
+  password: string;
+};
+
+export type SignupFulfilled = {
+  msg: string;
+  _id: string | number;
+  auth_token: string;
+};
+
+export type LoginFulfilled = {
+  customer: Customer;
+  auth_token: string;
+};
+
+
