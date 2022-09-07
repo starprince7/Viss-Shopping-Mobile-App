@@ -1,8 +1,23 @@
+import tw from "twrnc"
+import { SafeAreaView, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { useNavigation } from "@react-navigation/native"
+import RNPickerSelect from 'react-native-picker-select';
+
 import HeaderIcon from '../components/HeaderIcon';
 import { Text, View } from '../components/Themed';
-import tw from "twrnc"
-import { SafeAreaView, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
-import { useNavigation } from "@react-navigation/native"
+import FormInput from './FormInput';
+import { Formik } from 'formik';
+import * as Yup from "yup";
+import FormTwinInput from './FormTwinInput';
+import useColorScheme from "../hooks/useColorScheme";
+import postShippingInfo from "../utills/postShippingInfoHelper";
+import { ShippingInfo } from "../types";
+import { useState } from "react";
+import AsyncButton from "./AsyncButton";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
+import { setShippingInformation } from "../redux/slices/shippingInfoSlice";
 
 type AddShippingInfoProps = {
     closeModal: () => void;
@@ -10,22 +25,46 @@ type AddShippingInfoProps = {
 
 const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
     const navigation = useNavigation()
+    const { customerId } = useSelector(selectAuth)
+    const dispatch = useDispatch()
+    const [isLoading, setIsLoading] = useState(false)
 
-    /* ***
-    type ShippingInfo = {
-        phoneNumber: string;
-        homeAddress: string;
-        country: string;
-        state: string;
-        zipcode: number;
-        city: string;
-    };
-*/
+    const colorScheme = useColorScheme()
 
-    const saveNewShippingInfomartion = () => {
-        closeModal()
-        navigation.navigate("OrderDetails")
+    const initialValues = {
+        phoneNumber: "",
+        homeAddress: "",
+        country: "",
+        state: "",
+        zipcode: "",
+        city: "",
     }
+
+    const shippingInfoSchema = Yup.object({
+        phoneNumber: Yup.string().required('Please provide a cellphone number'),
+        homeAddress: Yup.string().required('Please enter a delivery address'),
+        country: Yup.string().required(),
+        state: Yup.string().required("Provide your State province"),
+        zipcode: Yup.string(),
+        city: Yup.string().required('Please enter your current city'),
+    })
+
+    const saveNewShippingInfomartion = async (data: ShippingInfo) => {
+        const id = customerId as string | number;
+        setIsLoading(true)
+        const { error, msg } = await postShippingInfo({ id, ...data })
+        setIsLoading(false)
+
+        if (error) return Alert.alert(error)
+        if (msg) {
+            // Update the Shipping Info state.
+            dispatch(setShippingInformation(msg.customerShippingInfo.shippingInfo))
+            Alert.alert(msg.msg)
+            closeModal()
+            navigation.navigate("OrderDetails")
+        }
+    }
+
 
     return (
 
@@ -48,46 +87,88 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
                     </TouchableOpacity>
                     <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                         <View style={tw`p-5 bg-transparent`}>
-                            <Text style={tw`text-2xl font-bold`}>Add Delivery Address</Text>
-                            <Text style={tw` font-semibold my-2`}>Packages are delivered using this information</Text>
+                            <Text style={tw`text-2xl font-bold`}>Add Shipping Information</Text>
+                            <Text style={tw` font-semibold my-2`}>Packages are delivered using this information.</Text>
                         </View>
                         {/* >>>>> Form Of Shipping Information <<<<< */}
-                        <View style={tw`p-5 bg-transparent`}>
-                            <View style={tw`bg-transparent mb-6`}>
-                                <Text lightColor='#64748b'>Home Address</Text>
-                                <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
-                            </View>
+                        <Formik
+                            initialValues={initialValues}
+                            validationSchema={shippingInfoSchema}
+                            onSubmit={(values) => {
+                                saveNewShippingInfomartion(values)
+                            }}
+                        >
+                            {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
+                                return (
+                                    <View style={tw`p-5 bg-transparent`}>
+                                        <FormInput
+                                            title="Home Address"
+                                            value={values.homeAddress}
+                                            placeholder="Enter a delivery address"
+                                            keyboardType="default"
+                                            onChangeText={handleChange("homeAddress")}
+                                            onBlur={handleBlur("homeAddress")}
+                                            error={touched.homeAddress && errors.homeAddress}
+                                        />
 
-                            <View style={tw`bg-transparent mb-6`}>
-                                <Text lightColor='#64748b'>Phone</Text>
-                                <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
-                            </View>
+                                        <FormInput
+                                            title="Phone"
+                                            value={values.phoneNumber}
+                                            placeholder="Enter a phone number"
+                                            keyboardType="number-pad"
+                                            onChangeText={handleChange("phoneNumber")}
+                                            onBlur={handleBlur("phoneNumber")}
+                                            error={touched.phoneNumber && errors.phoneNumber}
+                                        />
 
 
-                            <View style={tw`flex-row justify-between items-center bg-transparent w-50`}>
-                                <View style={tw`bg-transparent mb-6 w-[80.6%] mr-1.5`}>
-                                    <Text lightColor='#64748b'>State</Text>
-                                    <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
-                                </View>
-                                <View style={tw`bg-transparent mb-6 w-[80.6%] ml-1.5`}>
-                                    <Text lightColor='#64748b'>Country</Text>
-                                    <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
-                                </View>
-                            </View>
+                                        <View style={tw`flex-row justify-between items-center bg-transparent w-full`}>
+                                            <FormTwinInput
+                                                title="State"
+                                                value={values.state}
+                                                placeholder="State of Residence"
+                                                onBlur={handleBlur("state")}
+                                                onChangeText={handleChange("state")}
+                                                error={touched.state && errors.state}
+                                            />
+                                            <View style={tw`bg-transparent mb-2 mx-0.5 w-1/2 px-0.8 border dark:border-gray-700 p-4 rounded-[10px]`}>
+                                                <RNPickerSelect
+                                                    value={values.country}
+                                                    placeholder={{ label: 'Country' }}
+                                                    style={tw`dark:text-white`}
+                                                    onValueChange={handleChange("country")} /* (value) => console.log("Picker select values::> ", value) */
+                                                    items={[
+                                                        { label: 'Nigeria', value: 'NG' }
+                                                    ]}
+                                                />
+                                            </View>
+                                            <Text style={tw`mt-2 text-red-500 text-xs mt-18 -ml-20 mr-50`}>{errors.country}</Text>
 
-                            <View style={tw`bg-transparent mb-6`}>
-                                <Text lightColor='#64748b'>City</Text>
-                                <TextInput style={tw` w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-600`} />
-                            </View>
-                        </View>
+                                        </View>
+
+                                        <FormInput
+                                            title="City"
+                                            value={values.city}
+                                            placeholder="Please enter your city"
+                                            keyboardType="default"
+                                            onChangeText={handleChange("city")}
+                                            onBlur={handleBlur("city")}
+                                            error={touched.city && errors.city}
+                                        />
+
+                                        <AsyncButton
+                                            title="Save"
+                                            iconName="done-all"
+                                            isLoading={isLoading}
+                                            isLoadingTitle="Please wait..."
+                                            onPress={() => handleSubmit()}
+                                        />
+                                    </View>
+                                )
+                            }}
+                        </Formik>
                     </ScrollView>
                 </KeyboardAvoidingView>
-                <TouchableOpacity
-                    onPress={saveNewShippingInfomartion}
-                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-2 px-3.5 py-3 flex-row items-center justify-between`}>
-                    <Text style={tw`font-bold text-white`}>Save</Text>
-                    <HeaderIcon name='done' customStyle={tw`text-white mx-auto ml-1.5`} />
-                </TouchableOpacity>
             </View>
         </SafeAreaView >
 

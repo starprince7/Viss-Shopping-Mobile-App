@@ -17,6 +17,8 @@ declare global {
 
 export type RootStackParamList = {
   HomeScreen: NavigatorScreenParams<MainRootTabParamList | undefined>;
+  SignupScreen: undefined;
+  LoginScreen: undefined;
   ProductDetail: Product;
   ShippingInfo: undefined;
   OrderDetails: undefined;
@@ -54,11 +56,12 @@ export type ReduxStore = typeof _Store
 
 
 export type ShippingInfo = {
+  _id?: string | number;
   phoneNumber: string;
   homeAddress: string;
   country: string;
   state: string;
-  zipcode: number;
+  zipcode: string | number;
   city: string;
 };
 
@@ -92,11 +95,14 @@ export type LoginData = {
 };
 
 // For Auth Slice
-export type AuthError = {
-  name: { firstname: string; lastname: string };
+export type SignupApiError = {
+  name: {
+    firstname: string;
+    lastname: string;
+  };
   email: string;
   password: string;
-};
+}
 
 export type SignupFulfilled = {
   msg: string;
@@ -108,5 +114,7 @@ export type LoginFulfilled = {
   customer: Customer;
   auth_token: string;
 };
+
+export type LoginApiError = string;
 
 

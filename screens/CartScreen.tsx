@@ -12,10 +12,12 @@ import { selectCartItems } from '../redux/slices/cartSlice';
 import EmptyShoppingBag from '../components/EmptyShoppingBag';
 import Naira from '../components/FormatToNaira';
 import { useEffect, useState } from 'react';
+import { selectAuth } from '../redux/slices/authSlice';
 
 export default function CartScreen() {
   const navigation = useNavigation()
   const cartItems = useSelector(selectCartItems)
+  const authenticatedCustomer = useSelector(selectAuth)
   const [totalCartPrice, setTotalCartPrice] = useState(0)
 
   // calculation of total cart price
@@ -25,8 +27,16 @@ export default function CartScreen() {
     }, 0)
 
     setTotalCartPrice(total)
-    console.log("Total item price in cart", total)
   }, [cartItems])
+
+  const handleCheckout = () => {
+    // if there's no auth ID, push to login screen
+    if (!authenticatedCustomer.customerId) {
+      navigation.navigate("LoginScreen")
+      return
+    }
+    navigation.navigate("ShippingInfo")
+  }
 
   return (
     <SafeAreaView style={tw`flex-1`}>
@@ -49,7 +59,7 @@ export default function CartScreen() {
           cartItems.length > 0 &&
           (
             <TouchableOpacity
-              onPress={() => navigation.navigate("ShippingInfo")}
+              onPress={handleCheckout}
               style={tw`px-0.5 py-1.5 rounded-[8px] bg-[#89A67E] absolute top-7.5 right-3 z-10 flex-row items-center`}>
               <Text style={tw`ml-2 text-white font-semibold`}>Checkout</Text>
               <HeaderIcon name="arrow-forward" customStyle={tw`text-white ml-0.5 px-1.5`} />
@@ -78,7 +88,7 @@ export default function CartScreen() {
               cartItems.length > 0
                 ? (
                   cartItems.map(item =>
-                    <View style={tw`bg-transparent`} key={item.id}>
+                    <View style={tw`bg-transparent`} key={item._id}>
                       <CartItem {...item} />
                     </View>
                   )

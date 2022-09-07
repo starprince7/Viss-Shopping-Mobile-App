@@ -9,25 +9,27 @@ import { getSingleProduct } from "../utills/getProduct"
 import { useEffect, useState } from "react"
 import Naira from "./FormatToNaira"
 
-export default function CartItem({ id, quantity }: CartItemType) {
+export default function CartItem(props: CartItemType) {
+    const { _id, quantity } = props;
+    
     const dispatch = useDispatch()
     const [product, setProduct] = useState<CartItemType | null>()
 
 
     useEffect(() => {
         async function fetchProduct() {
-            const { error, data } = await getSingleProduct(id)
+            const { error, data } = await getSingleProduct(_id)
             data && setProduct(data)
         }
         fetchProduct()
     }, [])
 
     const _increaseItemQty = () => {
-        dispatch(increaseItemQty({ id }))
+        dispatch(increaseItemQty(props))
     }
 
     const _decreaseItemQty = () => {
-        dispatch(decreaseItemQty({ id }))
+        dispatch(decreaseItemQty({ _id }))
     }
 
     return (

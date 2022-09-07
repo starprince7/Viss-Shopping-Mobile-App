@@ -19,21 +19,31 @@ export default function ProductDetailScreen() {
     const dispatch = useDispatch()
     const cart = useSelector(selectCartItems)
 
+    const item = route.params as Product
     const { image, description, title, price, _id } = route.params as Product
 
     const quantity = getItemQuantityFromCart(cart, _id)
 
+    // Object to dispatch to cart
+    let product_item = {...item, description: 'null' }
+
     /* *** `AddToCart` or `Increase` Item Quantity *** */
     const increaseQty = (id: string) => {
-        dispatch(increaseItemQty({ id, price }))
+        dispatch(increaseItemQty(product_item))
     }
 
     const decreaseQty = () => {
-        dispatch(decreaseItemQty({ id: _id }))
+        /* ***
+        * There's no need to dispatch the entire product again
+        * since the product already exist inside the cart, hence
+        * just update the quantity prop.
+        * You need the ID field to find the item in the cart.
+        */
+        dispatch(decreaseItemQty({ _id }))
     }
 
     const addToCart = () => {
-        dispatch(increaseItemQty({ id: _id, price }))
+        dispatch(increaseItemQty(product_item))
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     }
 

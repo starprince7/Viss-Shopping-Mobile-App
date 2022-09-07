@@ -4,14 +4,27 @@ import tw from "twrnc"
 import { SafeAreaView, ScrollView, TouchableOpacity, Button } from 'react-native';
 import { useNavigation } from "@react-navigation/native"
 import AddShippingInfo from '../components/AddShippingInfo';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ShippingInfoCard from '../components/ShippingInfoCard';
 import UpdateShippingInfo from '../components/UpdateShippingInfo';
+import { useSelector } from 'react-redux';
+import { selectAuth } from '../redux/slices/authSlice';
+import { selectShippingInfo } from '../redux/slices/shippingInfoSlice';
 
 export default function ShippingInfo() {
     const navigation = useNavigation()
+    const deliveryInformation = useSelector(selectShippingInfo)
     const [isAddShippingInfoModalOpen, setAddShippingInfoModalOpen] = useState(false)
     const [isUpdateShippingInfoModalOpen, setUpdateShippingInfoModalOpen] = useState(false)
+
+    // check if user / customer has no shipping information.
+    const authUser = useSelector(selectAuth)
+    useEffect(() => {
+      if (authUser.customer.shippingInfo.length === 0) {
+        setAddShippingInfoModalOpen(true)
+      }
+    }, [authUser])
+    
 
     // close `Add` new shipping info modal
     const toggleAddShippingInfoModal = () => {
@@ -39,10 +52,10 @@ export default function ShippingInfo() {
                 <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                     <View style={tw`p-5 bg-transparent`}>
                         <Text style={tw`text-2xl font-bold`}>Shipping Information</Text>
-                        <Text style={tw`font-semibold mt-2 mb-5`}>Please confirm these information below</Text>
+                        <Text style={tw`font-semibold mt-2 mb-5`}>Please confirm a shipping information below.</Text>
                     </View>
 
-                    {/* ************* Modal to `Create` Shipping Information Screen Start ********** */}
+                    {/* ************* Modal to `Create or Add` Shipping Information Screen Start ********** */}
                     <Modal
                         visible={isAddShippingInfoModalOpen}
                         animationType="slide"
@@ -81,8 +94,17 @@ export default function ShippingInfo() {
 
                     {/* >>>>> Card Container <<<<< */}
                     <View style={tw`p-5 bg-transparent`}>
-                        {/* *** Shipping Info Card *** */}
-                        <ShippingInfoCard toggleUpdateShippingInfoModal={toggleUpdateShippingInfoModal} />
+                        {/* *** Shipping Information Card *** */}
+                        {
+                            deliveryInformation.length !== 0 && 
+                            (
+                                deliveryInformation.map((info, index) => (
+                                    <View key={index} style={tw`bg-transparent`}>
+                                        <ShippingInfoCard {...info} toggleUpdateShippingInfoModal={toggleUpdateShippingInfoModal} />
+                                    </View>
+                                ))
+                            )
+                        }
                     </View>
                 </ScrollView>
                 <TouchableOpacity

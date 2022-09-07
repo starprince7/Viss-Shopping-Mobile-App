@@ -28,6 +28,8 @@ import OrderDetails from '../screens/OrderDetails';
 import OrderSuccessScreen from '../screens/OrderSuccessScreen';
 import { useSelector } from 'react-redux';
 import { selectCartItems } from '../redux/slices/cartSlice';
+import SignupScreen from '../screens/Auth/SignupScreen';
+import LoginScreen from '../screens/Auth/LoginScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -68,12 +70,14 @@ function RootNavigator() {
       <Stack.Navigator>
         {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
         <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ShippingInfo" component={ShippingInfo} options={{ headerShown: false }} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} options={{ headerShown: false }} />
-        <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Modal" component={ModalScreen} />
         </Stack.Group>
       </Stack.Navigator>

@@ -1,18 +1,20 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { CartState } from "../redux/slices/cartSlice";
+import { CartItemType, CartState } from "../redux/slices/cartSlice";
 
-export function addItemToCart(state: CartState, action: PayloadAction<any>) {
-  let id = action.payload.id;
+export function addItemToCart(state: CartState, action: PayloadAction<CartItemType>) {
+  let id = action.payload._id;
   let price = action.payload.price;
+  let product = action.payload
 
   // Here the item is not Found inside of cart
-  if (state.find((item) => item.id === id) == null) {
-    return [...state, { id, price, quantity: 1 }];
-  } else {
+  if (state.find((item) => item._id === id) == null) {
+    return [...state, {...product, quantity: 1 }];
+  }
+  else {
     // Here the item is found in cart
     console.log("Item exist in cart Old cart state: ", state[0].quantity);
     const new_array = state.map((item) => {
-      if (item.id == id) {
+      if (item._id == id) {
         return { ...item, quantity: item.quantity + 1 };
       } else return item;
     });
@@ -24,17 +26,17 @@ export function addItemToCart(state: CartState, action: PayloadAction<any>) {
 // Remove from cart or Reduce Item Qty
 export function removeItemFromCart(
   state: CartState,
-  action: PayloadAction<any>
+  action: PayloadAction<{ _id: string }>
 ) {
-  let id = action.payload.id;
+  let id = action.payload._id;
 
   // If Item quantity is just one in cart remove it
-  if (state.find((item) => item.id === id)?.quantity === 1) {
-    return state.filter((item) => item.id !== id);
+  if (state.find((item) => item._id === id)?.quantity === 1) {
+    return state.filter((item) => item._id !== id);
   } else {
     // Here Item quantity is more than one so reduce quantity
     return state.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+      item._id === id ? { ...item, quantity: item.quantity - 1 } : item
     );
   }
 }

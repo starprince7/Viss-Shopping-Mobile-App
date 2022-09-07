@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ReduxStore } from "../../types";
 import { addItemToCart, removeItemFromCart } from "../../utills/updateCartHelpers";
+import { Product } from "./productSlice";
 
 export interface CartItemType {
-  id: string;
-  key?: string;
+  _id: string;
   quantity: number;
   title?: string;
   image?: string;
@@ -26,11 +26,11 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    increaseItemQty: (state, action: PayloadAction<{ id: string, price: number }>) => {
+    increaseItemQty: (state, action: PayloadAction<CartItemType>) => {
       // >>> Adds Item to Cart OR Increase item Quantity.
       return addItemToCart(state, action);
     },
-    decreaseItemQty: (state, action: PayloadAction<{ id: string }>) => {
+    decreaseItemQty: (state, action: PayloadAction<{ _id: string }>) => {
       // >> Removes Item OR reduce Item quantity from cart.
       return removeItemFromCart(state, action);
     }
@@ -43,7 +43,7 @@ export const { increaseItemQty, decreaseItemQty } =
 
 // Get item quantity
 export const getItemQuantityFromCart = (cart: CartState, id: string) => {
-  return cart.find((item) => item.id === id)?.quantity || 0;
+  return cart.find((item) => item._id === id)?.quantity || 0;
 };
 
 // Export Cart state selectors

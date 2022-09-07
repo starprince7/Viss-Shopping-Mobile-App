@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\HP\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add expo-secure-store@~11.2.0
+  C:\Program Files\nodejs\node.exe C:\Users\HP\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @types/react-redux
 
 PATH: 
   C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\Program Files\PuTTY\;C:\Users\HP\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\HP\AppData\Local\Programs\Python\Python39\;C:\Users\HP\AppData\Local\Microsoft\WindowsApps;C:\Users\HP\AppData\Local\GitHubDesktop\bin;C:\Program Files\heroku\bin;C:\Users\HP\AppData\Local\Programs\Microsoft VS Code-new\bin;C:\Users\HP\AppData\Local\Android\Sdk\platform-tools;C:\Users\HP\AppData\Roaming\npm
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, open 'C:\Users\HP\Desktop\App-Projects-(Mobile)\VISSTV-COMMERCE\frontend\node_modules\html-loader\node_modules\.bin\webpack.cmd'
+  Error: EPERM: operation not permitted, open 'C:\Users\HP\Desktop\App-Projects-(Mobile)\VISSTV-COMMERCE\frontend\node_modules\style-loader\node_modules\.bin\webpack.cmd'
 
 npm manifest: 
   {
@@ -46,12 +46,15 @@ npm manifest:
       "expo-font": "~10.1.0",
       "expo-haptics": "~11.2.0",
       "expo-linking": "~3.1.0",
+      "expo-secure-store": "~11.2.0",
       "expo-splash-screen": "~0.15.1",
       "expo-status-bar": "~1.3.0",
       "expo-system-ui": "~1.2.0",
       "expo-web-browser": "~10.2.0",
+      "formik": "^2.2.9",
       "react": "17.0.2",
       "react-dom": "17.0.2",
+      "react-hook-form": "^7.34.2",
       "react-naira": "^1.2.1",
       "react-native": "0.68.2",
       "react-native-dotenv": "^3.3.1",
@@ -61,7 +64,8 @@ npm manifest:
       "react-native-web": "0.17.7",
       "react-redux": "^8.0.2",
       "tailwindcss-react-native": "^1.7.10",
-      "twrnc": "^3.4.0"
+      "twrnc": "^3.4.0",
+      "yup": "^0.32.11"
     },
     "devDependencies": {
       "@babel/core": "^7.12.9",
@@ -1148,7 +1152,7 @@ Lockfile:
     dependencies:
       regenerator-runtime "^0.13.4"
   
-  "@babel/runtime@^7.12.1", "@babel/runtime@^7.14.0", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+  "@babel/runtime@^7.12.1", "@babel/runtime@^7.14.0", "@babel/runtime@^7.15.4", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
     version "7.18.9"
     resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.9.tgz#b4fcfce55db3d2e5e080d2490f608a3b9f407f4a"
     integrity sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==
@@ -2414,6 +2418,11 @@ Lockfile:
     integrity sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==
     dependencies:
       "@types/node" "*"
+  
+  "@types/lodash@^4.14.175":
+    version "4.14.184"
+    resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.184.tgz#23f96cd2a21a28e106dc24d825d4aa966de7a9fe"
+    integrity sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==
   
   "@types/minimatch@*":
     version "3.0.5"
@@ -4858,6 +4867,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.4.tgz#a6f2dce612fadd2ef1f519b73551f17e85199831"
     integrity sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==
   
+  deepmerge@^2.1.1:
+    version "2.2.1"
+    resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
+    integrity sha512-R9hc1Xa/NOBi9WRVUWg19rl1UB7Tt4kuPd+thNJgFZoxXsTz7ncaPaeIm+40oSGuP33DfMb4sZt1QIGiJzC4EA==
+  
   deepmerge@^3.2.0:
     version "3.3.0"
     resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-3.3.0.tgz#d3c47fd6f3a93d517b14426b0628a17b0125f5f7"
@@ -5703,6 +5717,11 @@ Lockfile:
       commander "2.20.0"
       update-check "1.5.3"
   
+  expo-secure-store@~11.2.0:
+    version "11.2.0"
+    resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-11.2.0.tgz#c2c8fdcac39c5e1828a8fea45765028a11625575"
+    integrity sha512-PlmDplx9QNqaTVKNLgqSurRhzYf6YbVTTiSKX5JlEMWgOiBTz77Nh6mpMMjI1jwrvtz9grD+CT2AlDEGXe+Ovg==
+  
   expo-splash-screen@~0.15.1:
     version "0.15.1"
     resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.15.1.tgz#bdfb2434bda7fb1cde97e029fc7a791d7b3e3125"
@@ -6163,6 +6182,19 @@ Lockfile:
       asynckit "^0.4.0"
       combined-stream "^1.0.8"
       mime-types "^2.1.12"
+  
+  formik@^2.2.9:
+    version "2.2.9"
+    resolved "https://registry.yarnpkg.com/formik/-/formik-2.2.9.tgz#8594ba9c5e2e5cf1f42c5704128e119fc46232d0"
+    integrity sha512-LQLcISMmf1r5at4/gyJigGn0gOwFbeEAlji+N9InZF6LIMXnFNkO42sCI8Jt84YZggpD4cPWObAZaxpEFtSzNA==
+    dependencies:
+      deepmerge "^2.1.1"
+      hoist-non-react-statics "^3.3.0"
+      lodash "^4.17.21"
+      lodash-es "^4.17.21"
+      react-fast-compare "^2.0.1"
+      tiny-warning "^1.0.2"
+      tslib "^1.10.0"
   
   forwarded@0.2.0:
     version "0.2.0"
@@ -8412,6 +8444,11 @@ Lockfile:
     dependencies:
       p-locate "^5.0.0"
   
+  lodash-es@^4.17.21:
+    version "4.17.21"
+    resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+    integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
+  
   lodash.debounce@^4.0.8:
     version "4.0.8"
     resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
@@ -9150,6 +9187,11 @@ Lockfile:
     version "2.16.0"
     resolved "https://registry.yarnpkg.com/nan/-/nan-2.16.0.tgz#664f43e45460fb98faf00edca0bb0d7b8dce7916"
     integrity sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==
+  
+  nanoclone@^0.2.1:
+    version "0.2.1"
+    resolved "https://registry.yarnpkg.com/nanoclone/-/nanoclone-0.2.1.tgz#dd4090f8f1a110d26bb32c49ed2f5b9235209ed4"
+    integrity sha512-wynEP02LmIbLpcYw8uBKpcfF6dmg2vcpKqxeH5UcoKEYdExslsdUA4ugFauuaeYdTB76ez6gJW8XAZ6CgkXYxA==
   
   nanoid@^3.1.23, nanoid@^3.3.4:
     version "3.3.4"
@@ -10578,6 +10620,11 @@ Lockfile:
       object-assign "^4.1.1"
       react-is "^16.13.1"
   
+  property-expr@^2.0.4:
+    version "2.0.5"
+    resolved "https://registry.yarnpkg.com/property-expr/-/property-expr-2.0.5.tgz#278bdb15308ae16af3e3b9640024524f4dc02cb4"
+    integrity sha512-IJUkICM5dP5znhCckHSv30Q4b5/JA5enCtkRHYaOVOAocnH/1BQEYTC5NMfT3AVl/iXKdr3aqQbQn9DxyWknwA==
+  
   proxy-addr@~2.0.4, proxy-addr@~2.0.7:
     version "2.0.7"
     resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.7.tgz#f19fe69ceab311eeb94b42e70e8c2070f9ba1025"
@@ -10845,10 +10892,20 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
     integrity sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==
   
+  react-fast-compare@^2.0.1:
+    version "2.0.4"
+    resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
+    integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
+  
   react-freeze@^1.0.0:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/react-freeze/-/react-freeze-1.0.3.tgz#5e3ca90e682fed1d73a7cb50c2c7402b3e85618d"
     integrity sha512-ZnXwLQnGzrDpHBHiC56TXFXvmolPeMjTn1UOm610M4EXGzbEDR7oOIyS2ZiItgbs6eZc4oU/a0hpk8PrcKvv5g==
+  
+  react-hook-form@^7.34.2:
+    version "7.34.2"
+    resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.34.2.tgz#9ac6d1a309a7c4aaa369d1269357a70e9e9bf4de"
+    integrity sha512-1lYWbEqr0GW7HHUjMScXMidGvV0BE2RJV3ap2BL7G0EJirkqpccTaawbsvBO8GZaB3JjCeFBEbnEWI1P8ZoLRQ==
   
   "react-is@^16.12.0 || ^17.0.0", react-is@^17.0.1, react-is@^17.0.2:
     version "17.0.2"
@@ -12574,6 +12631,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
     integrity sha512-qsdtZH+vMoCARQtyod4imc2nIJwg9Cc7lPRrw9CzF8ZKR0khdr8+2nX80PBhET3tcyTtJDxAffGh2rXH4tyU8A==
   
+  tiny-warning@^1.0.2:
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
+    integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
+  
   tmp@^0.0.33:
     version "0.0.33"
     resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -12642,6 +12704,11 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
     integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
+  
+  toposort@^2.0.2:
+    version "2.0.2"
+    resolved "https://registry.yarnpkg.com/toposort/-/toposort-2.0.2.tgz#ae21768175d1559d48bef35420b2f4962f09c330"
+    integrity sha512-0a5EOkAUp8D4moMi2W8ZF8jcga7BgZd91O/yabJCFY8az+XSzeGyTKs0Aoo897iV1Nj6guFq8orWDS96z91oGg==
   
   tough-cookie@^4.0.0:
     version "4.0.0"
@@ -13689,3 +13756,16 @@ Lockfile:
     version "0.1.0"
     resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
     integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+  
+  yup@^0.32.11:
+    version "0.32.11"
+    resolved "https://registry.yarnpkg.com/yup/-/yup-0.32.11.tgz#d67fb83eefa4698607982e63f7ca4c5ed3cf18c5"
+    integrity sha512-Z2Fe1bn+eLstG8DRR6FTavGD+MeAwyfmouhHsIUgaADz8jvFKbO/fXc2trJKZg+5EBjh4gGm3iU/t3onKlXHIg==
+    dependencies:
+      "@babel/runtime" "^7.15.4"
+      "@types/lodash" "^4.14.175"
+      lodash "^4.17.21"
+      lodash-es "^4.17.21"
+      nanoclone "^0.2.1"
+      property-expr "^2.0.4"
+      toposort "^2.0.2"
