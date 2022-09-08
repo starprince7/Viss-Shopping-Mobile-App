@@ -19,7 +19,7 @@ type InputProps = {
 const FormTwinInput = ({ value, onBlur, onChangeText, keyboardType, error, emailApiError, title, placeholder, secureTextEntry = false }: InputProps) => {
     return (
         <View style={tw`bg-transparent mb-3 w-1/2 px-0.8`}>
-            <Text lightColor='#64748b capitalize'>{ title }</Text>
+            <Text lightColor='#64748b' style={tw`capitalize`}>{ title }</Text>
             <TextInput
                 secureTextEntry={secureTextEntry}
                 value={value}

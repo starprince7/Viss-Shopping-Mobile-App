@@ -1,15 +1,18 @@
+import tw from "twrnc"
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useNavigation } from "@react-navigation/native"
+import { SafeAreaView, ScrollView, TouchableOpacity, Button } from 'react-native';
+import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification"
+
 import HeaderIcon from '../components/HeaderIcon';
 import { Modal, Text, View } from '../components/Themed';
-import tw from "twrnc"
-import { SafeAreaView, ScrollView, TouchableOpacity, Button } from 'react-native';
-import { useNavigation } from "@react-navigation/native"
 import AddShippingInfo from '../components/AddShippingInfo';
-import { useEffect, useState } from 'react';
 import ShippingInfoCard from '../components/ShippingInfoCard';
 import UpdateShippingInfo from '../components/UpdateShippingInfo';
-import { useSelector } from 'react-redux';
 import { selectAuth } from '../redux/slices/authSlice';
 import { selectShippingInfo } from '../redux/slices/shippingInfoSlice';
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function ShippingInfo() {
     const navigation = useNavigation()
@@ -52,10 +55,10 @@ export default function ShippingInfo() {
                 <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                     <View style={tw`p-5 bg-transparent`}>
                         <Text style={tw`text-2xl font-bold`}>Shipping Information</Text>
-                        <Text style={tw`font-semibold mt-2 mb-5`}>Please confirm a shipping information below.</Text>
+                        <Text style={tw`font-semibold mt-2 mb-3`}>Please select your shipping information below.</Text>
                     </View>
 
-                    {/* ************* Modal to `Create or Add` Shipping Information Screen Start ********** */}
+                    {/* ************* Modal-View to `Create or Add` Shipping Information Screen Start ********** */}
                     <Modal
                         visible={isAddShippingInfoModalOpen}
                         animationType="slide"
@@ -73,7 +76,7 @@ export default function ShippingInfo() {
                      *******************************************************************************/}
                     
 
-                    {/* ************* Modal to `Update` Shipping Information Screen Start ********** */}
+                    {/* ************* Modal-View to `Update` Shipping Information Screen Start ********** */}
                     <Modal
                         visible={isUpdateShippingInfoModalOpen}
                         animationType="slide"
@@ -88,6 +91,7 @@ export default function ShippingInfo() {
                     {/* ************ Modal to `Update` Shipping Information Screen End ********** */}
 
 
+                    {/* <AlertSuccess /> */}
                     <View style={tw`w-full bg-transparent`}>
                         <Button onPress={toggleAddShippingInfoModal} color={"#89A67E"} title='Add Shipping Information' />
                     </View>
@@ -96,21 +100,33 @@ export default function ShippingInfo() {
                     <View style={tw`p-5 bg-transparent`}>
                         {/* *** Shipping Information Card *** */}
                         {
-                            deliveryInformation.length !== 0 && 
+                            deliveryInformation.length !== 0 ?
                             (
-                                deliveryInformation.map((info, index) => (
-                                    <View key={index} style={tw`bg-transparent`}>
+                                deliveryInformation.map((info) => (
+                                    <View key={info._id} style={tw`bg-transparent`}>
                                         <ShippingInfoCard {...info} toggleUpdateShippingInfoModal={toggleUpdateShippingInfoModal} />
                                     </View>
                                 ))
+                            )
+                            :
+                            (
+                                    <View
+                                        style={tw`bg-transparent`}
+                                >
+                                    <MaterialIcons name="local-shipping" size={160} style={tw`text-neutral-400 mx-auto mt-10 mb-5`} />
+                                    <Text
+                                        style={tw`text-center text-neutral-400 font-semibold`}
+                                    >You don't have a delivery information, please add shipping information to continue shopping.</Text>
+                                </View>
                             )
                         }
                     </View>
                 </ScrollView>
                 <TouchableOpacity
+                    disabled={deliveryInformation.length === 0}
                     onPress={() => navigation.navigate("OrderDetails")}
                     style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-2 px-3.5 py-3 flex-row items-center justify-between`}>
-                    <Text style={tw`font-bold text-white`}>Proceed to Payment</Text>
+                    <Text style={tw`font-bold text-white`}>Continue</Text>
                     <HeaderIcon name='navigate-next' customStyle={tw`text-white mx-auto ml-1.5`} />
                 </TouchableOpacity>
             </View>

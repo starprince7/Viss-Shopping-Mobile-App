@@ -10857,6 +10857,11 @@ react-naira@^1.2.1:
   resolved "https://registry.yarnpkg.com/react-naira/-/react-naira-1.2.1.tgz#3ca248c440884ad22d4a204f1526cc44f4bbf074"
   integrity sha512-VDsqXoWu3ctgN4zgQrmI9EbS0umTLnfVscRLihdCN+ktd1+BUR4r6YQRDO416sgfiXw3wPsFVKM8UJWYm9Hxyg==
 
+react-native-alert-notification@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/react-native-alert-notification/-/react-native-alert-notification-0.3.4.tgz#eacd7dd6ff4efcbb6c14cdd3149ce1c60ef2fdcb"
+  integrity sha512-B31sNyJZ9ZdAiaS3Q/2Wo/OqUWNayz0YbdBJ9WKQNGMe2wTds5GgMzU0EX4zrtWjljNyx/sneDqlwwS//NnMgg==
+
 react-native-codegen@^0.0.17:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.0.17.tgz#83fb814d94061cbd46667f510d2ddba35ffb50ac"

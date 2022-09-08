@@ -8,6 +8,7 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import Store from "./redux/store"
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 export default function App() {
   // From twrnc
@@ -19,18 +20,20 @@ export default function App() {
     return null;
   } else {
     return (
-      <Provider store={Store}>
-        <SafeAreaProvider>
-          <KeyboardAvoidingView
-            style={tw`flex-1`}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? -10 : 0}
-          >
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar />
-          </KeyboardAvoidingView>
-        </SafeAreaProvider>
-      </Provider>
+      <AlertNotificationRoot>
+        <Provider store={Store}>
+          <SafeAreaProvider>
+            <KeyboardAvoidingView
+              style={tw`flex-1`}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              keyboardVerticalOffset={Platform.OS === 'ios' ? -10 : 0}
+            >
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar />
+            </KeyboardAvoidingView>
+          </SafeAreaProvider>
+        </Provider>
+      </AlertNotificationRoot>
     );
   }
 }

@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ReduxStore } from "../../types";
-import { addItemToCart, removeItemFromCart } from "../../utills/updateCartHelpers";
+import {
+  addItemToCart,
+  removeItemFromCart,
+} from "../../utills/updateCartHelpers";
 import { Product } from "./productSlice";
 
 export interface CartItemType {
@@ -33,12 +36,15 @@ const cartSlice = createSlice({
     decreaseItemQty: (state, action: PayloadAction<{ _id: string }>) => {
       // >> Removes Item OR reduce Item quantity from cart.
       return removeItemFromCart(state, action);
-    }
+    },
+    setCartItems: (state, action: PayloadAction<CartItemType[]>) => {
+      return [...state, ...action.payload];
+    },
   },
 });
 
 // Export Actions
-export const { increaseItemQty, decreaseItemQty } =
+export const { increaseItemQty, decreaseItemQty, setCartItems } =
   cartSlice.actions;
 
 // Get item quantity
@@ -52,4 +58,3 @@ export const selectCartItems: SelectCartItem = (state) => state.Cart;
 
 // Get Reducer from `CartSlice` and export it.
 export default cartSlice.reducer;
-

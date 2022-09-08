@@ -13,11 +13,12 @@ import signupCustomer from "../../utills/signupHelper";
 import loginCustomer from "../../utills/loginHelper"
 import { View, Text } from "../../components/Themed";
 import { LoginData } from "../../types";
-import { selectCartItems } from "../../redux/slices/cartSlice";
+import { CartItemType, selectCartItems, setCartItems } from "../../redux/slices/cartSlice";
 import { setCustomer, selectAuth, setApiError, setLogInApiError, setLoggedInCustomer } from "../../redux/slices/authSlice";
 import FormInput from "../../components/FormInput";
 import FormTwinInput from "../../components/FormTwinInput";
 import { setShippingInformation } from "../../redux/slices/shippingInfoSlice";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 export default function LoginScreen() {
     const dispatch = useDispatch()
@@ -55,9 +56,20 @@ export default function LoginScreen() {
 
         // If Successful login below.
         if (data) {
+            let cart = data.customer.cart as CartItemType[];
+            let shippingInfo = data.customer.shippingInfo;
+
+            // update customer to auth state.
             dispatch(setLoggedInCustomer(data))
-            // Update the Shipping Info state.
-            dispatch(setShippingInformation(data.customer.shippingInfo))
+            // Update customer cart items to cart state.
+            dispatch(setCartItems(cart))
+            // Update the Shipping Info to state.
+            dispatch(setShippingInformation(shippingInfo))
+
+            Toast.show({
+                type: ALERT_TYPE.SUCCESS,
+                title: 'You\'re signed in'
+            })
             navigation.goBack()
             navigation.navigate("ShippingInfo")
         }

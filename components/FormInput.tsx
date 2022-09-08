@@ -19,7 +19,7 @@ type InputProps = {
 const FormInput = ({ multiline, value, onBlur, onChangeText, keyboardType, error, emailApiError, title, placeholder, secureTextEntry = false }: InputProps) => {
     return (
         <View style={tw`bg-transparent mb-3`}>
-            <Text lightColor='#64748b capitalize'>{ title }</Text>
+            <Text lightColor='#64748b' style={tw`capitalize`}>{ title }</Text>
             <TextInput
                 multiline={multiline}
                 secureTextEntry={secureTextEntry}

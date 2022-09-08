@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { setShippingInformation } from "../redux/slices/shippingInfoSlice";
+import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 
 type AddShippingInfoProps = {
     closeModal: () => void;
@@ -31,6 +32,7 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
 
     const colorScheme = useColorScheme()
 
+    // Initial form value
     const initialValues = {
         phoneNumber: "",
         homeAddress: "",
@@ -40,6 +42,7 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
         city: "",
     }
 
+    // Form validation schema
     const shippingInfoSchema = Yup.object({
         phoneNumber: Yup.string().required('Please provide a cellphone number'),
         homeAddress: Yup.string().required('Please enter a delivery address'),
@@ -55,13 +58,28 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
         const { error, msg } = await postShippingInfo({ id, ...data })
         setIsLoading(false)
 
-        if (error) return Alert.alert(error)
+        if (error) {
+            // close this modal component before showing dialog error.
+            closeModal()
+            Dialog.show({
+                type: ALERT_TYPE.DANGER,
+                title: 'Error',
+                textBody: error,
+                button: 'Dismiss'
+            })
+            return
+        }
+
         if (msg) {
             // Update the Shipping Info state.
             dispatch(setShippingInformation(msg.customerShippingInfo.shippingInfo))
-            Alert.alert(msg.msg)
+            // close this modal component before showing dialog error.
             closeModal()
-            navigation.navigate("OrderDetails")
+            Toast.show({
+                type: ALERT_TYPE.SUCCESS,
+                title: 'Success',
+                textBody: msg.msg
+            })
         }
     }
 
