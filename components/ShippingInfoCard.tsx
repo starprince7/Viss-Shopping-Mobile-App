@@ -61,15 +61,15 @@ const ShippingInfoCard = (props: ShippingInfoCardProps) => {
                     <HeaderIcon name="circle" customStyle={tw`text-gray-300 dark:text-zinc-700 text-3xl absolute right-6 top-5`} />
                 }
                 <Text style={tw`mt-2 mb-1 font-semibold`}>Delivery Address</Text>
-                <Text style={tw`mb-2 text-zinc-500`}>{homeAddress}</Text>
+                <Text style={tw`mb-2 text-zinc-500 dark:text-zinc-300`}>{homeAddress}</Text>
                 <Text style={tw`mt-2 mb-1 font-semibold`}>Phone</Text>
-                <Text style={tw`mb-2 text-zinc-500`}>{phoneNumber}</Text>
+                <Text style={tw`mb-2 text-zinc-500 dark:text-zinc-300`}>{phoneNumber}</Text>
                 <Text style={tw`mt-2 mb-1 font-semibold`}>City</Text>
-                <Text style={tw`mb-2 text-zinc-500`}>{city}</Text>
+                <Text style={tw`mb-2 text-zinc-500 dark:text-zinc-300`}>{city}</Text>
                 <Text style={tw`mt-2 mb-1 font-semibold`}>Country</Text>
-                <Text style={tw`mb-2 text-zinc-500`}>{country}</Text>
+                <Text style={tw`mb-2 text-zinc-500 dark:text-zinc-300`}>{country}</Text>
                 <Text style={tw`mt-2 mb-1 font-semibold`}>Zip Code</Text>
-                <Text style={tw`mb-2 text-zinc-500`}>{zipcode}</Text>
+                <Text style={tw`mb-2 text-zinc-500 dark:text-zinc-300`}>{zipcode}</Text>
 
                 <Button color="#89A67E" title='Update Info' onPress={handleUpdateShippingInformation} />
             </View>

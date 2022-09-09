@@ -78,8 +78,8 @@ export default function ProductDetailScreen() {
                     <View
                         style={tw`bg-transparent flex flex-row items-center mt-3`}
                     >
-                        <Text style={tw`line-through mr-2 text-sm text-gray-300`}><Naira>{ Number(3000) }</Naira></Text>
-                        <Text style={tw`text-xl text-[#89A67E]`}><Naira>{price}</Naira></Text>
+                        <Text style={tw`line-through mr-2 text-sm`}><Naira style={tw`text-gray-500`}>{ Number(3000) }</Naira></Text>
+                        <Text style={tw`text-xl`}><Naira style={tw`text-[#89A67E]`}>{price}</Naira></Text>
                     </View>
                 </View>
                 {/* >>>> Quantity Button <<<<<<< */}

@@ -1,18 +1,18 @@
-import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { Alert, FlatList, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
 import tw from "twrnc"
+import { useSelector } from 'react-redux';
+import { StatusBar } from 'expo-status-bar';
+import { useNavigation } from '@react-navigation/native';
+import { Alert, FlatList, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+import sumCart from '../utills/sumCart';
+import { useEffect, useState } from 'react';
 import CartItem from '../components/CartItem';
+import Naira from '../components/FormatToNaira';
 import HeaderIcon from '../components/HeaderIcon';
 import { Text, View } from '../components/Themed';
+import { selectAuth } from '../redux/slices/authSlice';
 import { selectCartItems } from '../redux/slices/cartSlice';
 import EmptyShoppingBag from '../components/EmptyShoppingBag';
-import Naira from '../components/FormatToNaira';
-import { useEffect, useState } from 'react';
-import { selectAuth } from '../redux/slices/authSlice';
 
 export default function CartScreen() {
   const navigation = useNavigation()
@@ -20,11 +20,9 @@ export default function CartScreen() {
   const authenticatedCustomer = useSelector(selectAuth)
   const [totalCartPrice, setTotalCartPrice] = useState(0)
 
-  // calculation of total cart price
+  // Calculation of total cart price
   useEffect(() => {
-    const total = cartItems.reduce((acc, item) => {
-      return item.price ? acc + item.price * item.quantity : 0
-    }, 0)
+    const total = sumCart(cartItems)
 
     setTotalCartPrice(total)
   }, [cartItems])
