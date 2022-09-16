@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { ReduxStore } from "../../types";
 import {
   addItemToCart,
+  mergeTwoArraysWithoutDuplicates,
   removeItemFromCart,
 } from "../../utills/updateCartHelpers";
 import { Product } from "./productSlice";
@@ -38,7 +39,8 @@ const cartSlice = createSlice({
       return removeItemFromCart(state, action);
     },
     setCartItems: (state, action: PayloadAction<CartItemType[]>) => {
-      return [...state, ...action.payload];
+      // @ts-ignore
+      return mergeTwoArraysWithoutDuplicates(state, action.payload)
     },
   },
 });

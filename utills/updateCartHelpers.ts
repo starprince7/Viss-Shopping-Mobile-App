@@ -1,16 +1,18 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { CartItemType, CartState } from "../redux/slices/cartSlice";
 
-export function addItemToCart(state: CartState, action: PayloadAction<CartItemType>) {
+export function addItemToCart(
+  state: CartState,
+  action: PayloadAction<CartItemType>
+) {
   let id = action.payload._id;
   let price = action.payload.price;
-  let product = action.payload
+  let product = action.payload;
 
   // Here the item is not Found inside of cart
   if (state.find((item) => item._id === id) == null) {
-    return [...state, {...product, quantity: 1 }];
-  }
-  else {
+    return [...state, { ...product, quantity: 1 }];
+  } else {
     // Here the item is found in cart
     console.log("Item exist in cart Old cart state: ", state[0].quantity);
     const new_array = state.map((item) => {
@@ -39,4 +41,26 @@ export function removeItemFromCart(
       item._id === id ? { ...item, quantity: item.quantity - 1 } : item
     );
   }
+}
+
+/* ::> Merge arrays with Duplicate values */
+export function mergeTwoArraysWithoutDuplicates(
+  cart: CartState,
+  apiCart: CartState
+) {
+  const mergedCart = [...cart, ...apiCart];
+
+  let uniqueIds: {}[] = [];
+  return mergedCart.filter((item) => {
+    const isDuplicate = uniqueIds.includes(item._id);
+
+    /* Make sure there are no duplicates before returning
+     * true for an element. ***/
+    if (!isDuplicate) {
+      uniqueIds.push(item._id);
+      return true;
+    }
+
+    return false;
+  });
 }
