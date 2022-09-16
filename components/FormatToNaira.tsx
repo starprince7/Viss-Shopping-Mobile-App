@@ -1,3 +1,5 @@
+import 'intl'
+import 'intl/locale-data/jsonp/en'
 import React from "react"
 import { StyleProp, TextStyle } from "react-native";
 import { Text } from "./Themed"
