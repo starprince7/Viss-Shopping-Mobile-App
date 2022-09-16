@@ -2,7 +2,7 @@ import tw from "twrnc"
 import { useSelector } from 'react-redux';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
-import { Alert, FlatList, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { Alert, FlatList, Platform, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 
 import sumCart from '../utills/sumCart';
 import { useEffect, useState } from 'react';
@@ -58,7 +58,7 @@ export default function CartScreen() {
           (
             <TouchableOpacity
               onPress={handleCheckout}
-              style={tw`px-0.5 py-1.5 rounded-[8px] bg-[#89A67E] absolute top-7.5 right-3 z-10 flex-row items-center`}>
+              style={tw`px-0.5 py-1.5 rounded-[8px] bg-[#89A67E] absolute ${Platform.OS==='ios'?`top-7.5`:`top-8.5`} right-3 z-10 flex-row items-center`}>
               <Text style={tw`ml-2 text-white font-semibold`}>Checkout</Text>
               <HeaderIcon name="arrow-forward" customStyle={tw`text-white ml-0.5 px-1.5`} />
             </TouchableOpacity>

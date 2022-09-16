@@ -68,7 +68,8 @@ export default function LoginScreen() {
 
             Toast.show({
                 type: ALERT_TYPE.SUCCESS,
-                title: 'You\'re signed in'
+                title: 'Continue shopping',
+                textBody: 'You\'re signed in'
             })
             navigation.goBack()
             navigation.navigate("ShippingInfo")

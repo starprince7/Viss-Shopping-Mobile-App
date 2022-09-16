@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Image, Pressable, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
+import { Image, Platform, Pressable, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
 import * as Haptics from "expo-haptics"
 import tw from "twrnc"
 
@@ -54,7 +54,7 @@ export default function ProductDetailScreen() {
             darkColor="#1B1F22"
         >
             {/* >>>>>>>>>>>>>>>>>>>>> Top Navigation Icons top <<<<<<<<<<<<<<<<<<<< */}
-            <View style={tw`flex flex-row bg-transparent px-5 z-50 mt-15 justify-between items-center`}>
+            <View style={tw`flex flex-row bg-transparent px-5 z-50 ${Platform.OS === 'ios'? `mt-15`:`mt-8`} justify-between items-center`}>
                 <Pressable
                     onPress={() => navigation.goBack()}
                     style={tw`bg-white dark:bg-[#474644] shadow-xl p-2.5 rounded-full`}

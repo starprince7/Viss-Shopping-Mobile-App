@@ -118,12 +118,12 @@ function BottomTabNavigator() {
         tabBarLabelPosition: 'beside-icon',
         tabBarStyle: [{
           position: 'absolute',
-          bottom: 25,
+          bottom: Platform.OS === 'ios' ? 25 : 10,
           left: 19,
           right: 19,
           elevation: 0,
           borderRadius: 20
-        }, tw`shadow-lg py-4 px-3 bg-gray-800 dark:bg-gray-700`]
+        }, tw`shadow-lg ${Platform.OS === 'ios' ? `py-4` : `py-2 h-16`} px-3 bg-gray-800 dark:bg-gray-700`]
       }}
     >
 

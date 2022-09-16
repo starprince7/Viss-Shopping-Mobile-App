@@ -2,7 +2,7 @@ import tw from "twrnc"
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigation } from "@react-navigation/native"
-import { SafeAreaView, ScrollView, TouchableOpacity, Button } from 'react-native';
+import { SafeAreaView, ScrollView, TouchableOpacity, Button, Platform } from 'react-native';
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification"
 
 import HeaderIcon from '../components/HeaderIcon';
@@ -44,7 +44,7 @@ export default function ShippingInfo() {
             <View
                 lightColor="#eee"
                 darkColor="#1B1F22"
-                style={tw`flex-1 pt-6`}
+                style={tw`flex-1 ${Platform.OS==='ios'?`pt-6`:`pt-9`}`}
             >
                 <TouchableOpacity
                     onPress={navigation.goBack}
@@ -92,7 +92,7 @@ export default function ShippingInfo() {
 
 
                     {/* <AlertSuccess /> */}
-                    <View style={tw`w-full bg-transparent`}>
+                    <View style={tw`w-full bg-transparent px-6`}>
                         <Button onPress={toggleAddShippingInfoModal} color={"#89A67E"} title='Add Shipping Information' />
                     </View>
 

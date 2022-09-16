@@ -39,7 +39,7 @@ export default function OrderDetails() {
             <View
                 lightColor="#eee"
                 darkColor="#1B1F22"
-                style={tw`flex-1 pt-6`}
+                style={tw`flex-1 ${Platform.OS==='ios'?`pt-6`:`pt-9`}`}
             >
                 <TouchableOpacity
                     onPress={navigation.goBack}
@@ -124,7 +124,7 @@ export default function OrderDetails() {
                 <TouchableOpacity
                     // onPress={() => Alert.alert("Payment processing will start now")}
                     onPress={handlePaymentProcessing}
-                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-0 px-10.5 py-3 flex-row items-center justify-between`}>
+                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto my-2 px-10.5 py-3 flex-row items-center justify-between`}>
                     <HeaderIcon name='payment' customStyle={tw`text-white mx-auto mr-1.5`} />
                     <Text style={tw`font-semibold text-white`}>Pay <Text style={tw`font-extrabold`}><Naira style={tw`text-gray-100`}>{Number(totalPrice)}</Naira></Text> </Text>
                 </TouchableOpacity>
