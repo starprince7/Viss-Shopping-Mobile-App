@@ -33,7 +33,9 @@ export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>
         </View>
       </View>
       <View
-        style={tw`flex-1 bg-zinc-800 rounded-t-2xl px-5 h-[65%] -mt-4 justify-center`}>
+        lightColor="#eee"
+        darkColor="#27272a"
+        style={tw`flex-1 rounded-t-2xl px-5 h-[65%] -mt-4 justify-center`}>
         <SafeAreaView style={tw`h-auto mb-30`}>
 
           <View style={tw`flex-row items-center my-4.7 bg-transparent`}>
