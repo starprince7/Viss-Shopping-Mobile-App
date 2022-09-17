@@ -49,7 +49,7 @@ export default function OrderDetails() {
                 </TouchableOpacity>
                 <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                     <View style={tw`px-5 pt-6 pb-3 bg-transparent`}>
-                        <Text style={tw`text-2xl font-bold`}>Order Details</Text>
+                        <Text style={tw`text-2xl font-bold`}>Order Summary</Text>
                     </View>
 
                     {/* >>>>> Account Information <<<<< */}
@@ -104,6 +104,7 @@ export default function OrderDetails() {
                                         title={item.title as string}
                                         image={item.image as string}
                                         price={item.price as number}
+                                        quantity={item.quantity as number}
                                     />
                                 </View>
                             ))

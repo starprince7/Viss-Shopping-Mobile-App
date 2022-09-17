@@ -58,8 +58,8 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
         const { error, msg } = await postShippingInfo({ id, ...data })
         setIsLoading(false)
 
+        // close this modal component before showing dialog error.
         if (error) {
-            // close this modal component before showing dialog error.
             closeModal()
             Dialog.show({
                 type: ALERT_TYPE.DANGER,
@@ -71,9 +71,10 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
         }
 
         if (msg) {
-            // Update the Shipping Info state.
+            // Dispatch to the Shipping Info state.
             dispatch(setShippingInformation(msg.customerShippingInfo.shippingInfo))
-            // close this modal component before showing dialog error.
+
+            // close this modal component before showing dialog success.
             closeModal()
             Toast.show({
                 type: ALERT_TYPE.SUCCESS,

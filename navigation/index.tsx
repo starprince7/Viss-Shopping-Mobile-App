@@ -30,6 +30,8 @@ import { useSelector } from 'react-redux';
 import { selectCartItems } from '../redux/slices/cartSlice';
 import SignupScreen from '../screens/Auth/SignupScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
+import SettingsScreen from '../screens/Settings';
+import ChangePasswordScreen from '../screens/Settings/ChangePasswordScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -37,7 +39,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
-        <RootNavigator />
+      <RootNavigator />
     </NavigationContainer>
   );
 }
@@ -67,20 +69,24 @@ function PublicNavigator() {
 
 function RootNavigator() {
   return (
-      <Stack.Navigator>
-        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
-        <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-        <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ShippingInfo" component={ShippingInfo} options={{ headerShown: false }} />
-        <Stack.Screen name="OrderDetails" component={OrderDetails} options={{ headerShown: false }} />
-        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-        <Stack.Group screenOptions={{ presentation: 'modal' }}>
+    <Stack.Navigator>
+      {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+      <Stack.Group screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Root" component={BottomTabNavigator} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+        <Stack.Screen name="ShippingInfo" component={ShippingInfo} />
+        <Stack.Screen name="OrderDetails" component={OrderDetails} />
+        <Stack.Screen name='SettingsScreen' component={SettingsScreen} />
+        <Stack.Screen name='ChangePasswordScreen' component={ChangePasswordScreen} />
+      </Stack.Group>
+      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Modal" component={ModalScreen} />
-        </Stack.Group>
-      </Stack.Navigator>
+        <Stack.Screen name="Modal" component={ModalScreen} />
+      </Stack.Group>
+    </Stack.Navigator>
   );
 }
 
@@ -157,6 +163,7 @@ function BottomTabNavigator() {
         name="Profile" /* "TabTwo" */
         component={ProfileScreen}
         options={({ navigation }) => ({
+          headerShown: false,
           title: navigation.isFocused() ? "Profile" : "",
           tabBarActiveBackgroundColor: '#89A67E',
           tabBarItemStyle: [tw`rounded-xl`],

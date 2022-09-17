@@ -46,7 +46,7 @@ const authSlice = createSlice({
   name: "customer",
   initialState,
   reducers: {
-    setCustomer: (state, action: PayloadAction<SignupFulfilled>) => {
+    setSignedUpCustomer: (state, action: PayloadAction<SignupFulfilled>) => {
       state.message = action.payload.msg
       state.customerId = action.payload._id
 
@@ -71,7 +71,7 @@ const authSlice = createSlice({
 // Excport a default Reducer
 export default authSlice.reducer;
 // export reducer Actions
-export const { setCustomer, setApiError, setLoggedInCustomer, setLogInApiError } = authSlice.actions
+export const { setSignedUpCustomer, setApiError, setLoggedInCustomer, setLogInApiError } = authSlice.actions
 // Auth state selector
 type AuthSelector = (state: ReduxStore) => AuthState;
 export const selectAuth: AuthSelector = (state) => state.Auth;

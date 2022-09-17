@@ -63,7 +63,7 @@ export default function LoginScreen() {
             dispatch(setLoggedInCustomer(data))
             // Update customer cart items to cart state.
             dispatch(setCartItems(cart))
-            // Update the Shipping Info to state.
+            // Dispatch to the Shipping Info state.
             dispatch(setShippingInformation(shippingInfo))
 
             Toast.show({
@@ -91,7 +91,7 @@ export default function LoginScreen() {
                     <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                         <View style={tw`p-5 bg-transparent`}>
                             <Text style={tw`text-2xl font-extrabold`}>Sign In</Text>
-                            <Text style={tw` font-semibold my-2`}>Welcome back, sign in to continue shopping.</Text>
+                            <Text style={tw` font-semibold my-2`}>Welcome, please sign in to continue shopping.</Text>
                         </View>
                         {/* >>>>> Form Of Signup Information <<<<< */}
                         <Formik

@@ -11,7 +11,7 @@ import AddShippingInfo from '../components/AddShippingInfo';
 import ShippingInfoCard from '../components/ShippingInfoCard';
 import UpdateShippingInfo from '../components/UpdateShippingInfo';
 import { selectAuth } from '../redux/slices/authSlice';
-import { selectShippingInfo } from '../redux/slices/shippingInfoSlice';
+import { selectSelectedShippingInfo, selectShippingInfo } from '../redux/slices/shippingInfoSlice';
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function ShippingInfo() {
@@ -20,16 +20,22 @@ export default function ShippingInfo() {
     const [isAddShippingInfoModalOpen, setAddShippingInfoModalOpen] = useState(false)
     const [isUpdateShippingInfoModalOpen, setUpdateShippingInfoModalOpen] = useState(false)
 
-    // check if user / customer has no shipping information.
-    const authUser = useSelector(selectAuth)
+    /* ***
+     * Checking below if a customer has no shipping information and
+     * then prompt customer with a modal to add a shipping information.
+     */
+    const shippingInfo = useSelector(selectShippingInfo)
     useEffect(() => {
-      if (authUser.customer.shippingInfo.length === 0) {
-        setAddShippingInfoModalOpen(true)
-      }
-    }, [authUser])
-    
+        if (shippingInfo.length === 0) {
+            setAddShippingInfoModalOpen(true)
+        }
+    }, [shippingInfo])
 
-    // close `Add` new shipping info modal
+    // Grab selected shipping information for redux store
+    const selectedShippingInfo = useSelector(selectSelectedShippingInfo)
+
+
+    // Close `Add` new shipping info modal
     const toggleAddShippingInfoModal = () => {
         setAddShippingInfoModalOpen(!isAddShippingInfoModalOpen)
     }
@@ -44,7 +50,7 @@ export default function ShippingInfo() {
             <View
                 lightColor="#eee"
                 darkColor="#1B1F22"
-                style={tw`flex-1 ${Platform.OS==='ios'?`pt-6`:`pt-9`}`}
+                style={tw`flex-1 ${Platform.OS === 'ios' ? `pt-6` : `pt-9`}`}
             >
                 <TouchableOpacity
                     onPress={navigation.goBack}
@@ -74,7 +80,7 @@ export default function ShippingInfo() {
                     {/* *****************************************************************************
                       * In-between Two Modals -- 2nd Modal is Below.
                      *******************************************************************************/}
-                    
+
 
                     {/* ************* Modal-View to `Update` Shipping Information Screen Start ********** */}
                     <Modal
@@ -101,34 +107,49 @@ export default function ShippingInfo() {
                         {/* *** Shipping Information Card *** */}
                         {
                             deliveryInformation.length !== 0 ?
-                            (
-                                deliveryInformation.map((info) => (
-                                    <View key={info._id} style={tw`bg-transparent`}>
-                                        <ShippingInfoCard {...info} toggleUpdateShippingInfoModal={toggleUpdateShippingInfoModal} />
-                                    </View>
-                                ))
-                            )
-                            :
-                            (
+                                (
+                                    deliveryInformation.map((info) => (
+                                        <View key={info._id} style={tw`bg-transparent`}>
+                                            <ShippingInfoCard {...info} toggleUpdateShippingInfoModal={toggleUpdateShippingInfoModal} />
+                                        </View>
+                                    ))
+                                )
+                                :
+                                (
                                     <View
                                         style={tw`bg-transparent`}
-                                >
-                                    <MaterialIcons name="local-shipping" size={160} style={tw`text-neutral-400 mx-auto mt-10 mb-5`} />
-                                    <Text
-                                        style={tw`text-center text-neutral-400 font-semibold`}
-                                    >You don't have a delivery information, please add shipping information to continue shopping.</Text>
-                                </View>
-                            )
+                                    >
+                                        <MaterialIcons name="local-shipping" size={160} style={tw`text-neutral-400 mx-auto mt-10 mb-5`} />
+                                        <Text
+                                            style={tw`text-center text-neutral-400 font-semibold`}
+                                        >You don't have a delivery information, please add shipping information to continue shopping.</Text>
+                                    </View>
+                                )
                         }
                     </View>
                 </ScrollView>
-                <TouchableOpacity
-                    disabled={deliveryInformation.length === 0}
-                    onPress={() => navigation.navigate("OrderDetails")}
-                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-2 px-3.5 py-3 flex-row items-center justify-between`}>
-                    <Text style={tw`font-bold text-white`}>Continue</Text>
-                    <HeaderIcon name='navigate-next' customStyle={tw`text-white mx-auto ml-1.5`} />
-                </TouchableOpacity>
+                {
+                    // Enable Button if only there's a shipping info & a selected shipping Information. 
+                    deliveryInformation.length !== 0 && selectedShippingInfo._id !== null ? (
+                        <TouchableOpacity
+                            disabled={deliveryInformation.length === 0}
+                            onPress={() => navigation.navigate("OrderDetails")}
+                            style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-2 px-3.5 py-3 flex-row items-center justify-between`}>
+                            <Text style={tw`font-bold text-white`}>Continue</Text>
+                            <HeaderIcon name='navigate-next' customStyle={tw`text-white mx-auto ml-1.5`} />
+                        </TouchableOpacity>
+                    )
+                    :
+                    (
+                        <TouchableOpacity
+                            disabled={true}
+                            style={tw`rounded-[10px] bg-[#c4d4bf] shadow-sm mx-auto mb-2 px-3.5 py-3 flex-row items-center justify-between`}>
+                            <Text style={tw`font-bold text-white`}>Continue</Text>
+                            <HeaderIcon name='navigate-next' customStyle={tw`text-white mx-auto ml-1.5`} />
+                        </TouchableOpacity>
+                    )
+                }
+
             </View>
         </SafeAreaView>
     )

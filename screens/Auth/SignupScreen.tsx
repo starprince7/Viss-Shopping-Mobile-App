@@ -6,16 +6,16 @@ import { useEffect, useState } from "react";
 import { Formik } from "formik"
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from "react-native";
 
-import Input from "../../components/Input";
 import HeaderIcon from "../../components/HeaderIcon";
 import signupCustomer from "../../utills/signupHelper";
 import { View, Text } from "../../components/Themed";
 import { SignupData } from "../../types";
 import { selectCartItems } from "../../redux/slices/cartSlice";
-import { setCustomer, selectAuth, setApiError } from "../../redux/slices/authSlice";
+import { setSignedUpCustomer, selectAuth, setApiError } from "../../redux/slices/authSlice";
 import FormInput from "../../components/FormInput";
 import FormTwinInput from "../../components/FormTwinInput";
 import { useNavigation } from "@react-navigation/native";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 export default function SignupScreen() {
     const dispatch = useDispatch()
@@ -62,7 +62,14 @@ export default function SignupScreen() {
 
         // If Successful signup below
         if (data) {
-            dispatch(setCustomer(data))
+            dispatch(setSignedUpCustomer(data))
+            Toast.show({
+                type: ALERT_TYPE.SUCCESS,
+                title: 'Account created',
+                textBody: 'You\'re signed in'
+            })
+            navigation.goBack()
+            navigation.goBack()
             navigation.navigate("ShippingInfo")
         }
     }
@@ -103,6 +110,7 @@ export default function SignupScreen() {
                                                     onBlur={handleBlur("name.firstname")}
                                                     onChangeText={handleChange("name.firstname")}
                                                     error={touched.name?.firstname && errors.name?.firstname}
+                                                    placeholder="Your first name"
                                                 />
                                                 <FormTwinInput
                                                     title="Last Name"
@@ -110,6 +118,7 @@ export default function SignupScreen() {
                                                     onChangeText={handleChange("name.lastname")}
                                                     onBlur={handleBlur("name.lastname")}
                                                     error={touched.name?.lastname && errors.name?.lastname}
+                                                    placeholder="Your last name"
                                                 />
                                             </View>
 
@@ -121,6 +130,7 @@ export default function SignupScreen() {
                                                 onBlur={handleBlur("email")}
                                                 error={touched.email && errors.email}
                                                 emailApiError={emailApiError}
+                                                placeholder="Enter your email address"
                                             />
                                             <FormInput
                                                 title="Password"
@@ -130,6 +140,7 @@ export default function SignupScreen() {
                                                 onChangeText={handleChange("password")}
                                                 onBlur={handleBlur("password")}
                                                 error={touched.password && errors.password}
+                                                placeholder="Enter a password combination"
                                             />
                                             <FormInput
                                                 title="Confirm Password"
@@ -139,6 +150,7 @@ export default function SignupScreen() {
                                                 onChangeText={handleChange("confirmPassword")}
                                                 onBlur={handleBlur("confirmPassword")}
                                                 error={touched.confirmPassword && errors.confirmPassword}
+                                                placeholder="Re-enter your password combination"
                                             />
                                             {
                                                 !loading

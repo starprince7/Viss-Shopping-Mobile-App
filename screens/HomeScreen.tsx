@@ -20,7 +20,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 lightColor="#eee"
                 darkColor="#1B1F22"
             >
-                <View style={tw`flex flex-row justify-between items-center bg-transparent px-5 pt-5 pb-2`}>
+                <View style={tw`flex flex-row justify-between items-center bg-transparent px-5 ${Platform.OS === 'ios' ? `pt-6` : `pt-9`} pb-2`}>
                     <View
                         lightColor="white"
                         darkColor="#52525b"

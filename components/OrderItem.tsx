@@ -7,9 +7,10 @@ type OrderItemProps = {
     title: string;
     image: string;
     price: number;
+    quantity: number;
 }
 
-const OrderItem = ({ image, title, price }: OrderItemProps) => {
+const OrderItem = ({ image, title, price, quantity }: OrderItemProps) => {
     return (
         <View style={tw`flex-row justify-between items-end py-4 px-1 bg-transparent`}>
             <View style={tw`flex-row items-center bg-transparent`}>
@@ -21,7 +22,10 @@ const OrderItem = ({ image, title, price }: OrderItemProps) => {
                     <Text style={tw`font-semibold`}>{title}</Text>
                 </View>
             </View>
-            <View style={tw`bg-transparent`}><Text style={tw`font-semibold`}><Naira style={tw`text-neutral-600 text-xs`}>{price}</Naira></Text></View>
+            <View style={tw`bg-transparent`}>
+                <Text style={tw`text-right`}>x { quantity }</Text>
+                <Text style={tw`font-semibold`}><Naira style={tw`text-neutral-600 text-xs`}>{price}</Naira></Text>
+            </View>
         </View>
     )
 }

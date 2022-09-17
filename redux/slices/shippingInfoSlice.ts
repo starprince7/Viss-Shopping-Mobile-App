@@ -29,8 +29,8 @@ const initialState: ShippingInfoState = {
     state: null,
     zipcode: null,
   },
-  ShippingInformationToUpdate: {
-    /* Placeholder values for the update shipping info Modal. */ _id: null,
+  ShippingInformationToUpdate: {  /* Placeholder values for the update shipping info Modal. */
+    _id: null,
     city: null,
     country: null,
     homeAddress: null,
@@ -60,13 +60,12 @@ const shippingInfoSlice = createSlice({
 export const {
   setSelected,
   setShippingInformation,
-  setShippingInformationID,
   setCurrentShippingInfo,
 } = shippingInfoSlice.actions;
 // Export Reducer Func.
 export default shippingInfoSlice.reducer;
 
-// State selector Helpers
+//> ::State selector Helpers::
 type ShippingInfoSelector = (state: ReduxStore) => ShippingInfo[];
 export const selectShippingInfo: ShippingInfoSelector = (state) =>
   state.ShippingInfo.shippingInformation;
