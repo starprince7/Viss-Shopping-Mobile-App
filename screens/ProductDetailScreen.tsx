@@ -99,7 +99,7 @@ export default function ProductDetailScreen() {
                 </View>
                 <TouchableOpacity
                     onPress={addToCart}
-                    style={tw`px-5 py-4 absolute left-[25%] bottom-9 w-50 rounded-3xl bg-[#89A67E]`}
+                    style={tw`px-5 py-4 absolute left-[25%] ${Platform.OS === "android" ? 'bottom-4':'bottom-8'} w-50 rounded-3xl bg-[#89A67E]`}
                 >
                     <Text style={tw`mx-auto text-white`}>ADD TO CART</Text>
                 </TouchableOpacity>

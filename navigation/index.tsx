@@ -68,6 +68,8 @@ function PublicNavigator() {
  */
 
 function RootNavigator() {
+  const colorScheme = useColorScheme();
+
   return (
     <Stack.Navigator>
       {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
@@ -78,9 +80,12 @@ function RootNavigator() {
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
         <Stack.Screen name="ShippingInfo" component={ShippingInfo} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} />
-        <Stack.Screen name='SettingsScreen' component={SettingsScreen} />
-        <Stack.Screen name='ChangePasswordScreen' component={ChangePasswordScreen} />
       </Stack.Group>
+      <Stack.Screen name='SettingsScreen' component={SettingsScreen} options={{
+        title: "Settings",
+        headerTintColor: `${colorScheme === "light" ? '#5A6E54' : 'white'}`
+        }} />
+        <Stack.Screen name='ChangePasswordScreen' component={ChangePasswordScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} options={{ headerShown: false }} />

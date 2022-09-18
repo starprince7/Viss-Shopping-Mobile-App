@@ -7,9 +7,14 @@ import { RootTabScreenProps } from '../types';
 import { Text, View } from '../components/Themed';
 import HeaderIcon from "../components/HeaderIcon";
 import useColorScheme from "../hooks/useColorScheme";
+import LinkScreen from "../components/Link";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../redux/slices/authSlice";
 
 export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>) {
   const colorScheme = useColorScheme()
+  const { customer } = useSelector(selectAuth)
+
   return (
     <View
       lightColor="#ffff"
@@ -27,52 +32,58 @@ export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>
             source={require('../assets/images/girl_profile.jpg')}
           />
           <View style={tw`bg-transparent ml-4`}>
-            <Text style={tw`font-extrabold text-lg text-white`}>Violet Norman</Text>
-            <Text style={tw`text-gray-100 font-semibold`}>prince@gmail.com</Text>
+            <Text style={tw`font-extrabold text-lg text-white`}>{customer.name.firstname } {customer.name.lastname }</Text>
+            <Text style={tw`text-gray-100 font-semibold`}>{ customer.email }</Text>
           </View>
         </View>
       </View>
       <View
         lightColor="#eee"
-        darkColor="#27272a"
-        style={tw`flex-1 rounded-t-2xl px-5 h-[65%] -mt-4 justify-center`}>
-        <SafeAreaView style={tw`h-auto mb-30`}>
+        darkColor="#3f3f46"
+        style={tw`flex-1 rounded-t-2xl px-7 h-[65%] -mt-4 justify-center`}>
+        <SafeAreaView style={tw`h-auto mb-25`}>
 
-          <View style={tw`flex-row items-center my-4.7 bg-transparent`}>
-            <HeaderIcon name='home-filled' customStyle={tw`mr-4 text-zinc-700 dark:text-neutral-200`} />
-            <Text style={tw`text-[15px] text-zinc-600 dark:text-neutral-50`}>Profile</Text>
-          </View>
+          <LinkScreen
+            title="Notifications"
+            to={"SettingsScreen"}
+            iconName="notifications"
+          />
 
-          <View style={tw`flex-row items-center my-4.7 bg-transparent`}>
-            <HeaderIcon name='storefront' customStyle={tw`mr-4 text-zinc-700  dark:text-neutral-200`} />
-            <Text style={tw`text-[15px] text-zinc-600 dark:text-neutral-50`}>Orders</Text>
-          </View>
+          <LinkScreen
+            title="Orders"
+            to={"SettingsScreen"}
+            iconName="store"
+          />
 
-          <View style={tw`flex-row items-center my-4.7 bg-transparent`}>
-            <HeaderIcon name='notifications' customStyle={tw`mr-4 text-zinc-700  dark:text-neutral-200`} />
-            <Text style={tw`text-[15px] text-zinc-600 dark:text-neutral-50`}>Notifications</Text>
-          </View>
-
-          <TouchableOpacity onPress={() => navigation.navigate("SettingsScreen")} style={tw`flex-row items-center my-4.7 bg-transparent`}>
-            <HeaderIcon name='settings' customStyle={tw`mr-4 text-zinc-700  dark:text-neutral-200`} />
-            <Text style={tw`text-[15px] text-zinc-600 dark:text-neutral-50`}>Settings</Text>
-          </TouchableOpacity>
+          <LinkScreen
+            title="Settings"
+            to={"SettingsScreen"}
+            iconName="settings"
+          />
 
           {
             colorScheme === "light"
               ? (
-                <View style={tw`flex-row items-center my-4.7 bg-transparent`}>
-                  <HeaderIcon name='brightness-2' customStyle={tw`mr-4 text-zinc-700  dark:text-neutral-200`} />
-                  <Text style={tw`text-[15px] text-zinc-600 dark:text-neutral-50`}>Dark Mode</Text>
-                </View>
+                <LinkScreen
+                  title="Dark Mode"
+                  to={"SettingsScreen"}
+                  iconName="brightness-2"
+                />
               )
               : (
-                <View style={tw`flex-row items-center my-4.7 bg-transparent`}>
-                  <HeaderIcon name='brightness-6' customStyle={tw`mr-4 text-zinc-700  dark:text-neutral-200`} />
-                  <Text style={tw`text-[15px] text-zinc-600 dark:text-neutral-50`}>Light Mode</Text>
-                </View>
+                <LinkScreen
+                  title="Dark Mode"
+                  to={"SettingsScreen"}
+                  iconName="brightness-6"
+                />
               )
           }
+
+          <LinkScreen
+            title="Log Out"
+            to={"SettingsScreen"}
+            iconName="logout"
+          />
 
         </SafeAreaView>
       </View>

@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, Platform } from 'react-native';
 import { MaterialIcons } from "@expo/vector-icons"
 import tw from "twrnc"
 
@@ -23,7 +23,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 <View style={tw`flex flex-row justify-between items-center bg-transparent px-5 ${Platform.OS === 'ios' ? `pt-6` : `pt-9`} pb-2`}>
                     <View
                         lightColor="white"
-                        darkColor="#52525b"
+                        darkColor="#27272a"
                         style={tw`py-1.5 pr-3.5 rounded-lg shadow-lg`}
                     >
                         <HeaderIcon name='menu' customStyle={tw`text-black dark:text-white`} /></View>
