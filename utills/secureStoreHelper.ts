@@ -9,3 +9,7 @@ export async function getFromSecureStore(key: string) {
   if (!value) return null;
   return value;
 }
+
+export async function removeFromSecureStore(key: string) {
+  await SecureStore.deleteItemAsync(key)
+}

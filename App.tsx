@@ -23,14 +23,8 @@ export default function App() {
       <AlertNotificationRoot>
         <Provider store={Store}>
           <SafeAreaProvider>
-            <KeyboardAvoidingView
-              style={tw`flex-1`}
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              keyboardVerticalOffset={Platform.OS === 'ios' ? -10 : 0}
-            >
               <Navigation colorScheme={colorScheme} />
               <StatusBar />
-            </KeyboardAvoidingView>
           </SafeAreaProvider>
         </Provider>
       </AlertNotificationRoot>

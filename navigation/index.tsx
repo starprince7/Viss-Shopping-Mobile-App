@@ -32,6 +32,7 @@ import SignupScreen from '../screens/Auth/SignupScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import SettingsScreen from '../screens/Settings';
 import ChangePasswordScreen from '../screens/Settings/ChangePasswordScreen';
+import { selectAuth } from '../redux/slices/authSlice';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -81,11 +82,10 @@ function RootNavigator() {
         <Stack.Screen name="ShippingInfo" component={ShippingInfo} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} />
       </Stack.Group>
-      <Stack.Screen name='SettingsScreen' component={SettingsScreen} options={{
-        title: "Settings",
-        headerTintColor: `${colorScheme === "light" ? '#5A6E54' : 'white'}`
-        }} />
-        <Stack.Screen name='ChangePasswordScreen' component={ChangePasswordScreen} />
+      <Stack.Group screenOptions={{ headerTintColor: `${colorScheme === "light" ? '#5A6E54' : 'white'}` }}>
+        <Stack.Screen name='SettingsScreen' component={SettingsScreen} options={{ title: "Settings" }} />
+        <Stack.Screen name='ChangePasswordScreen' component={ChangePasswordScreen} options={{ title: "Change Password" }} />
+      </Stack.Group>
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} options={{ headerShown: false }} />
@@ -103,6 +103,7 @@ const BottomTab = createBottomTabNavigator<MainRootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const { customerId } = useSelector(selectAuth)
 
   // Get Cart length
   const cart = useSelector(selectCartItems)
@@ -166,7 +167,7 @@ function BottomTabNavigator() {
 
       <BottomTab.Screen
         name="Profile" /* "TabTwo" */
-        component={ProfileScreen}
+        component={customerId !== null ? ProfileScreen : LoginScreen}
         options={({ navigation }) => ({
           headerShown: false,
           title: navigation.isFocused() ? "Profile" : "",

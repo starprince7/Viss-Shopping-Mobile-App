@@ -79,17 +79,23 @@ export default function SignupScreen() {
             <View
                 lightColor="#eee"
                 darkColor="#1B1F22"
-                style={tw`flex-1 pt-13`}
+                style={tw`flex-1 ${Platform.OS === 'ios' ? `pt-10` : `pt-5`}`}
             >
+                <TouchableOpacity
+                    onPress={navigation.goBack}
+                    style={tw`w-10 ml-2 ${Platform.OS === 'ios' ? `mb-1` : ``}`}
+                >
+                    <HeaderIcon name='arrow-back' customStyle={tw`text-black mx-auto`} />
+                </TouchableOpacity>
                 <KeyboardAvoidingView
                     style={tw`flex-1`}
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                    keyboardVerticalOffset={Platform.OS === 'ios' ? -500 : 0}
+                    keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 0}
                 >
                     <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                         <View style={tw`p-5 bg-transparent`}>
-                            <Text style={tw`text-2xl font-extrabold`}>Sign Up</Text>
-                            <Text style={tw` font-semibold my-2`}>Create an account to continue.</Text>
+                            <Text style={tw`text-2xl text-slate-800 font-extrabold`}>Sign Up</Text>
+                            <Text style={tw`text-slate-800 font-semibold my-2`}>Create an account to continue shopping.</Text>
                         </View>
                         {/* >>>>> Form Of Signup Information <<<<< */}
                         <Formik

@@ -68,11 +68,9 @@ export default function LoginScreen() {
 
             Toast.show({
                 type: ALERT_TYPE.SUCCESS,
-                title: 'Continue shopping',
-                textBody: 'You\'re signed in'
+                textBody: 'Welcome back! You\'re signed in'
             })
             navigation.goBack()
-            navigation.navigate("ShippingInfo")
         }
     }
 
@@ -83,6 +81,12 @@ export default function LoginScreen() {
                 darkColor="#1B1F22"
                 style={tw`flex-1 pt-13`}
             >
+                <TouchableOpacity
+                    onPress={navigation.goBack}
+                    style={tw`w-10 ml-2 ${Platform.OS === 'ios' ? `mb-1` : ``}`}
+                >
+                    <HeaderIcon name='arrow-back' customStyle={tw`text-black mx-auto`} />
+                </TouchableOpacity>
                 <KeyboardAvoidingView
                     style={tw`flex-1`}
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -90,8 +94,8 @@ export default function LoginScreen() {
                 >
                     <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                         <View style={tw`p-5 bg-transparent`}>
-                            <Text style={tw`text-2xl font-extrabold`}>Sign In</Text>
-                            <Text style={tw` font-semibold my-2`}>Welcome, please sign in to continue shopping.</Text>
+                            <Text style={tw`text-2xl text-slate-800 font-extrabold`}>Sign In</Text>
+                            <Text style={tw`text-slate-800 font-semibold my-2`}>Welcome, please sign in to continue shopping.</Text>
                         </View>
                         {/* >>>>> Form Of Signup Information <<<<< */}
                         <Formik
@@ -117,10 +121,10 @@ export default function LoginScreen() {
                                             />
                                             <FormInput
                                                 title="Password"
-                                                secureTextEntry
+                                                secureTextEntry={true}
                                                 value={values.password}
                                                 placeholder="Enter your password"
-                                                keyboardType="visible-password"
+                                                keyboardType="name-phone-pad"
                                                 onChangeText={handleChange("password")}
                                                 onBlur={handleBlur("password")}
                                                 error={touched.password && errors.password}

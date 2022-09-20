@@ -8,15 +8,16 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 type LinkScreenProps = {
     title: string;
-    to: keyof RootStackParamList;
+    to?: keyof RootStackParamList;
+    onPress?: () => void | null;
     iconName: React.ComponentProps<typeof MaterialIcons>['name'];
 }
 
-const LinkScreen = ({ title, to, iconName }: LinkScreenProps) => {
+const LinkScreen = ({ title, to, iconName, onPress }: LinkScreenProps) => {
     const navigation = useNavigation()
 
     return (
-        <TouchableOpacity onPress={() => navigation.navigate(to)}>
+        <TouchableOpacity onPress={to ? () => navigation.navigate(to) : onPress}>
             <View
                 style={tw`bg-transparent flex-row items-center my-3.7`}>
                 <MaterialIcons name={iconName} size={25} style={tw`mr-4 text-zinc-700 dark:text-neutral-200`} />
