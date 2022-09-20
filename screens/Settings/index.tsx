@@ -4,8 +4,10 @@ import { View, Text } from "../../components/Themed"
 import HeaderIcon from "../../components/HeaderIcon"
 import LinkScreen from "../../components/Link"
 import Card from "../../components/Card"
+import useColorScheme from "../../hooks/useColorScheme"
 
 export default function SettingsScreen() {
+    const colorScheme = useColorScheme()
     return (
         <SafeAreaView style={tw`flex-1 bg-[#eee] dark:bg-[#1B1F22]`}>
             <View
@@ -15,15 +17,27 @@ export default function SettingsScreen() {
             >
                 <Card>
                     <LinkScreen
-                        title="Profile"
-                        to={"SettingsScreen"}
-                        iconName="account-circle"
-                    />
-                    <LinkScreen
                         title="Change password"
-                        to={"SettingsScreen"}
+                        to="ChangePasswordScreen"
                         iconName="vpn-key"
                     />
+                    {
+                        colorScheme === "light"
+                            ? (
+                                <LinkScreen
+                                    title="Dark Mode"
+                                    to={"SettingsScreen"}
+                                    iconName="brightness-2"
+                                />
+                            )
+                            : (
+                                <LinkScreen
+                                    title="Dark Mode"
+                                    to={"SettingsScreen"}
+                                    iconName="brightness-6"
+                                />
+                            )
+                    }
                 </Card>
             </View>
         </SafeAreaView>
