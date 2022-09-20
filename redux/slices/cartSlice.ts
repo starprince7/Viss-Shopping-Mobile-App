@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { ReduxStore } from "../../types";
+
 import {
   addItemToCart,
   mergeTwoArraysWithoutDuplicates,
   removeItemFromCart,
 } from "../../utills/updateCartHelpers";
-import { Product } from "./productSlice";
+
+import { ReduxStore } from "../../types";
+
 
 export interface CartItemType {
   _id: string;
@@ -42,11 +44,14 @@ const cartSlice = createSlice({
       // @ts-ignore
       return mergeTwoArraysWithoutDuplicates(state, action.payload)
     },
+    clearCart: (state, action: PayloadAction) => {
+      return []
+    }
   },
 });
 
 // Export Actions
-export const { increaseItemQty, decreaseItemQty, setCartItems } =
+export const { increaseItemQty, decreaseItemQty, setCartItems, clearCart } =
   cartSlice.actions;
 
 // Get item quantity
