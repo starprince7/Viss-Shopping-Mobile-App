@@ -85,7 +85,7 @@ export default function SignupScreen() {
                     onPress={navigation.goBack}
                     style={tw`w-10 ml-2 ${Platform.OS === 'ios' ? `mb-1` : ``}`}
                 >
-                    <HeaderIcon name='arrow-back' customStyle={tw`text-black mx-auto`} />
+                    <HeaderIcon name='arrow-back' customStyle={tw`mx-auto`} />
                 </TouchableOpacity>
                 <KeyboardAvoidingView
                     style={tw`flex-1`}
@@ -94,8 +94,8 @@ export default function SignupScreen() {
                 >
                     <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                         <View style={tw`p-5 bg-transparent`}>
-                            <Text style={tw`text-2xl text-slate-800 font-extrabold`}>Sign Up</Text>
-                            <Text style={tw`text-slate-800 font-semibold my-2`}>Create an account to continue shopping.</Text>
+                            <Text style={tw`text-2xl text-slate-800 dark:text-white font-extrabold`}>Sign Up</Text>
+                            <Text style={tw`text-slate-800 dark:text-neutral-400 font-semibold my-2`}>Create an account to continue shopping.</Text>
                         </View>
                         {/* >>>>> Form Of Signup Information <<<<< */}
                         <Formik

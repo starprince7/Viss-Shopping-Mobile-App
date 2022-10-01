@@ -79,44 +79,47 @@ export default function ChangePasswordScreen() {
                             {
                                 ({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
                                     return (
-                                        <Card style={tw`pt-8 pb-4`}>
-                                            <FormInput
-                                                title="Current Password"
-                                                value={values.oldPassword}
-                                                placeholder="Enter your current"
-                                                keyboardType="default"
-                                                onChangeText={handleChange("oldPassword")}
-                                                onBlur={handleBlur("oldPassword")}
-                                                error={touched.oldPassword && errors.oldPassword}
-                                            />
-                                            <FormInput
-                                                title="New Password"
-                                                secureTextEntry={true}
-                                                value={values.newPassword}
-                                                placeholder="Enter a new password"
-                                                keyboardType="default"
-                                                onChangeText={handleChange("newPassword")}
-                                                onBlur={handleBlur("newPassword")}
-                                                error={touched.newPassword && errors.newPassword}
-                                            />
-                                            <FormInput
-                                                title="Confirm New Password"
-                                                secureTextEntry={true}
-                                                value={values.confirmNewPassword}
-                                                placeholder="Re-enter new password"
-                                                keyboardType="default"
-                                                onChangeText={handleChange("confirmNewPassword")}
-                                                onBlur={handleBlur("confirmNewPassword")}
-                                                error={touched.confirmNewPassword && errors.confirmNewPassword}
-                                            />
-                                            <AsyncButton
-                                                title="Change Password"
-                                                iconName="done"
-                                                isLoading={isLoading}
-                                                isLoadingTitle="Please wait..."
-                                                onPress={() => handleSubmit()}
-                                            />
-                                        </Card>
+                                        <>
+                                            <Text style={tw`text-xl pl-5 mb-5 text-slate-800 font-semibold`}>Change password</Text>
+                                            <Card style={tw`pt-8 pb-4`}>
+                                                <FormInput
+                                                    title="Current Password"
+                                                    value={values.oldPassword}
+                                                    placeholder="Enter your current"
+                                                    keyboardType="default"
+                                                    onChangeText={handleChange("oldPassword")}
+                                                    onBlur={handleBlur("oldPassword")}
+                                                    error={touched.oldPassword && errors.oldPassword}
+                                                />
+                                                <FormInput
+                                                    title="New Password"
+                                                    secureTextEntry={true}
+                                                    value={values.newPassword}
+                                                    placeholder="Enter a new password"
+                                                    keyboardType="default"
+                                                    onChangeText={handleChange("newPassword")}
+                                                    onBlur={handleBlur("newPassword")}
+                                                    error={touched.newPassword && errors.newPassword}
+                                                />
+                                                <FormInput
+                                                    title="Confirm New Password"
+                                                    secureTextEntry={true}
+                                                    value={values.confirmNewPassword}
+                                                    placeholder="Re-enter new password"
+                                                    keyboardType="default"
+                                                    onChangeText={handleChange("confirmNewPassword")}
+                                                    onBlur={handleBlur("confirmNewPassword")}
+                                                    error={touched.confirmNewPassword && errors.confirmNewPassword}
+                                                />
+                                                <AsyncButton
+                                                    title="Change Password"
+                                                    iconName="done"
+                                                    isLoading={isLoading}
+                                                    isLoadingTitle="Please wait..."
+                                                    onPress={() => handleSubmit()}
+                                                />
+                                            </Card>
+                                        </>
                                     )
                                 }
                             }

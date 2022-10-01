@@ -1,7 +1,6 @@
 import { View, Text } from "./Themed"
 import tw from "twrnc"
 import { MaterialIcons } from "@expo/vector-icons"
-import HeaderIcon from "./HeaderIcon"
 
 export default function EmptyShoppingBag() {
     return (

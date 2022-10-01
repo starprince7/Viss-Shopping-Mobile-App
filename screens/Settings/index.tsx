@@ -32,7 +32,7 @@ export default function SettingsScreen() {
                             )
                             : (
                                 <LinkScreen
-                                    title="Dark Mode"
+                                    title="Light Mode"
                                     to={"SettingsScreen"}
                                     iconName="brightness-6"
                                 />

@@ -12,5 +12,5 @@ type HeaderIconProps = {
 }
 
 export default function HeaderIcon(props: HeaderIconProps) {
-    return <MaterialIcons size={25} style={[tw`text-black ml-4 rounded-full`, props.customStyle]} {...props} />;
+    return <MaterialIcons size={25} style={[tw`text-black  dark:text-white ml-4 rounded-full`, props.customStyle]} {...props} />;
 }
