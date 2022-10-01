@@ -80,7 +80,7 @@ export default function ChangePasswordScreen() {
                                 ({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
                                     return (
                                         <>
-                                            <Text style={tw`text-xl pl-5 mb-5 text-slate-800 font-semibold`}>Change password</Text>
+                                            <Text style={tw`text-xl pl-5 mb-5 text-slate-800 dark:text-neutral-200 font-semibold`}>Change password</Text>
                                             <Card style={tw`pt-8 pb-4`}>
                                                 <FormInput
                                                     title="Current Password"
