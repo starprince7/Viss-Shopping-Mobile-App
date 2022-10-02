@@ -23,14 +23,14 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    setProducts: (state, action: PayloadAction<any>) => {
+    setProductsAction: (state, action: PayloadAction<any>) => {
       return state = action.payload;
     },
   },
 });
 
 // Export actions from navSlice
-export const { setProducts } = productSlice.actions;
+export const { setProductsAction } = productSlice.actions;
 
 // Export state selectors
 type SelectProducts = (state: ReduxStore) => Products

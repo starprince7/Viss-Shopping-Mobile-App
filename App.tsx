@@ -9,6 +9,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import Store from "./redux/store"
 import { AlertNotificationRoot } from 'react-native-alert-notification';
+import { CategoryContextProvider } from './hooks/categories';
 
 export default function App() {
   // From twrnc
@@ -22,10 +23,12 @@ export default function App() {
     return (
       <AlertNotificationRoot>
         <Provider store={Store}>
-          <SafeAreaProvider>
+          <CategoryContextProvider>
+            <SafeAreaProvider>
               <Navigation colorScheme={colorScheme} />
               <StatusBar />
-          </SafeAreaProvider>
+            </SafeAreaProvider>
+          </CategoryContextProvider>
         </Provider>
       </AlertNotificationRoot>
     );

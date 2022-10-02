@@ -84,7 +84,7 @@ function RootNavigator() {
       </Stack.Group>
       <Stack.Group screenOptions={{ headerTintColor: `${colorScheme === "light" ? '#5A6E54' : 'white'}` }}>
         <Stack.Screen name='SettingsScreen' component={SettingsScreen} options={{ title: "Settings" }} />
-        <Stack.Screen name='ChangePasswordScreen' component={ChangePasswordScreen} options={{ title: null }} />
+        <Stack.Screen name='ChangePasswordScreen' component={ChangePasswordScreen} options={{ title: "" }} />
       </Stack.Group>
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
