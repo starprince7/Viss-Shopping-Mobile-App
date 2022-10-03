@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\HP\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add intl
+  C:\Program Files\nodejs\node.exe C:\Users\HP\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js remove react-native-linear-gradient
 
 PATH: 
-  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\Program Files\PuTTY\;C:\Users\HP\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\HP\AppData\Local\Programs\Python\Python39\;C:\Users\HP\AppData\Local\Microsoft\WindowsApps;C:\Users\HP\AppData\Local\GitHubDesktop\bin;C:\Program Files\heroku\bin;C:\Users\HP\AppData\Local\Programs\Microsoft VS Code-new\bin;C:\Users\HP\AppData\Local\Android\Sdk\platform-tools;C:\Users\HP\AppData\Roaming\npm
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\Program Files\PuTTY\;C:\Program Files\Git\cmd;C:\Users\HP\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\HP\AppData\Local\Programs\Python\Python39\;C:\Users\HP\AppData\Local\Microsoft\WindowsApps;C:\Users\HP\AppData\Local\GitHubDesktop\bin;C:\Program Files\heroku\bin;C:\Users\HP\AppData\Local\Programs\Microsoft VS Code-new\bin;C:\Users\HP\AppData\Local\Android\Sdk\platform-tools;C:\Users\HP\AppData\Roaming\npm
 
 Yarn version: 
   1.22.10
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, open 'C:\Users\HP\Desktop\App-Projects-(Mobile)\VISSTV-COMMERCE\frontend\node_modules\@expo\webpack-config\node_modules\babel-loader\node_modules\.bin\webpack'
+  Error: EPERM: operation not permitted, open 'C:\Users\HP\Desktop\App-Projects-(Mobile)\VISSTV-COMMERCE\frontend\node_modules\update-browserslist-db\node_modules\.bin\browserslist.cmd'
 
 npm manifest: 
   {
@@ -34,6 +34,7 @@ npm manifest:
     },
     "dependencies": {
       "@expo/vector-icons": "^13.0.0",
+      "@react-native-masked-view/masked-view": "^0.2.8",
       "@react-navigation/bottom-tabs": "^6.0.5",
       "@react-navigation/native": "^6.0.2",
       "@react-navigation/native-stack": "^6.1.0",
@@ -45,6 +46,7 @@ npm manifest:
       "expo-constants": "~13.1.1",
       "expo-font": "~10.1.0",
       "expo-haptics": "~11.2.0",
+      "expo-linear-gradient": "~11.3.0",
       "expo-linking": "~3.1.0",
       "expo-secure-store": "~11.2.0",
       "expo-splash-screen": "~0.15.1",
@@ -52,6 +54,7 @@ npm manifest:
       "expo-system-ui": "~1.2.0",
       "expo-web-browser": "~10.2.0",
       "formik": "^2.2.9",
+      "intl": "^1.2.5",
       "react": "17.0.2",
       "react-dom": "17.0.2",
       "react-hook-form": "^7.34.2",
@@ -63,6 +66,7 @@ npm manifest:
       "react-native-picker-select": "^8.0.4",
       "react-native-safe-area-context": "4.2.4",
       "react-native-screens": "~3.11.1",
+      "react-native-skeleton-placeholder": "^5.0.0",
       "react-native-web": "0.17.7",
       "react-redux": "^8.0.2",
       "tailwindcss-react-native": "^1.7.10",
@@ -2166,6 +2170,11 @@ Lockfile:
       strip-ansi "^5.2.0"
       sudo-prompt "^9.0.0"
       wcwidth "^1.0.1"
+  
+  "@react-native-masked-view/masked-view@^0.2.8":
+    version "0.2.8"
+    resolved "https://registry.yarnpkg.com/@react-native-masked-view/masked-view/-/masked-view-0.2.8.tgz#34405a4361882dae7c81b1b771fe9f5fbd545a97"
+    integrity sha512-+1holBPDF1yi/y0uc1WB6lA5tSNHhM7PpTMapT3ypvSnKQ9+C6sy/zfjxNxRA/llBQ1Ci6f94EaK56UCKs5lTA==
   
   "@react-native-picker/picker@^1.8.3":
     version "1.16.8"
@@ -5684,6 +5693,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-10.1.1.tgz#03023c130f7e3824b738e3fdd5353b8a2c0c1980"
     integrity sha512-9zC0sdhQljUeMr2yQ7o4kzEZXVAy82fFOAZE1+TwPL7qR0b0sphe7OJ5T1GX1qLcwuVaJ8YewaPoLSHRk79+Rg==
   
+  expo-linear-gradient@~11.3.0:
+    version "11.3.0"
+    resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-11.3.0.tgz#855f470c9684f5b979c3c1be0ed1fe1943d57158"
+    integrity sha512-gm0cULqE5cTP39HZHi+eCGgQ2qMcwym92DwSzRpA5nA4Ah5oKksV+PwD7zzo6YJt3X3lgqrTYEqts9VQISCTgw==
+  
   expo-linking@~3.1.0:
     version "3.1.0"
     resolved "https://registry.yarnpkg.com/expo-linking/-/expo-linking-3.1.0.tgz#ac16aa976531c6a3e165333670b0e12975b4dfa4"
@@ -7107,6 +7121,11 @@ Lockfile:
       get-intrinsic "^1.1.0"
       has "^1.0.3"
       side-channel "^1.0.4"
+  
+  intl@^1.2.5:
+    version "1.2.5"
+    resolved "https://registry.yarnpkg.com/intl/-/intl-1.2.5.tgz#82244a2190c4e419f8371f5aa34daa3420e2abde"
+    integrity sha512-rK0KcPHeBFBcqsErKSpvZnrOmWOj+EmDkyJ57e90YWaQNqbcivcqmKDlHEeNprDWOsKzPsh1BfSpPQdDvclHVw==
   
   invariant@*, invariant@^2.2.4:
     version "2.2.4"
@@ -10990,6 +11009,11 @@ Lockfile:
       prop-types "^15.6.2"
       react-native-iphone-x-helper "^1.0.3"
   
+  react-native-linear-gradient@^2.6.2:
+    version "2.6.2"
+    resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.6.2.tgz#56598a76832724b2afa7889747635b5c80948f38"
+    integrity sha512-Z8Xxvupsex+9BBFoSYS87bilNPWcRfRsGC0cpJk72Nxb5p2nEkGSBv73xZbEHnW2mUFvP+huYxrVvjZkr/gRjQ==
+  
   react-native-picker-select@^8.0.4:
     version "8.0.4"
     resolved "https://registry.yarnpkg.com/react-native-picker-select/-/react-native-picker-select-8.0.4.tgz#3f7f1f42df69b06e7d2c10338288332a6c40fd10"
@@ -11010,6 +11034,11 @@ Lockfile:
     dependencies:
       react-freeze "^1.0.0"
       warn-once "^0.1.0"
+  
+  react-native-skeleton-placeholder@^5.0.0:
+    version "5.0.0"
+    resolved "https://registry.yarnpkg.com/react-native-skeleton-placeholder/-/react-native-skeleton-placeholder-5.0.0.tgz#899fca447c2f0b81f98566e350e792157a3c9df9"
+    integrity sha512-7sdG+Y2ENEVcxFC9XlpCgHy59XKkxaUyVqDwuAb66hvl7lwFr25uA5kHJ+JuDJ84ptVil5UEowW/2avwhsfoYg==
   
   react-native-web@0.17.7:
     version "0.17.7"

@@ -1,22 +1,22 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Image, Platform, Pressable, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
+import { Image, Platform, Pressable, ScrollView, TouchableOpacity } from 'react-native';
 import * as Haptics from "expo-haptics"
 import tw from "twrnc"
 
+import Naira from '../components/FormatToNaira';
 import EditScreenInfo from '../components/EditScreenInfo';
 import HeaderIcon from '../components/HeaderIcon';
 import { Text, View } from '../components/Themed';
 import { Product } from '../redux/slices/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { decreaseItemQty, getItemQuantityFromCart, increaseItemQty, selectCartItems } from '../redux/slices/cartSlice';
-import Naira from '../components/FormatToNaira';
 
 
 export default function ProductDetailScreen() {
-    const navigation = useNavigation()
     const route = useRoute()
     const dispatch = useDispatch()
+    const navigation = useNavigation()
     const cart = useSelector(selectCartItems)
 
     const item = route.params as Product
@@ -63,7 +63,7 @@ export default function ProductDetailScreen() {
                 </Pressable>
             </View>
             {/* >>>>>>>>>>>>>>>>>>>>> Top Navigation Icons bottom <<<<<<<<<<<<<<<<<<<< */}
-            <StatusBar barStyle={'dark-content'} />
+            <StatusBar style='auto' />
             <View style={tw`h-[51.8%] rounded-b-3xl absolute z-10 top-0 left-0 right-0`}>
                 <Image
                     style={tw`w-full h-full rounded-b-3xl`}

@@ -1,14 +1,12 @@
-import { StyleSheet, SafeAreaView, ScrollView, Platform } from 'react-native';
-import { MaterialIcons } from "@expo/vector-icons"
+import { SafeAreaView, Platform } from 'react-native';
 import tw from "twrnc"
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import HomeHeader from '../components/HomeHeader';
-import { Text, View } from '../components/Themed';
+import { View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import Products from '../components/Products';
 import HeaderIcon from '../components/HeaderIcon';
-import useProducts from '../hooks/useProducts';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
     

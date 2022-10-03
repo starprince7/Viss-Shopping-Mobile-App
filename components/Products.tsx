@@ -1,11 +1,9 @@
-import { Image, FlatList, TouchableOpacity } from "react-native"
 import tw from "twrnc"
+import { Image, FlatList, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
-import Naira from "./FormatToNaira"
 
 import { View, Text } from "./Themed"
-import { useSelector } from "react-redux"
-import { selectProducts } from "../redux/slices/productSlice"
+import Naira from "./FormatToNaira"
 import useProducts from "../hooks/useProducts"
 
 
