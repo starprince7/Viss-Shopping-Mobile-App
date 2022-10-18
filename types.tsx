@@ -25,6 +25,7 @@ export type RootStackParamList = {
   OrderSuccessScreen: undefined;
   SettingsScreen: undefined;
   ChangePasswordScreen: undefined;
+  SearchScreen: undefined;
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Modal: undefined;
   NotFound: undefined;

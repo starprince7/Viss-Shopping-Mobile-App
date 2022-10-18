@@ -1,16 +1,12 @@
 import tw from "twrnc"
-import { useContext } from "react"
 
 import { View, Text } from "../Themed"
-import { CategoryContext } from "../../hooks/categories"
-import { CategoriesSkeleton } from "../SkeletonLoader/Categories"
+import { CategoryContext, useCategory } from "../../hooks/categories"
 
 type Props = { name: string }
 
 export const Category = ({ name }: Props) => {
-    const { category, isFetchingCategories } = useContext(CategoryContext)
-
-    // if (isFetchingCategories) return <CategoriesSkeleton />
+    const { category, isFetchingCategories } = useCategory()
 
     return (
         <View

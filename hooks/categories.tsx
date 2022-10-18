@@ -30,14 +30,14 @@ export const useCategory = () => {
 export const CategoryContextProvider = ({ children }: CategoryContextProps) => {
   const [category, setCategory] = useState<string>("watch");
   const [categories, setCategories] = useState<Category[]>([]);
-  const [isFetchingCategories, setIsFetchingCategories] = useState(true)
+  const [isFetchingCategories, setIsFetchingCategories] = useState(false)
 
   useEffect(() => {
     async function getCategories() {
       setIsFetchingCategories(true)
       const res: Response = await axios.get(`${BASE_URL}/api/categories`);
       setCategories(res.data);
-      setIsFetchingCategories(true)
+      setIsFetchingCategories(false)
     }
     getCategories();
   }, []);

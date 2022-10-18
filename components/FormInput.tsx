@@ -5,13 +5,13 @@ import { Text, View } from "./Themed";
 
 type InputProps = {
     value?: string | undefined
-    onBlur: ((e: NativeSyntheticEvent<TextInputFocusEventData>) => void) | undefined;
+    onBlur?: ((e: NativeSyntheticEvent<TextInputFocusEventData>) => void) | undefined;
     onChangeText?: ((text: string) => void) | undefined
     keyboardType?: KeyboardTypeOptions | undefined;
-    error: string | false | undefined;
+    error?: string | false | undefined;
     secureTextEntry?: boolean | undefined;
     emailApiError?: string;
-    title: string;
+    title?: string;
     placeholder?: string;
     multiline?: boolean | undefined
 }

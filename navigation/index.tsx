@@ -33,6 +33,7 @@ import LoginScreen from '../screens/Auth/LoginScreen';
 import SettingsScreen from '../screens/Settings';
 import ChangePasswordScreen from '../screens/Settings/ChangePasswordScreen';
 import { selectAuth } from '../redux/slices/authSlice';
+import SearchScreen from '../screens/SearchScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -81,6 +82,7 @@ function RootNavigator() {
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
         <Stack.Screen name="ShippingInfo" component={ShippingInfo} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
       </Stack.Group>
       <Stack.Group screenOptions={{ headerTintColor: `${colorScheme === "light" ? '#5A6E54' : 'white'}` }}>
         <Stack.Screen name='SettingsScreen' component={SettingsScreen} options={{ title: "Settings" }} />

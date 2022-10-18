@@ -1,7 +1,6 @@
 import { FlatList, ScrollView } from "react-native"
 
 import tw from "twrnc"
-import { Categories } from "./Categories"
 import { Text, View } from "./Themed"
 
 export default function HomeHeader() {
@@ -15,14 +14,13 @@ export default function HomeHeader() {
             <Text
                 lightColor="rgba(0,0,0,0.8)"
                 darkColor="rgba(255,255,255,0.8)"
-                style={tw`font-bold text-4xl w-[80%]`}>Discover
+                style={tw`font-extrabold text-3xl w-[80%]`}>Discover
             </Text>
             <Text
                 lightColor="rgba(0,0,0,0.8)"
                 darkColor="rgba(255,255,255,0.8)"
-                style={tw`font-bold text-4xl w-[80%]`}>our new items
+                style={tw`font-extrabold text-3xl w-[80%]`}>our new items
             </Text>
-            <Categories />
         </View>
     )
 }
