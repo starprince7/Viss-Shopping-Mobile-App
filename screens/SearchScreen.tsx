@@ -78,7 +78,7 @@ export default function SearchScreen() {
                                 <Text style={tw`font-semibold mx-3 text-zinc-600 dark:text-zinc-400`}>Cancel</Text>
                             </Pressable>
                         </View>
-                        {results.length > 0 ?
+                        {results.length > 0 &&
                             <View style={tw`bg-transparent px-2`}>
                                 <FlatList
                                     numColumns={1}
@@ -89,7 +89,9 @@ export default function SearchScreen() {
                                     )}
                                 />
                             </View>
-                            :
+                        }
+                        {
+                            results.length === 0 && query !== "" &&
                             <View style={tw`bg-transparent mt-40 mx-auto`}>
                                 <MaterialIcons size={36} name="report" style={tw`mx-auto text-neutral-400 mb-1`} />
                                 <Text style={tw`text-zinc-400 dark:text-zinc-600 font-semibold`}>
