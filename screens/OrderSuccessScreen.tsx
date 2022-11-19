@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 import React from 'react'
 import { Alert, Button, SafeAreaView, TouchableOpacity } from 'react-native'
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
@@ -9,6 +9,15 @@ import { Text, View } from '../components/Themed';
 
 export default function OrderSuccessScreen() {
     const navigation = useNavigation()
+
+    const navigateHome = () => {
+        navigation.dispatch(StackActions.replace('Root', {
+            screen: "Home",
+            params: {
+                screen: "Home"
+            }
+        }))
+    }
 
     /* 
      * Function below will be called when This screen closes
@@ -20,6 +29,7 @@ export default function OrderSuccessScreen() {
             // title: '',
             textBody: 'Your order has been sent for processing.'
         })
+        navigateHome()
     })
     return (
         <View style={tw`flex-1 bg-[#89A67E] pt-6`}>
@@ -29,8 +39,8 @@ export default function OrderSuccessScreen() {
                     <Text style={tw`text-lg font-bold text-[#eee] mt-1 text-center`}>Order Successful</Text>
                     <Text style={tw`text-sm text-[#eee] mt-1 text-center`}>Your order was successfully received, and processing has begun.</Text>
                     <TouchableOpacity
-                        onPress={navigation.goBack}
-                        style={tw`py-3 px-4 bg-[#eee] mt-3.5 rounded-[10px]`}
+                        onPress={navigateHome}
+                        style={tw`py-3 px-4 bg-[#eee] mt-3.5 rounded-[5px]`}
                     >
                         <Text style={tw`text-[#89A67E] font-bold`}>Dismiss</Text>
                     </TouchableOpacity>

@@ -10,7 +10,7 @@ import HeaderIcon from '../components/HeaderIcon';
 import { Text, View } from '../components/Themed';
 import { Product } from '../redux/slices/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { decreaseItemQty, getItemQuantityFromCart, increaseItemQty, selectCartItems } from '../redux/slices/cartSlice';
+import { CartItemType, decreaseItemQty, getItemQuantityFromCart, increaseItemQty, selectCartItems } from '../redux/slices/cartSlice';
 
 
 export default function ProductDetailScreen() {
@@ -19,7 +19,7 @@ export default function ProductDetailScreen() {
     const navigation = useNavigation()
     const cart = useSelector(selectCartItems)
 
-    const item = route.params as Product
+    const item = route.params as CartItemType
     const { image, description, title, price, _id } = route.params as Product
 
     const quantity = getItemQuantityFromCart(cart, _id)
@@ -30,6 +30,7 @@ export default function ProductDetailScreen() {
     /* *** `AddToCart` or `Increase` Item Quantity *** */
     const increaseQty = (id: string) => {
         dispatch(increaseItemQty(product_item))
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     }
 
     const decreaseQty = () => {
@@ -40,6 +41,7 @@ export default function ProductDetailScreen() {
         * You need the ID field to find the item in the cart.
         */
         dispatch(decreaseItemQty({ _id }))
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
     }
 
     const addToCart = () => {
@@ -78,7 +80,7 @@ export default function ProductDetailScreen() {
                     <View
                         style={tw`bg-transparent flex flex-row items-center mt-3`}
                     >
-                        <Text style={tw`line-through mr-2 text-sm`}><Naira style={tw`text-gray-500`}>{ Number(3000) }</Naira></Text>
+                        {/* <Text style={tw`line-through mr-2 text-sm`}><Naira style={tw`text-gray-500`}>{ Number(3000) }</Naira></Text> */}
                         <Text style={tw`text-xl`}><Naira style={tw`text-[#89A67E]`}>{price}</Naira></Text>
                     </View>
                 </View>

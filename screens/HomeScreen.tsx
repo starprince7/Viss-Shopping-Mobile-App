@@ -22,13 +22,13 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                     <View
                         style={tw`bg-transparent flex-row items-center rounded-lg shadow-lg -ml-5 mr-0.5`}
                     >
-                        <MaterialIcons size={18} name='ac-unit' style={tw`mr-0.5 ml-4.5`} />
+                        <MaterialIcons size={18} name='ac-unit' style={tw`mr-0.5 ml-4.5 dark:text-gray-200`} />
                         <Text
                             lightColor="black"
                             darkColor="white"
                             style={tw`font-extrabold`}
                         >
-                            VissShopping
+                            VissStore
                         </Text>
                     </View>
                     <View style={tw`flex flex-row bg-transparent pt-1`}>

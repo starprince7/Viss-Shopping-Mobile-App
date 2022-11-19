@@ -36,7 +36,8 @@ export default function LoginScreen() {
 
     const initialLoginData = {
         email: "",
-        password: ''
+        password: '',
+        cart: cart
     }
 
     const loginSchema = Yup.object({

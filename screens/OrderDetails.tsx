@@ -1,9 +1,13 @@
 import tw from "twrnc"
+import axios from "axios";
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from "@react-navigation/native"
-import { SafeAreaView, TouchableOpacity, ScrollView, Alert, Image } from 'react-native'
+import { SafeAreaView, TouchableOpacity, ScrollView, Alert, Image, Platform } from 'react-native'
+import { PayWithFlutterwave } from 'flutterwave-react-native';
+import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
+import { BASE_URL, FLUTTERWAVE_TEST_PUBLIC_KEY } from "@env";
 import { Text, View } from '../components/Themed';
 import HeaderIcon from "../components/HeaderIcon"
 import Naira from '../components/FormatToNaira';
@@ -11,22 +15,36 @@ import { selectCartItems } from "../redux/slices/cartSlice";
 import { selectSelectedShippingInfo } from "../redux/slices/shippingInfoSlice";
 import OrderItem from "../components/OrderItem";
 import { selectAuth } from "../redux/slices/authSlice";
+import { clearCart } from "../redux/slices/cartSlice";
 import sumCart from "../utills/sumCart";
+import generateTransactionReference from "../utills/generateReference";
+import getProcessingFee from "../utills/getProcessingFee";
+import AsyncButton from "../components/AsyncButton";
+
+interface PaymentVerificationProps {
+    status: 'successful' | 'cancelled';
+    transaction_id?: string;
+    tx_ref: string;
+}
 
 export default function OrderDetails() {
+    const dispatch = useDispatch()
     const navigation = useNavigation()
+    const cart = useSelector(selectCartItems) // get cart
+    const totalPriceInCart = sumCart(cart) // cart sumTotal
+    const { homeAddress, city, country, zipcode, phoneNumber, state } =
+        useSelector(selectSelectedShippingInfo) // get shipping information
+    const { customer } = useSelector(selectAuth) // get customer in auth state.
+    const [processingFee, setProcessingFee] = React.useState(0)
 
-    // Cart
-    const cart = useSelector(selectCartItems)
-
-    // get cart sum-total of cart
-    const totalPrice = sumCart(cart)
-
-    // Selected shipping information
-    const { homeAddress, city, country, zipcode, phoneNumber, state } = useSelector(selectSelectedShippingInfo)
-
-    // Get email address from auth state.
-    const { customer:{ email } } = useSelector(selectAuth)
+    React.useEffect(() => {
+        if (processingFee !== 0) return
+        async function getFee() {
+            const fee = await getProcessingFee(totalPriceInCart)
+            setProcessingFee(fee)
+        }
+        getFee()
+    }, [processingFee])
 
     const handlePaymentProcessing = () => {
         Alert.alert('Payment processing has started')
@@ -34,12 +52,67 @@ export default function OrderDetails() {
             navigation.navigate('OrderSuccessScreen')
         }, 5000)
     }
+
+    const totalAmountToPay = Number(totalPriceInCart) + Number(processingFee)
+    const transactionDetails = {
+        tx_ref: generateTransactionReference(10),
+        authorization: FLUTTERWAVE_TEST_PUBLIC_KEY,
+        customer: {
+            email: customer.email
+        },
+        amount: totalAmountToPay,
+        currency: 'NGN',
+        payment_options: 'card',
+        customizations: {
+            title: "VISS STORE",
+        },
+        subaccounts: [
+            {
+                id: "RS_6BEEF3F40BAD1BE9357898421A4BA536",
+                transaction_charge_type: "flat",
+                transaction_charge: processingFee,
+            },
+        ],
+    }
+
+    const createNewOrder = async (data: PaymentVerificationProps) => {
+        console.log({ PaymentVerificationProps: data })
+
+        const { status, tx_ref, transaction_id } = data
+        const orderInformation = {
+            status,
+            transaction_id,
+            customer,
+            processingFee,
+            orderDetails: cart,
+            transactionRef: tx_ref,
+            sumTotal: totalAmountToPay,
+            shippingFee: "",
+        }
+
+        const response = await axios.post(`${BASE_URL}/api/customer/create_order`, orderInformation)
+
+        if (response.data.error || response.data.status === "Error") {
+            Dialog.show({
+                type: ALERT_TYPE.DANGER,
+                title: 'Error',
+                textBody: response.data.error,
+                button: 'dismiss',
+            })
+        }
+        else if (response.data.msg) {
+            navigation.navigate('OrderSuccessScreen')
+            dispatch(clearCart())
+        }
+    }
+
+
     return (
         <SafeAreaView style={tw`flex-1 bg-[#eee] dark:bg-[#1B1F22]`}>
             <View
                 lightColor="#eee"
                 darkColor="#1B1F22"
-                style={tw`flex-1 ${Platform.OS==='ios'?`pt-6`:`pt-9`}`}
+                style={tw`flex-1 ${Platform.OS === 'ios' ? `pt-6` : `pt-9`}`}
             >
                 <TouchableOpacity
                     onPress={navigation.goBack}
@@ -58,32 +131,32 @@ export default function OrderDetails() {
 
                         <View style={tw`bg-transparent mb-1.5 border-gray-500`}>
                             <Text lightColor='#3f3f46' style={tw`font-bold`}>State</Text>
-                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{ state }</Text>
+                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{state}</Text>
                         </View>
 
                         <View style={tw`bg-transparent mb-1.5 border-gray-500`}>
                             <Text lightColor='#3f3f46' style={tw`font-bold`}>Country</Text>
-                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{ country }</Text>
+                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{country}</Text>
                         </View>
 
                         <View style={tw`bg-transparent mb-1.5 border-gray-500`}>
                             <Text lightColor='#3f3f46' style={tw`font-bold`}>Phone Number</Text>
-                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{ phoneNumber }</Text>
+                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{phoneNumber}</Text>
                         </View>
 
                         <View style={tw`bg-transparent mb-1.5 border-gray-500`}>
                             <Text lightColor='#3f3f46' style={tw`font-bold`}>Email</Text>
-                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{ email }</Text>
+                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{customer.email}</Text>
                         </View>
 
                         <View style={tw`bg-transparent mb-1.5 border-gray-500`}>
                             <Text lightColor='#3f3f46' style={tw`font-bold`}>Delivery Address</Text>
-                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{ homeAddress }</Text>
+                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{homeAddress}</Text>
                         </View>
 
                         <View style={tw`bg-transparent mb-1.5 border-gray-500`}>
                             <Text lightColor='#3f3f46' style={tw`font-bold`}>City</Text>
-                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{ city }</Text>
+                            <Text lightColor='#737373' style={tw`text-sm mt-2 mb-3`}>{city}</Text>
                         </View>
                     </View>
                     {/* Delivery Time */}
@@ -99,14 +172,13 @@ export default function OrderDetails() {
                         {
                             cart.length !== 0 &&
                             cart.map(item => (
-                                <View key={item._id} style={tw`bg-transparent`}>
-                                    <OrderItem
-                                        title={item.title as string}
-                                        image={item.image as string}
-                                        price={item.price as number}
-                                        quantity={item.quantity as number}
-                                    />
-                                </View>
+                                <OrderItem
+                                    key={item._id}
+                                    title={item.title as string}
+                                    image={item.image as string}
+                                    price={item.price as number}
+                                    quantity={item.quantity as number}
+                                />
                             ))
                         }
                     </View>
@@ -118,17 +190,34 @@ export default function OrderDetails() {
                                     <Text style={tw`font-bold`}>Total</Text>
                                 </View>
                             </View>
-                            <View style={tw`bg-transparent`}><Text style={tw`font-bold`}><Naira style={tw`text-neutral-600`}>{ totalPrice }</Naira></Text></View>
+                            <View style={tw`bg-transparent`}><Text style={tw`font-bold`}><Naira style={tw`text-neutral-600`}>{totalPriceInCart}</Naira></Text></View>
+                        </View>
+                        <View style={tw`flex-row justify-between items-center py-5 px-1 border-b-2 border-gray-200 dark:border-gray-800 bg-transparent`}>
+                            <View style={tw`flex-row items-center bg-transparent`}>
+                                <View style={tw`bg-transparent w-29 ml-3`}>
+                                    <Text style={tw`font-bold`}>Processing fee</Text>
+                                </View>
+                            </View>
+                            <View style={tw`bg-transparent`}><Text style={tw`font-bold`}><Naira style={tw`text-neutral-600`}>{processingFee}</Naira></Text></View>
                         </View>
                     </View>
                 </ScrollView>
-                <TouchableOpacity
-                    // onPress={() => Alert.alert("Payment processing will start now")}
-                    onPress={handlePaymentProcessing}
-                    style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto my-2 px-10.5 py-3 flex-row items-center justify-between`}>
-                    <HeaderIcon name='payment' customStyle={tw`text-white mx-auto mr-1.5`} />
-                    <Text style={tw`font-semibold text-white`}>Pay <Text style={tw`font-extrabold`}><Naira style={tw`text-gray-100`}>{Number(totalPrice)}</Naira></Text> </Text>
-                </TouchableOpacity>
+                <PayWithFlutterwave
+                    options={transactionDetails}
+                    onRedirect={createNewOrder}
+                    customButton={(props) => (
+                        <AsyncButton
+                            startIcon="payment"
+                            isLoading={props.disabled}
+                            isLoadingTitle="Processing..."
+                            onPress={props.onPress}
+                        >
+                            <Text style={tw`font-semibold text-white`}>
+                                Pay <Text style={tw`font-extrabold`}><Naira style={tw`text-gray-100`}>{totalAmountToPay}</Naira></Text>
+                            </Text>
+                        </AsyncButton>
+                    )}
+                />
             </View>
         </SafeAreaView>
     )
