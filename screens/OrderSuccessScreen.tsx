@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { StackActions, useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react'
 import { Alert, Button, SafeAreaView, TouchableOpacity } from 'react-native'
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
@@ -9,6 +9,8 @@ import { Text, View } from '../components/Themed';
 
 export default function OrderSuccessScreen() {
     const navigation = useNavigation()
+    const route = useRoute()
+    const { successMessage } = route.params as any
 
     const navigateHome = () => {
         navigation.dispatch(StackActions.replace('Root', {
@@ -37,7 +39,7 @@ export default function OrderSuccessScreen() {
                 <View style={tw`bg-transparent flex-1 items-center justify-center px-5`}>
                     <MaterialIcons size={150} name="check-circle" style={tw`text-[#eee]`} />
                     <Text style={tw`text-lg font-bold text-[#eee] mt-1 text-center`}>Order Successful</Text>
-                    <Text style={tw`text-sm text-[#eee] mt-1 text-center`}>Your order was successfully received, and processing has begun.</Text>
+                    <Text style={tw`text-sm text-[#eee] mt-1 text-center`}>{successMessage}</Text>
                     <TouchableOpacity
                         onPress={navigateHome}
                         style={tw`py-3 px-4 bg-[#eee] mt-3.5 rounded-[5px]`}

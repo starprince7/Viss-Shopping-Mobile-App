@@ -160,7 +160,7 @@ function BottomTabNavigator() {
         component={CartScreen}
         options={({ navigation }) => ({
           headerShown: false,
-          title: navigation.isFocused() ? "Baggage" : "",
+          title: navigation.isFocused() ? "Bag" : "",
           tabBarBadge: isCartEmptyAndIsFocused(navigation) ? null : `${cart.length}`,
           tabBarActiveBackgroundColor: '#89A67E',
           tabBarItemStyle: { borderRadius: 10 },

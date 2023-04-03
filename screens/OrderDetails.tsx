@@ -53,12 +53,13 @@ export default function OrderDetails() {
         }, 5000)
     }
 
+
     const totalAmountToPay = Number(totalPriceInCart) + Number(processingFee)
     const transactionDetails = {
         tx_ref: generateTransactionReference(10),
         authorization: FLUTTERWAVE_TEST_PUBLIC_KEY,
         customer: {
-            email: customer.email
+            email: customer.email as string
         },
         amount: totalAmountToPay,
         currency: 'NGN',
@@ -101,7 +102,7 @@ export default function OrderDetails() {
             })
         }
         else if (response.data.msg) {
-            navigation.navigate('OrderSuccessScreen')
+            navigation.navigate('OrderSuccessScreen', {successMessage: response.data.msg})
             dispatch(clearCart())
         }
     }

@@ -7,14 +7,13 @@ import { Formik } from "formik"
 import { useNavigation } from "@react-navigation/native";
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from "react-native";
 
-import Input from "../../components/Input";
 import HeaderIcon from "../../components/HeaderIcon";
 import signupCustomer from "../../utills/signupHelper";
 import loginCustomer from "../../utills/loginHelper"
 import { View, Text } from "../../components/Themed";
 import { LoginData } from "../../types";
 import { CartItemType, selectCartItems, setCartItems } from "../../redux/slices/cartSlice";
-import { setCustomer, selectAuth, setApiError, setLogInApiError, setLoggedInCustomer } from "../../redux/slices/authSlice";
+import { selectAuth, setApiError, setLogInApiError, setLoggedInCustomer } from "../../redux/slices/authSlice";
 import FormInput from "../../components/FormInput";
 import FormTwinInput from "../../components/FormTwinInput";
 import { setShippingInformation } from "../../redux/slices/shippingInfoSlice";
@@ -98,6 +97,9 @@ export default function LoginScreen() {
                             <Text style={tw`text-2xl text-slate-800 dark:text-white font-extrabold`}>Sign In</Text>
                             <Text style={tw`text-slate-800 dark:text-neutral-400 font-semibold my-2`}>Welcome, please sign in to continue shopping.</Text>
                         </View>
+                        {!!emailApiError && (<View style={tw`bg-transparent p-5`}>
+                            <View style={tw`bg-red-100 dark:bg-red-50 p-4 rounded-md`}><Text style={tw`text-red-700 mx-auto`}>{emailApiError}</Text></View>
+                        </View>)}
                         {/* >>>>> Form Of Signup Information <<<<< */}
                         <Formik
                             initialValues={initialLoginData}
@@ -118,7 +120,7 @@ export default function LoginScreen() {
                                                 onChangeText={handleChange("email")}
                                                 onBlur={handleBlur("email")}
                                                 error={touched.email && errors.email}
-                                                emailApiError={emailApiError}
+                                                // emailApiError={emailApiError}
                                             />
                                             <FormInput
                                                 title="Password"

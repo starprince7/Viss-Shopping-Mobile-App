@@ -59,7 +59,7 @@ export default function CartScreen() {
             <TouchableOpacity
               onPress={handleCheckout}
               style={tw`px-0.5 py-1.5 rounded-[8px] bg-[#89A67E] absolute ${Platform.OS==='ios'?`top-7.5`:`top-8.5`} right-3 z-10 flex-row items-center`}>
-              <Text style={tw`ml-2 text-white font-semibold`}>Checkout</Text>
+              <Text style={tw`ml-2 text-white font-semibold`}>Checkout to Pay</Text>
               <HeaderIcon name="arrow-forward" customStyle={tw`text-white ml-0.5 px-1.5`} />
             </TouchableOpacity>
           )
@@ -95,13 +95,6 @@ export default function CartScreen() {
                 (<EmptyShoppingBag />)
             }
           </ScrollView>
-          {/* <FlatList
-            data={cartItems}
-            extraData={cartItems}
-            // onRefresh={() => Alert.alert("refreshing...")}
-            // refreshing={false}
-            renderItem={({ item }) => <CartItem {...item} />}
-          /> */}
 
           {/* ***** Item Total  Start ***** */}
           {
