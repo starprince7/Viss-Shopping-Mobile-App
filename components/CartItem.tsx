@@ -6,7 +6,7 @@ import { View, Text } from "./Themed"
 import { CartItemType, increaseItemQty, decreaseItemQty } from "../redux/slices/cartSlice"
 import HeaderIcon from "./HeaderIcon"
 import { getSingleProduct } from "../utills/getProduct"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Naira from "./FormatToNaira"
 
 export default function CartItem(props: CartItemType) {
@@ -15,12 +15,12 @@ export default function CartItem(props: CartItemType) {
     const dispatch = useDispatch()
     const [product, setProduct] = useState<CartItemType | null>()
 
+    const fetchProduct = useCallback(async () => {
+        const { error, data } = await getSingleProduct(_id)
+        data && setProduct(data)
+    }, [_id])
 
     useEffect(() => {
-        async function fetchProduct() {
-            const { error, data } = await getSingleProduct(_id)
-            data && setProduct(data)
-        }
         fetchProduct()
     }, [])
 
