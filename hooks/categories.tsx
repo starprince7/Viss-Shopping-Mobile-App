@@ -1,6 +1,6 @@
 import { BASE_URL } from "@env";
 import axios from "axios";
-import { useEffect, useState, createContext, useContext } from "react";
+import { useEffect, useState, createContext, useContext, useCallback } from "react";
 
 type CategotyContextProps = {
   categories: Category[];
@@ -32,13 +32,14 @@ export const CategoryContextProvider = ({ children }: CategoryContextProps) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isFetchingCategories, setIsFetchingCategories] = useState(false)
 
+  const getCategories = useCallback(async () => {
+    setIsFetchingCategories(true)
+    const res: Response = await axios.get(`${BASE_URL}/api/categories`);
+    setCategories(res.data);
+    setIsFetchingCategories(false)
+  }, [])
+
   useEffect(() => {
-    async function getCategories() {
-      setIsFetchingCategories(true)
-      const res: Response = await axios.get(`${BASE_URL}/api/categories`);
-      setCategories(res.data);
-      setIsFetchingCategories(false)
-    }
     getCategories();
   }, []);
 
