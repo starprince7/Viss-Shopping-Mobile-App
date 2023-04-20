@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "Viss store",
-    "slug": "viss-store",
+    "name": "Viss Store",
+    "slug": "viss-shopping",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/app-icons/Assets.xcassets/AppIcon.appiconset/512.png",
+    "icon": "./assets/app-icons/appstore.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/viss-splash-screen.gif",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
     "updates": {
