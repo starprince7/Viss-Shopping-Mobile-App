@@ -1,80 +1,110 @@
-import tw from "twrnc"
-import { Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import tw from "twrnc";
+import { Alert, Image, Platform, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { MaterialIcons } from "@expo/vector-icons";
 
-import { RootTabScreenProps } from '../types';
-import { Text, View } from '../components/Themed';
-import HeaderIcon from "../components/HeaderIcon";
-import useColorScheme from "../hooks/useColorScheme";
+import { RootTabScreenProps } from "../types";
+import { Text, View } from "../components/Themed";
 import LinkScreen from "../components/Link";
 import { useSelector } from "react-redux";
-import { loggoutCustomer, selectAuth } from "../redux/slices/authSlice";
+import { loggoutCustomer, selectAuth } from "../store/slices/authSlice";
 import { useDispatch } from "react-redux";
-import { clearCart } from "../redux/slices/cartSlice";
+import { clearCart } from "../store/slices/cartSlice";
+import Naira from "../components/FormatToNaira";
 
-export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>) {
-  const colorScheme = useColorScheme()
-  const { customer } = useSelector(selectAuth)
-  const dispatch = useDispatch()
+export default function ProfileScreen({}: RootTabScreenProps<"Home">) {
+  const { customer } = useSelector(selectAuth);
+  const dispatch = useDispatch();
 
   const handleLoggout = () => {
-    dispatch(loggoutCustomer())
-    dispatch(clearCart())
-  }
+    Alert.alert(
+      "Attention!",
+      "You are about to sign out?",
+      [
+        {
+          text: "YES",
+          onPress: () => {
+            dispatch(loggoutCustomer());
+            dispatch(clearCart());
+          },
+          style: "cancel",
+        },
+        {
+          text: "NO",
+          onPress: () => null,
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
-    <View
-      lightColor="#ffff"
-      darkColor="#404040"
-      style={tw`flex-1`}
-    >
+    <View lightColor="#ffff" darkColor="#404040" style={tw`flex-1`}>
       <Image
         style={tw`h-[30%] w-full bg-[#89A67E] `}
-        source={require('../assets/images/shattered-dark.png')}
+        source={require("../assets/images/shattered-dark.png")}
       />
       <View style={tw`absolute top-0 z-10 bg-purple-300 h-[28%]`}>
-        <View style={tw`bg-transparent flex-row items-center py-7 absolute bottom-0 left-7.5`}>
+        <View
+          style={tw`bg-transparent flex-row items-center py-5 absolute bottom-0 left-7`}
+        >
+          <View
+            style={tw`flex-row items-end bg-transparent absolute -top-16 ${Platform.OS === "ios" ? "-right-12" : ""} -right-16`}
+          >
+            <MaterialIcons
+              size={14}
+              name="account-balance-wallet"
+              style={tw`text-gray-300`}
+            />
+            <Text
+              style={tw`ml-1 text-gray-100 text-sm font-semibold flex-row items-start`}
+            >
+              <Naira style={tw`text-gray-300`}>{customer.wallet || 0}</Naira>
+            </Text>
+          </View>
           <Image
-            style={tw`w-17 h-17 rounded-full`}
-            source={require('../assets/images/girl_profile.jpg')}
+            style={tw`w-15 h-15 rounded-full`}
+            source={require("../assets/images/avatar.png")}
           />
           <View style={tw`bg-transparent ml-4`}>
-            <Text style={tw`font-extrabold text-lg text-white`}>{customer.name.firstname} {customer.name.lastname}</Text>
-            <Text style={tw`text-gray-100 font-semibold`}>{customer.email}</Text>
+            <Text style={tw`font-extrabold text-lg text-white`}>
+              {customer.name.firstname} {customer.name.lastname}
+            </Text>
+            <Text style={tw`text-gray-100 font-semibold mb-2`}>
+              {customer.email}
+            </Text>
           </View>
         </View>
       </View>
       <View
         lightColor="#eee"
         darkColor="#3f3f46"
-        style={tw`flex-1 rounded-t-2xl px-7 h-[65%] -mt-4 justify-center`}>
-        <SafeAreaView style={tw`h-auto mb-25`}>
+        style={tw`flex-1 rounded-t-2xl px-7 h-[65%] bg-transparent -mt-0 justify-center`}
+      >
+        <SafeAreaView style={tw`h-auto mb-60 `}>
           <LinkScreen
-            title="Notifications"
-            to={"SettingsScreen"}
-            iconName="notifications"
-          />
-          <LinkScreen
-            title="Orders"
-            to={"SettingsScreen"}
+            title="Order History"
+            to={"OrderHistory"}
             iconName="store"
           />
-
+          <LinkScreen
+            title="Notifications"
+            // to={"SettingsScreen"}
+            iconName="notifications"
+            onPress={() => Alert.alert("You don't have any notification.")}
+          />
           <LinkScreen
             title="Settings"
             to={"SettingsScreen"}
             iconName="settings"
           />
           <LinkScreen
-            title="Log Out"
+            title="sign Out"
             iconName="logout"
             onPress={handleLoggout}
           />
-
         </SafeAreaView>
       </View>
     </View>
   );
 }
-

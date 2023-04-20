@@ -25,14 +25,14 @@ export default function SettingsScreen() {
                         colorScheme === "light"
                             ? (
                                 <LinkScreen
-                                    title="Dark Mode"
+                                    title="Mode :  Light"
                                     to={"SettingsScreen"}
                                     iconName="brightness-2"
                                 />
                             )
                             : (
                                 <LinkScreen
-                                    title="Light Mode"
+                                    title="Mode :  Dark"
                                     to={"SettingsScreen"}
                                     iconName="brightness-6"
                                 />

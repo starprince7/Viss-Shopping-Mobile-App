@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { View, Text } from "./Themed";
 import { ShippingInfo } from "../types";
 import HeaderIcon from "./HeaderIcon";
-import { selectSelectedShippingInfo, setCurrentShippingInfo, setSelected, setShippingInformationID } from "../redux/slices/shippingInfoSlice";
+import { selectSelectedShippingInfo, setCurrentShippingInfo, setSelected, setShippingInformationID } from "../store/slices/shippingInfoSlice";
 
 type ShippingInfoCardProps = {
     toggleUpdateShippingInfoModal: () => void;

@@ -1,5 +1,5 @@
 import tw from "twrnc"
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigation } from "@react-navigation/native"
 import { SafeAreaView, ScrollView, TouchableOpacity, Button, Platform } from 'react-native';
@@ -10,11 +10,12 @@ import { Modal, Text, View } from '../components/Themed';
 import AddShippingInfo from '../components/AddShippingInfo';
 import ShippingInfoCard from '../components/ShippingInfoCard';
 import UpdateShippingInfo from '../components/UpdateShippingInfo';
-import { selectAuth } from '../redux/slices/authSlice';
-import { selectSelectedShippingInfo, selectShippingInfo } from '../redux/slices/shippingInfoSlice';
+import { selectAuth } from '../store/slices/authSlice';
+import { selectSelectedShippingInfo, selectShippingInfo, setSelected } from '../store/slices/shippingInfoSlice';
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function ShippingInfo() {
+    const dispatch = useDispatch()
     const navigation = useNavigation()
     const deliveryInformation = useSelector(selectShippingInfo)
     const [isAddShippingInfoModalOpen, setAddShippingInfoModalOpen] = useState(false)
@@ -28,6 +29,9 @@ export default function ShippingInfo() {
     useEffect(() => {
         if (shippingInfo.length === 0) {
             setAddShippingInfoModalOpen(true)
+        }
+        if(shippingInfo.length === 1) {
+            dispatch(setSelected(shippingInfo[0]))
         }
     }, [shippingInfo])
 
@@ -122,7 +126,7 @@ export default function ShippingInfo() {
                                         <MaterialIcons name="local-shipping" size={160} style={tw`text-neutral-400 mx-auto mt-10 mb-5`} />
                                         <Text
                                             style={tw`text-center text-neutral-400 font-semibold`}
-                                        >You don't have a delivery information, please add shipping information to continue shopping.</Text>
+                                        >You do not have a delivery information, please add your shipping information to continue shopping.</Text>
                                     </View>
                                 )
                         }
@@ -133,7 +137,7 @@ export default function ShippingInfo() {
                     deliveryInformation.length !== 0 && selectedShippingInfo._id !== null ? (
                         <TouchableOpacity
                             disabled={deliveryInformation.length === 0}
-                            onPress={() => navigation.navigate("OrderDetails")}
+                            onPress={() => navigation.navigate("OrderSummary")}
                             style={tw`rounded-[10px] bg-[#89A67E] shadow-sm mx-auto mb-2 px-3.5 py-3 flex-row items-center justify-between`}>
                             <Text style={tw`font-bold text-white`}>Continue</Text>
                             <HeaderIcon name='navigate-next' customStyle={tw`text-white mx-auto ml-1.5`} />

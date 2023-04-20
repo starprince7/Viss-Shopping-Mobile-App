@@ -16,7 +16,7 @@ import { MaterialIcons } from "@expo/vector-icons"
 import { View, Text } from "../components/Themed"
 import debounce from "../utills/debounce"
 import { BASE_URL } from "@env"
-import { Product } from "../redux/slices/productSlice"
+import { Product } from "../store/slices/productSlice"
 import { useNavigation } from "@react-navigation/native"
 import HeaderIcon from "../components/HeaderIcon"
 import { ALERT_TYPE, Toast } from "react-native-alert-notification"
@@ -35,7 +35,7 @@ export default function SearchScreen() {
             try {
                 const { data } = await axios.post(`${BASE_URL}/api/search`, { query: text })
                 setResults(data)
-            } catch (e) {
+            } catch (e: any) {
                 Toast.show({
                     type: ALERT_TYPE.DANGER,
                     textBody: getErrorMsg(e).message

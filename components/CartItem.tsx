@@ -1,15 +1,16 @@
-import { Alert, Image, TouchableOpacity } from "react-native"
+import { Alert, Image, TouchableOpacity, useColorScheme } from "react-native"
 import tw from "twrnc"
 import { useDispatch, useSelector } from "react-redux"
 
 import { View, Text } from "./Themed"
-import { CartItemType, increaseItemQty, decreaseItemQty } from "../redux/slices/cartSlice"
+import { CartItemType, increaseItemQty, decreaseItemQty } from "../store/slices/cartSlice"
 import HeaderIcon from "./HeaderIcon"
 import { getSingleProduct } from "../utills/getProduct"
 import { useCallback, useEffect, useState } from "react"
 import Naira from "./FormatToNaira"
 
 export default function CartItem(props: CartItemType) {
+    const colorScheme = useColorScheme()
     const { _id, quantity } = props;
     
     const dispatch = useDispatch()
@@ -63,7 +64,7 @@ export default function CartItem(props: CartItemType) {
                         style={tw`rounded-full bg-transparent border border-gray-200 dark:border-gray-600 px-2 py-1.5`}
                     >
                         <Text style={tw`font-bold text-xl`}>
-                            <HeaderIcon customStyle={tw`text-black dark:text-white`} name="add" />
+                            <HeaderIcon color={colorScheme === "dark" ? "white" : "black"} customStyle={tw`text-black dark:text-white`} name="add" />
                         </Text>
                     </TouchableOpacity>
                 </View>

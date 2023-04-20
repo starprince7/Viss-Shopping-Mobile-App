@@ -6,7 +6,7 @@ import { CategoryContext, useCategory } from "../../hooks/categories"
 type Props = { name: string }
 
 export const Category = ({ name }: Props) => {
-    const { category, isFetchingCategories } = useCategory()
+    const { category } = useCategory()
 
     return (
         <View

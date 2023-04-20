@@ -6,9 +6,8 @@ import { Category } from "./Catergory"
 import { useCategory } from "../../hooks/categories"
 import { CategorySkeleton } from "../SkeletonLoader/Category"
 
-
 export const Categories = () => {
-    const { categories = new Array(5), setCategory } = useCategory()
+    const { categories, setCategory } = useCategory()
     const skeletonCategories = Array(5).fill('')
 
     return (

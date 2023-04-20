@@ -1,5 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { CartItemType, CartState } from "../redux/slices/cartSlice";
+import { CartItemType, CartState } from "../store/slices/cartSlice";
 
 export function addItemToCart(
   state: CartState,

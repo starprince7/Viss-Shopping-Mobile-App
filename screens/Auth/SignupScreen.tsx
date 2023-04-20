@@ -10,8 +10,8 @@ import HeaderIcon from "../../components/HeaderIcon";
 import signupCustomer from "../../utills/signupHelper";
 import { View, Text } from "../../components/Themed";
 import { SignupData } from "../../types";
-import { selectCartItems } from "../../redux/slices/cartSlice";
-import { setSignedUpCustomer, selectAuth, setApiError } from "../../redux/slices/authSlice";
+import { selectCartItems } from "../../store/slices/cartSlice";
+import { setSignedUpCustomer, selectAuth, setApiError } from "../../store/slices/authSlice";
 import FormInput from "../../components/FormInput";
 import FormTwinInput from "../../components/FormTwinInput";
 import { useNavigation } from "@react-navigation/native";
@@ -26,10 +26,10 @@ export default function SignupScreen() {
 
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        console.log("Customer's Id: ", authState.customerId)
-        console.log("Error in Auth State", authState.error + "\n")
-    }, [authState])
+    // useEffect(() => {
+    //     console.log("Customer's Id: ", authState.customerId)
+    //     console.log("Error in Auth State", authState.error + "\n")
+    // }, [authState])
 
     const initialSignupFormData = {
         name: { firstname: '', lastname: '' },
@@ -183,7 +183,7 @@ export default function SignupScreen() {
                                                     Already have an account?
                                                     <Text
                                                         onPress={() => navigation.navigate("LoginScreen")}
-                                                        style={tw`text-[#89A67E] font-semibold ml-2`}> Log In</Text>.
+                                                        style={tw`text-[#89A67E] font-semibold ml-2`}> Sign In</Text>.
                                                 </Text>
                                             </View>
                                         </View>

@@ -3,15 +3,18 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Product } from './redux/slices/productSlice';
-import Store from './redux/store';
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import {
+  CompositeScreenProps,
+  NavigatorScreenParams,
+} from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Product } from "./store/slices/productSlice";
+import Store from "./store/store";
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList { }
+    interface RootParamList extends RootStackParamList {}
   }
 }
 
@@ -21,8 +24,9 @@ export type RootStackParamList = {
   LoginScreen: undefined;
   ProductDetail: Product;
   ShippingInfo: undefined;
-  OrderDetails: undefined;
-  OrderSuccessScreen: undefined;
+  OrderSummary: undefined;
+  OrderSuccessScreen: { successMessage: string };
+  OrderHistory: undefined;
   SettingsScreen: undefined;
   ChangePasswordScreen: undefined;
   SearchScreen: undefined;
@@ -31,10 +35,8 @@ export type RootStackParamList = {
   NotFound: undefined;
 };
 
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
-  RootStackParamList,
-  Screen
->;
+export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
+  NativeStackScreenProps<RootStackParamList, Screen>;
 
 export type RootTabParamList = {
   Home: undefined;
@@ -46,17 +48,17 @@ export type MainRootTabParamList = {
   Home: undefined;
   Cart: undefined;
   Profile: undefined;
-}
+};
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
-  NativeStackScreenProps<RootStackParamList>
->;
+export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
+  CompositeScreenProps<
+    BottomTabScreenProps<RootTabParamList, Screen>,
+    NativeStackScreenProps<RootStackParamList>
+  >;
 
 // Store Type
-const _Store = Store.getState()
-export type ReduxStore = typeof _Store
-
+const _Store = Store.getState();
+export type ReduxStore = typeof _Store;
 
 export type ShippingInfo = {
   _id?: string | number;
@@ -68,8 +70,35 @@ export type ShippingInfo = {
   city: string;
 };
 
+export interface Order {
+  _id: string;
+  orderNo: string;
+  orderDate: string;
+  orderDetails: Product[];
+  orderTotal: number;
+  sumTotal: number;
+  amount: number;
+  processingFee: number;
+  shippingFee: number;
+  customer: Customer;
+  orderStatus: OrderStatus;
+  paymentStatus: String;
+  transactionRef: string;
+  transactionReference?: string;
+  isOrderFulfilled: boolean;
+  orderIsFulfilledAt: string;
+}
+
+export type OrderStatus =
+  | "PENDING"
+  | "DELIVERED"
+  | "CANCELED"
+  | "REFUNDED"
+  | "RETURNED";
+
 export type Customer = {
   _id: string | number | null;
+  wallet: number;
   name: { firstname: string | null; lastname: string | null };
   email: string | null;
   cart: {}[];
@@ -78,6 +107,7 @@ export type Customer = {
   date_registered: string | null;
   verification_code: string | number | null;
   shippingInfo: ShippingInfo[];
+  orderHistory: Order[];
 };
 
 export type SignupData = {
@@ -90,6 +120,7 @@ export type SignupData = {
   date_registered?: string | null;
   verification_code?: string | number | null;
   shippingInfo?: ShippingInfo[];
+  orderHistory?: Order[];
 };
 
 export type LoginData = {
@@ -105,7 +136,7 @@ export type SignupApiError = {
   };
   email: string;
   password: string;
-}
+};
 
 export type SignupFulfilled = {
   msg: string;
@@ -119,5 +150,3 @@ export type LoginFulfilled = {
 };
 
 export type LoginApiError = string;
-
-

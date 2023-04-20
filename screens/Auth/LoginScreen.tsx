@@ -12,11 +12,11 @@ import signupCustomer from "../../utills/signupHelper";
 import loginCustomer from "../../utills/loginHelper"
 import { View, Text } from "../../components/Themed";
 import { LoginData } from "../../types";
-import { CartItemType, selectCartItems, setCartItems } from "../../redux/slices/cartSlice";
-import { selectAuth, setApiError, setLogInApiError, setLoggedInCustomer } from "../../redux/slices/authSlice";
+import { CartItemType, selectCartItems, setCartItems } from "../../store/slices/cartSlice";
+import { selectAuth, setApiError, setLogInApiError, setLoggedInCustomer } from "../../store/slices/authSlice";
 import FormInput from "../../components/FormInput";
 import FormTwinInput from "../../components/FormTwinInput";
-import { setShippingInformation } from "../../redux/slices/shippingInfoSlice";
+import { setShippingInformation } from "../../store/slices/shippingInfoSlice";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 export default function LoginScreen() {
@@ -28,10 +28,10 @@ export default function LoginScreen() {
 
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        console.log("Customer's Id: ", authState.customerId)
-        console.log("Error in Auth State", authState.error + "\n")
-    }, [authState])
+    // useEffect(() => {
+    //     console.log("Customer's Id: ", authState.customerId)
+    //     console.log("Error in Auth State", authState.error + "\n")
+    // }, [authState])
 
     const initialLoginData = {
         email: "",

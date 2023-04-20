@@ -19,9 +19,9 @@ const LinkScreen = ({ title, to, iconName, onPress }: LinkScreenProps) => {
     return (
         <TouchableOpacity onPress={to ? () => navigation.navigate(to) : onPress}>
             <View
-                style={tw`bg-transparent flex-row items-center my-3.7`}>
+                style={tw`bg-transparent flex-row items-center mb-8 mt-6 mb-3`}>
                 <MaterialIcons name={iconName} size={25} style={tw`mr-4 text-zinc-700 dark:text-neutral-200`} />
-                <Text style={tw`text-[15px] text-zinc-600 dark:text-neutral-50`}>{title}</Text>
+                <Text style={tw`text-[15px] capitalize text-zinc-600 dark:text-neutral-50`}>{title}</Text>
             </View>
         </TouchableOpacity>
     )

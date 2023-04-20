@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native"
 import { View, Text } from "./Themed"
 import Naira from "./FormatToNaira"
 import useProducts from "../hooks/useProducts"
-import { Product } from "../redux/slices/productSlice"
+import { Product } from "../store/slices/productSlice"
 import { ProductComponentSkeleton } from "./SkeletonLoader/Product"
 
 

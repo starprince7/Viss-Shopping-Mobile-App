@@ -24,12 +24,12 @@ const FormTwinInput = ({ value, onBlur, onChangeText, keyboardType, error, email
                 secureTextEntry={secureTextEntry}
                 value={value}
                 onBlur={onBlur}
-                placeholder={placeholder}
+                // placeholder={placeholder}
                 keyboardType={keyboardType}
                 onChangeText={onChangeText}
-                style={tw`dark:text-white w-full border rounded-[10px] px-1.5 pb-4 pt-1 text-lg mt-2 border-gray-300 dark:border-gray-700`}
+                style={tw`dark:text-white w-full border rounded-[10px] p-2.5 mt-2 border-gray-300 dark:border-gray-700`}
             />
-            <Text style={tw`mt-2 text-red-500 text-xs`}>{ !emailApiError ? error : emailApiError }</Text>
+            <Text style={tw`mt-2 ml-1 text-red-500 text-xs`}>{ !emailApiError ? error : emailApiError }</Text>
         </View>
     )
 }

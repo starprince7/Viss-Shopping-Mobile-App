@@ -18,17 +18,17 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 lightColor="#eee"
                 darkColor="#1B1F22"
             >
-                <View style={tw`flex flex-row justify-between items-center bg-transparent px-5 ${Platform.OS === 'ios' ? `pt-6` : `pt-9`} pb-2`}>
+                <View style={tw`flex flex-row justify-between items-center bg-transparent px-5 ${Platform.OS === 'ios' ? `pt-2` : `pt-8`} pb-2`}>
                     <View
                         style={tw`bg-transparent flex-row items-center rounded-lg shadow-lg -ml-5 mr-0.5`}
                     >
-                        <MaterialIcons size={18} name='ac-unit' style={tw`mr-0.5 ml-4.5 dark:text-gray-200`} />
+                        <MaterialIcons size={15} name='ac-unit' style={tw`mr-0.5 ml-4.5 text-[#A9AFA7] dark:text-gray-200`} />
                         <Text
                             lightColor="black"
                             darkColor="white"
-                            style={tw`font-extrabold`}
+                            style={tw`font-extrabold uppercase text-[#A9AFA7] text-[13px]`}
                         >
-                            VissStore
+                            Viss Store
                         </Text>
                     </View>
                     <View style={tw`flex flex-row bg-transparent pt-1`}>

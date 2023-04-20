@@ -1,5 +1,6 @@
 import { BASE_URL } from "@env";
 import { ShippingInfo } from "../types";
+import { getFromSecureStore } from "./secureStoreHelper";
 
 type PostShippingInfoResponse = {
   error: string | null;
@@ -18,20 +19,20 @@ type PostShippingInfo = {
 } & ShippingInfo
 
 async function postShippingInfo(data: PostShippingInfo): Promise<PostShippingInfoResponse> {
+  const authToken = await getFromSecureStore("auth_token") as string
   try {
     const res = await fetch(`${BASE_URL}/api/customer/shipping-info/add`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-type": "application/json",
+        "Authorization": authToken
       },
     });
     const res_data = await res.json();
     console.log("API response : ", res_data);
     
-    // If err return error response
     if (res_data.error) return { error: res_data.error, msg: null };
-    // If no error return success response
     return { error: null, msg: res_data };
   } catch (e) {
     console.log("Error! error signing up: ", e);

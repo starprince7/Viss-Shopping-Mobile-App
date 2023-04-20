@@ -28,6 +28,7 @@ const initialState: AuthState = {
   customerId: null,
   customer: {
     _id: null,
+    wallet: 0,
     name: {
       firstname: null,
       lastname: null,
@@ -39,6 +40,7 @@ const initialState: AuthState = {
     date_registered: null,
     verification_code: null,
     shippingInfo: [],
+    orderHistory: [],
   },
 };
 
@@ -51,10 +53,9 @@ const authSlice = createSlice({
       state.customerId = action.payload._id;
 
       // Save auth token securely as `auth_token` for use later
-      const stss = async () => {
+      (async () => {
         await saveToSecureStore("auth_token", action.payload.auth_token);
-      };
-      stss();
+      })()
     },
     setApiError: (state, action: PayloadAction<SignupApiError>) => {
       state.error = action.payload;
@@ -63,10 +64,9 @@ const authSlice = createSlice({
       state.customer = action.payload.customer;
       state.customerId = action.payload.customer._id;
       // Save auth securely
-      const stss = async () => {
+      (async () => {
         await saveToSecureStore("auth_token", action.payload.auth_token);
-      };
-      stss();
+      })()
     },
     setLogInApiError: (state, action: PayloadAction<LoginApiError>) => {
       state.error = action.payload;
@@ -74,6 +74,7 @@ const authSlice = createSlice({
     loggoutCustomer: (state, action: PayloadAction) => {
       let unAuthenticatedCustomer = {
         _id: null,
+        wallet: 0,
         name: {
           firstname: null,
           lastname: null,
@@ -85,6 +86,7 @@ const authSlice = createSlice({
         date_registered: null,
         verification_code: null,
         shippingInfo: [],
+        orderHistory: [],
       };
 
       state.customerId = null;
@@ -96,7 +98,7 @@ const authSlice = createSlice({
       Toast.show({
         type: ALERT_TYPE.WARNING,
         // title: 'Continue shopping',
-        textBody: 'You\'re logged out!'
+        textBody: 'You signed out!'
     })
     },
   },

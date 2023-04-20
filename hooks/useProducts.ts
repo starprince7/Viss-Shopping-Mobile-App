@@ -1,7 +1,7 @@
 import { BASE_URL } from "@env";
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from 'react-redux'
-import { Product, setProductsAction } from "../redux/slices/productSlice";
+import { Product, setProductsAction } from "../store/slices/productSlice";
 import { useCategory } from "./categories";
 
 const useProducts = () => {
@@ -30,7 +30,7 @@ const useProducts = () => {
     fetchProducts(signal);
 
     return () => controller.abort()
-  }, []);
+  }, [category]);
 
   return { isFetchingProduct, products, fetchProducts }
 

@@ -1,5 +1,5 @@
 import { BASE_URL } from "@env";
-import { CartItemType } from "../redux/slices/cartSlice";
+import { CartItemType } from "../store/slices/cartSlice";
 
 type AsyncResponse = {
     error: Promise<any> | null;
@@ -7,6 +7,7 @@ type AsyncResponse = {
 }
 
 export async function getSingleProduct(id: string): Promise<AsyncResponse> {
+
   let returned_response = {
     error: null,
     data: null,

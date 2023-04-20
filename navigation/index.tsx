@@ -24,17 +24,18 @@ import LinkingConfiguration from './LinkingConfiguration';
 import ProfileScreen from '../screens/ProfileScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import ShippingInfo from '../screens/ShippingInfoScreen';
-import OrderDetails from '../screens/OrderDetails';
+import OrderSummary from '../screens/OrderSummary';
 import OrderSuccessScreen from '../screens/OrderSuccessScreen';
 import { useSelector } from 'react-redux';
-import { selectCartItems } from '../redux/slices/cartSlice';
+import { selectCartItems } from '../store/slices/cartSlice';
 import SignupScreen from '../screens/Auth/SignupScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import SettingsScreen from '../screens/Settings';
 import ChangePasswordScreen from '../screens/Settings/ChangePasswordScreen';
-import { selectAuth } from '../redux/slices/authSlice';
+import { selectAuth } from '../store/slices/authSlice';
 import SearchScreen from '../screens/SearchScreen';
 import OrderHistory from '../screens/OrderHistory';
+import { getItemsQuantity } from '../utills/sumCart';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -82,11 +83,11 @@ function RootNavigator() {
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
         <Stack.Screen name="ShippingInfo" component={ShippingInfo} />
-        <Stack.Screen name="OrderDetails" component={OrderDetails} />
-        <Stack.Screen name="OrderHistory" component={OrderHistory} />
+        <Stack.Screen name="OrderSummary" component={OrderSummary} />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
       </Stack.Group>
       <Stack.Group screenOptions={{ headerTintColor: `${colorScheme === "light" ? '#5A6E54' : 'white'}` }}>
+        <Stack.Screen name="OrderHistory" component={OrderHistory} options={{ title: "Order History" }}  />
         <Stack.Screen name='SettingsScreen' component={SettingsScreen} options={{ title: "Settings" }} />
         <Stack.Screen name='ChangePasswordScreen' component={ChangePasswordScreen} options={{ title: "" }} />
       </Stack.Group>
@@ -111,6 +112,7 @@ function BottomTabNavigator() {
 
   // Get Cart length
   const cart = useSelector(selectCartItems)
+  const itemsInCart = getItemsQuantity(cart)
 
   function isCartEmptyAndIsFocused(navigation: any) {
     /* *** 
@@ -161,7 +163,7 @@ function BottomTabNavigator() {
         options={({ navigation }) => ({
           headerShown: false,
           title: navigation.isFocused() ? "Bag" : "",
-          tabBarBadge: isCartEmptyAndIsFocused(navigation) ? null : `${cart.length}`,
+          tabBarBadge: isCartEmptyAndIsFocused(navigation) ? null : `${itemsInCart}`,
           tabBarActiveBackgroundColor: '#89A67E',
           tabBarItemStyle: { borderRadius: 10 },
           tabBarIcon: ({ color }) => <TabBarIcon name="shopping-bag" color={color} />,
