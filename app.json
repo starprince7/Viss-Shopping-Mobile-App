@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "viss-shopping",
-    "slug": "viss-shopping",
+    "name": "Viss store",
+    "slug": "viss-store",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/app-icons/Assets.xcassets/AppIcon.appiconset/512.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/viss-splash-screen.gif",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,9 +23,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/app-icons/playstore.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "com.vissstore"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
