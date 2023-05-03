@@ -3,67 +3,53 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { MaterialIcons } from '@expo/vector-icons';
-import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { ColorSchemeName, KeyboardAvoidingView, Platform } from 'react-native';
-import tw from "twrnc"
+import {
+  BottomTabNavigationOptions,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from "@react-navigation/native";
+import { ColorSchemeName, KeyboardAvoidingView, Platform } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as React from "react";
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import CartScreen from '../screens/CartScreen';
-import HomeScreen from '../screens/HomeScreen';
+import { RootStackParamList } from "../types";
+import { BottomTabNavigator } from "./BottomNavigator";
+import LinkingConfiguration from "./LinkingConfiguration";
+import useColorScheme from "../hooks/useColorScheme";
 
-import { RootStackParamList, MainRootTabParamList, RootTabScreenProps } from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
-import ProfileScreen from '../screens/ProfileScreen';
-import ProductDetailScreen from '../screens/ProductDetailScreen';
-import ShippingInfo from '../screens/ShippingInfoScreen';
-import OrderSummary from '../screens/OrderSummary';
-import OrderSuccessScreen from '../screens/OrderSuccessScreen';
-import { useSelector } from 'react-redux';
-import { selectCartItems } from '../store/slices/cartSlice';
-import SignupScreen from '../screens/Auth/SignupScreen';
-import LoginScreen from '../screens/Auth/LoginScreen';
-import SettingsScreen from '../screens/Settings';
-import ChangePasswordScreen from '../screens/Settings/ChangePasswordScreen';
-import { selectAuth } from '../store/slices/authSlice';
-import SearchScreen from '../screens/SearchScreen';
-import OrderHistory from '../screens/OrderHistory';
-import { getItemsQuantity } from '../utills/sumCart';
+import ModalScreen from "../screens/ModalScreen";
+import NotFoundScreen from "../screens/NotFoundScreen";
+import ProductDetailScreen from "../screens/ProductDetailScreen";
+import ShippingInfo from "../screens/ShippingInfoScreen";
+import OrderSummary from "../screens/OrderSummary";
+import OrderSuccessScreen from "../screens/OrderSuccessScreen";
+import SignupScreen from "../screens/Auth/SignupScreen";
+import LoginScreen from "../screens/Auth/LoginScreen";
+import SettingsScreen from "../screens/Settings";
+import ChangePasswordScreen from "../screens/Settings/ChangePasswordScreen";
+import SearchScreen from "../screens/SearchScreen";
+import OrderHistory from "../screens/OrderHistory";
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation({
+  colorScheme,
+}: {
+  colorScheme: ColorSchemeName;
+}) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
       <RootNavigator />
     </NavigationContainer>
   );
 }
 
-
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-/**
- * Non-Authenticated Navigation
- * stack.
- * If user is not authenticated show this stack.
- */
-
-function PublicNavigator() {
-  return (
-    <Stack.Navigator>
-
-    </Stack.Navigator>
-  )
-}
 
 /**
  * Authenticated Navigation
@@ -86,113 +72,40 @@ function RootNavigator() {
         <Stack.Screen name="OrderSummary" component={OrderSummary} />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
       </Stack.Group>
-      <Stack.Group screenOptions={{ headerTintColor: `${colorScheme === "light" ? '#5A6E54' : 'white'}` }}>
-        <Stack.Screen name="OrderHistory" component={OrderHistory} options={{ title: "Order History" }}  />
-        <Stack.Screen name='SettingsScreen' component={SettingsScreen} options={{ title: "Settings" }} />
-        <Stack.Screen name='ChangePasswordScreen' component={ChangePasswordScreen} options={{ title: "" }} />
+      <Stack.Group
+        screenOptions={{
+          headerTintColor: `${colorScheme === "light" ? "#5A6E54" : "white"}`,
+        }}
+      >
+        <Stack.Screen
+          name="OrderHistory"
+          component={OrderHistory}
+          options={{ title: "Order History" }}
+        />
+        <Stack.Screen
+          name="SettingsScreen"
+          component={SettingsScreen}
+          options={{ title: "Settings" }}
+        />
+        <Stack.Screen
+          name="ChangePasswordScreen"
+          component={ChangePasswordScreen}
+          options={{ title: "" }}
+        />
       </Stack.Group>
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ title: "Oops!" }}
+      />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen
+          name="OrderSuccessScreen"
+          component={OrderSuccessScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
-}
-
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-const BottomTab = createBottomTabNavigator<MainRootTabParamList>();
-
-function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-  const { customerId } = useSelector(selectAuth)
-
-  // Get Cart length
-  const cart = useSelector(selectCartItems)
-  const itemsInCart = getItemsQuantity(cart)
-
-  function isCartEmptyAndIsFocused(navigation: any) {
-    /* *** 
-    * Watch cart if empty, And check if cart is focused
-    * One truthy expression is need alone.
-    * `The expression below needs to resolve to true 
-    * before the notification badge can become hidden`.
-    * 
-    * if the Expression is true I won't display a notification badge
-    */
-    return cart.length === 0 || navigation.isFocused()
-  }
-
-  return (
-    <BottomTab.Navigator
-      initialRouteName="Home"  /* "TabOne" */
-      screenOptions={{
-        tabBarItemStyle: [tw`h-96`],
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-        tabBarShowLabel: true,
-        tabBarLabelPosition: 'beside-icon',
-        tabBarStyle: [{
-          position: 'absolute',
-          bottom: Platform.OS === 'ios' ? 25 : 10,
-          left: 19,
-          right: 19,
-          elevation: 0,
-          borderRadius: 20
-        }, tw`shadow-lg ${Platform.OS === 'ios' ? `py-4` : `py-2 h-16`} px-3 bg-gray-800 dark:bg-gray-700`]
-      }}
-    >
-
-      <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={({ navigation }: RootTabScreenProps<'Home'>) => ({
-          headerShown: false,
-          tabBarActiveBackgroundColor: '#89A67E',
-          tabBarItemStyle: { borderRadius: 10 },
-          title: navigation.isFocused() ? "Home" : "",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-        })}
-      />
-
-      <BottomTab.Screen
-        name="Cart" /* "TabTwo" */
-        component={CartScreen}
-        options={({ navigation }) => ({
-          headerShown: false,
-          title: navigation.isFocused() ? "Bag" : "",
-          tabBarBadge: isCartEmptyAndIsFocused(navigation) ? null : `${itemsInCart}`,
-          tabBarActiveBackgroundColor: '#89A67E',
-          tabBarItemStyle: { borderRadius: 10 },
-          tabBarIcon: ({ color }) => <TabBarIcon name="shopping-bag" color={color} />,
-        }
-        ) as BottomTabNavigationOptions}
-      />
-
-      <BottomTab.Screen
-        name="Profile" /* "TabTwo" */
-        component={customerId !== null ? ProfileScreen : LoginScreen}
-        options={({ navigation }) => ({
-          headerShown: false,
-          title: navigation.isFocused() ? "Profile" : "",
-          tabBarActiveBackgroundColor: '#89A67E',
-          tabBarItemStyle: [tw`rounded-xl`],
-          tabBarIcon: ({ color }) => <TabBarIcon name="account-circle" color={color} />,
-        }
-        )}
-      />
-    </BottomTab.Navigator>
-  );
-}
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof MaterialIcons>['name'];
-  color: string;
-}) {
-  return <MaterialIcons size={28} style={{ marginBottom: 0 }} {...props} />;
 }

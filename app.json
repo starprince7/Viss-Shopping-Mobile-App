@@ -4,13 +4,13 @@
     "slug": "viss-shopping",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/app-icons/appstore.png",
+    "icon": "./assets/app-icons/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/viss-splash-screen.gif",
-      "resizeMode": "cover",
-      "backgroundColor": "#000000"
+      "image": "./assets/app-icons/splash1.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1f2937"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/app-icons/playstore.png",
+        "foregroundImage": "./assets/app-icons/icon.png",
         "backgroundColor": "#000000"
       },
       "package": "com.vissstore"

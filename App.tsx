@@ -1,19 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { KeyboardAvoidingView, Platform } from "react-native"
-import tw, { useDeviceContext } from 'twrnc';
-import { Provider } from "react-redux"
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StatusBar } from "expo-status-bar";
+import tw, { useDeviceContext } from "twrnc";
+import { Provider } from "react-redux";
 
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
-import Store from "./store/store"
-import { AlertNotificationRoot } from 'react-native-alert-notification';
-import { CategoryContextProvider } from './hooks/categories';
+import useCachedResources, {
+  SplashScreenSecond,
+} from "./hooks/useCachedResources";
+import useColorScheme from "./hooks/useColorScheme";
+import Navigation from "./navigation";
+import Store from "./store/store";
+import { AlertNotificationRoot } from "react-native-alert-notification";
+import { CategoryContextProvider } from "./hooks/categories";
 
 export default function App() {
   // From twrnc
-  useDeviceContext(tw)
+  useDeviceContext(tw);
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
