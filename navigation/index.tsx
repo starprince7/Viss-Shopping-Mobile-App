@@ -4,10 +4,6 @@
  *
  */
 import {
-  BottomTabNavigationOptions,
-  createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
-import {
   NavigationContainer,
   DefaultTheme,
   DarkTheme,

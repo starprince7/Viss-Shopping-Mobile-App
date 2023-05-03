@@ -1,12 +1,9 @@
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar } from "expo-status-bar";
 import tw, { useDeviceContext } from "twrnc";
 import { Provider } from "react-redux";
 
-import useCachedResources, {
-  SplashScreenSecond,
-} from "./hooks/useCachedResources";
+import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import Store from "./store/store";

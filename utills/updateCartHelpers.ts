@@ -14,13 +14,11 @@ export function addItemToCart(
     return [...state, { ...product, quantity: 1 }];
   } else {
     // Here the item is found in cart
-    console.log("Item exist in cart Old cart state: ", state[0].quantity);
     const new_array = state.map((item) => {
       if (item._id == id) {
         return { ...item, quantity: item.quantity + 1 };
       } else return item;
     });
-    console.log("The new Array b4 returning it!", new_array[0].quantity);
     return new_array;
   }
 }

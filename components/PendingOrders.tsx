@@ -1,27 +1,14 @@
 import tw from "twrnc";
 import React from "react";
-import {
-    Alert,
-  Dimensions,
-  FlatList,
-  Image,
-  ListRenderItemInfo,
-  NativeScrollEvent,
-  ScrollView,
-} from "react-native";
+import { Dimensions, FlatList, Image } from "react-native";
 
 import { Text, View } from "./Themed";
 import { Order } from "../types";
-import { BASE_URL } from "@env";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../store/slices/authSlice";
-import { getFromSecureStore } from "../utills/secureStoreHelper";
 import { useOrderHistory } from "../hooks/useOrderHistory";
 import useColorScheme from "../hooks/useColorScheme";
 import { OrderHistoryItemSkeleton } from "./SkeletonLoader/OrderHistoryItemSkeleton";
-
-const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 export const PendingOrders = () => {
   const colorScheme = useColorScheme();
@@ -44,9 +31,12 @@ export const PendingOrders = () => {
     return <OrderHistoryItemSkeleton items={4} />;
   }
 
-  const renderFlatListOrderCard = (
-    { orderDetails, orderDate, orderStatus, orderNo }: Order
-  ) => (
+  const renderFlatListOrderCard = ({
+    orderDetails,
+    orderDate,
+    orderStatus,
+    orderNo,
+  }: Order) => (
     <View
       key={orderNo}
       lightColor="#ffff"
@@ -95,7 +85,7 @@ export const PendingOrders = () => {
       {orders.length ? (
         <FlatList
           data={orders}
-          renderItem={({item}) => renderFlatListOrderCard(item) as any}
+          renderItem={({ item }) => renderFlatListOrderCard(item) as any}
           keyExtractor={(item) => item._id}
           onEndReachedThreshold={-1}
           onEndReached={hasMore ? fetchMore : null}
