@@ -1,6 +1,6 @@
 import tw from "twrnc";
 import axios from "axios";
-import React from "react";
+import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -11,10 +11,14 @@ import {
   Image,
   Platform,
 } from "react-native";
-import { PayWithFlutterwave } from "flutterwave-react-native";
+import { Paystack, paystackProps } from "react-native-paystack-webview";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
-import { BASE_URL, FLUTTERWAVE_TEST_PUBLIC_KEY } from "@env";
+import {
+  BASE_URL,
+  FLUTTERWAVE_TEST_PUBLIC_KEY,
+  PAYSTACK_PUBLIC_KEY,
+} from "@env";
 import { Text, View } from "../components/Themed";
 import HeaderIcon from "../components/HeaderIcon";
 import Naira from "../components/FormatToNaira";
@@ -28,22 +32,51 @@ import generateTransactionReference from "../utills/generateReference";
 import getProcessingFee from "../utills/getProcessingFee";
 import AsyncButton from "../components/AsyncButton";
 
+// Flutterwave Payment Success Prop
 interface PaymentVerificationProps {
   status: "successful" | "cancelled";
   transaction_id?: string;
   tx_ref: string;
 }
 
+// Paystck Paym,ent Success Prop.
+interface PaystackSuccessResponse {
+  status: "sucsess" | "failed";
+  transactionRef: TransactionRefPaystack;
+  data: {
+    event: string;
+    transactionRef: TransactionRefPaystack;
+  };
+}
+
+type TransactionRefPaystack = {
+  message: string;
+  redirecturl: string;
+  reference: string;
+  status: "success" | "failed";
+  trans: string;
+  transaction: string;
+  trxref: string;
+};
+
+type SuccessResponse = {
+  flutterwaveData: PaymentVerificationProps;
+  paystackData: PaystackSuccessResponse;
+  flutterwave?: string;
+  paystack?: string;
+};
+
 export default function OrderDetails() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const cart = useSelector(selectCartItems); // get cart
-  const itemsInCart = getItemsQuantity(cart)
+  const itemsInCart = getItemsQuantity(cart);
   const totalPriceInCart = sumCart(cart); // cart sumTotal
   const { homeAddress, city, country, zipcode, phoneNumber, state } =
     useSelector(selectSelectedShippingInfo); // get shipping information
   const { customer } = useSelector(selectAuth); // get customer in auth state.
   const [processingFee, setProcessingFee] = React.useState(0);
+  const paystackWebViewRef = useRef<paystackProps.PayStackRef>();
 
   React.useEffect(() => {
     if (processingFee !== 0) return;
@@ -76,34 +109,49 @@ export default function OrderDetails() {
     ],
   };
 
-  const createNewOrder = async (data: PaymentVerificationProps) => {
-    console.log({ PaymentVerificationProps: data });
+  /**
+   * Paystack payment integration.
+   */
 
-    const { status, tx_ref, transaction_id } = data;
+  const createNewOrder = async ({
+    flutterwaveData,
+    paystackData,
+    paystack,
+    flutterwave,
+  }: SuccessResponse) => {
+    const { status, tx_ref, transaction_id } = flutterwaveData;
+    const { data, transactionRef } = paystackData;
+
     const orderInformation = {
-      status,
-      transaction_id,
+      paymentProcessor: flutterwave || paystack,
+      status: status || data.event,
+      transaction_id: transaction_id || transactionRef.trxref,
       customer,
       processingFee,
       orderDetails: cart,
-      transactionRef: tx_ref,
+      transactionRef: tx_ref || transactionRef.reference,
       sumTotal: totalAmountToPay,
       shippingFee: "",
     };
 
-    const response = await axios.post(
-      `${BASE_URL}/api/customer/order/create_order`,
-      orderInformation
-    );
+    let response;
+    try {
+      response = await axios.post(
+        `${BASE_URL}/api/customer/order/create_order`,
+        orderInformation
+      );
+    } catch (e) {
+      console.log("Error occured while sending order to the server.", e);
+    }
 
-    if (response.data.error || response.data.status === "Error") {
+    if (response?.data.error || response?.data.status === "Error") {
       Dialog.show({
         type: ALERT_TYPE.DANGER,
         title: "Error",
         textBody: response.data.error,
         button: "dismiss",
       });
-    } else if (response.data.msg) {
+    } else if (response?.data.msg) {
       navigation.navigate("OrderSuccessScreen", {
         successMessage: response.data.msg,
       });
@@ -135,7 +183,8 @@ export default function OrderDetails() {
           {/* >>>>> Items In Cart <<<<< */}
           <View style={tw`p-5 bg-transparent`}>
             <Text style={tw`my-3 px-2 text-zinc-500 font-bold`}>
-             You have {itemsInCart} Item{itemsInCart > 1 ? "s" : ""} in your order.
+              You have {itemsInCart} Item{itemsInCart > 1 ? "s" : ""} in your
+              order.
             </Text>
             {cart.length !== 0 &&
               cart.map((item) => (
@@ -259,25 +308,39 @@ export default function OrderDetails() {
             </View>
           </View>
         </ScrollView>
-        <PayWithFlutterwave
-          options={transactionDetails}
-          onRedirect={createNewOrder}
-          customButton={(props) => (
-            <AsyncButton
-              startIcon="payment"
-              isLoading={props.disabled}
-              isLoadingTitle="Processing..."
-              onPress={props.onPress}
-            >
-              <Text style={tw`font-semibold text-white`}>
-                Pay{" "}
-                <Text style={tw`font-extrabold`}>
-                  <Naira style={tw`text-gray-100`}>{totalAmountToPay}</Naira>
-                </Text>
-              </Text>
-            </AsyncButton>
-          )}
+
+        {/* Paystack Payment below. */}
+        <Paystack
+          paystackKey={PAYSTACK_PUBLIC_KEY}
+          billingEmail={customer.email as string}
+          amount={totalAmountToPay}
+          onCancel={(e) => {
+            // handle response here
+            alert("Payment failed");
+          }}
+          onSuccess={(response: any) => {
+            createNewOrder({
+              paystack: "paystack",
+              paystackData: response,
+              flutterwaveData: {} as PaymentVerificationProps,
+            });
+          }}
+          ref={paystackWebViewRef as any}
         />
+
+        <AsyncButton
+          startIcon="payment"
+          isLoading={false}
+          isLoadingTitle="Processing..."
+          onPress={() => paystackWebViewRef.current?.startTransaction() as any}
+        >
+          <Text style={tw`font-semibold text-white`}>
+            Pay{" "}
+            <Text style={tw`font-extrabold`}>
+              <Naira style={tw`text-gray-100`}>{totalAmountToPay}</Naira>
+            </Text>
+          </Text>
+        </AsyncButton>
       </View>
     </SafeAreaView>
   );

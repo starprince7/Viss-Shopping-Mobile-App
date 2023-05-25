@@ -21,6 +21,11 @@
         "resourceClass": "m-medium"
       }
     },
+    "simulator": {
+      "ios": {
+        "simulator": true 
+      }
+    },
     "androidapk": {
       "android": {
         "buildType": "apk"

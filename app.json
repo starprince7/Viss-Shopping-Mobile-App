@@ -18,15 +18,27 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
+      "permissions": [
+        "INTERNET",
+        "VIBRATE"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/app-icons/icon.png",
         "backgroundColor": "#000000"
       },
       "package": "com.vissstore"
+    },
+    "ios": {
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "supportsTablet": false,
+      "bundleIdentifier": "com.vissstore",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "We use Face ID to authenticate your login.",
+        "NSMotionUsageDescription": "We use motion sensors to give you usage feedback."
+      }
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
