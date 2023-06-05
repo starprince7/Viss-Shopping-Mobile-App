@@ -3,7 +3,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -23,8 +23,8 @@ export default function useCachedResources() {
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
-        console.warn(e);
         await axios.post(`${BASE_URL}/api/logs/appError`, { error: e });
+        console.warn(e);
       } finally {
         setLoadingComplete(true);
         SplashScreen.hideAsync();

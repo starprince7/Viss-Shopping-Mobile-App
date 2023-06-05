@@ -1,5 +1,6 @@
 import { BASE_URL } from "@env";
 import { ShippingInfo } from "../types";
+import { getFromSecureStore } from "./secureStoreHelper";
 
 type PostShippingInfoUpdateResponse = {
   error: string | null;
@@ -22,12 +23,14 @@ type PostShippingInfoUpdate = {
 async function postShippingInfoUpdate(
   data: PostShippingInfoUpdate
 ): Promise<PostShippingInfoUpdateResponse> {
+  const authToken = await getFromSecureStore("auth_token") as string
   try {
     const res = await fetch(`${BASE_URL}/api/customer/shipping-info/update`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
         "Content-type": "application/json",
+        "Authorization": authToken
       },
     });
     const res_data = await res.json();

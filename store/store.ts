@@ -3,9 +3,11 @@ import productReducer from "./slices/productSlice";
 import cartReducer from "./slices/cartSlice";
 import AuthReducer from "./slices/authSlice";
 import ShippingInfoReducer from "./slices/shippingInfoSlice"
+import AppReducer from './slices/App'
 
 const Store = configureStore({
   reducer: {
+    App: AppReducer,
     Products: productReducer,
     Cart: cartReducer,
     Auth: AuthReducer,

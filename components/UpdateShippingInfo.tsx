@@ -1,9 +1,9 @@
 import tw from "twrnc";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import RNPickerSelect from "react-native-picker-select";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import {
   SafeAreaView,
@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
 } from "react-native";
 
 import FormInput from "./FormInput";
@@ -26,6 +27,7 @@ import {
   setSelected,
   setShippingInformation,
 } from "../store/slices/shippingInfoSlice";
+import RenderCountries from "./RenderCountries";
 
 type UpdateShippingInfoProps = {
   closeModal: () => void;
@@ -33,17 +35,31 @@ type UpdateShippingInfoProps = {
 
 const UpdateShippingInfo = ({ closeModal }: UpdateShippingInfoProps) => {
   const { customerId } = useSelector(selectAuth);
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-
   const { _id, homeAddress, phoneNumber, state, city, country, zipcode } =
     useSelector(selectShippingInfoToUpdate);
+
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [_country, setCountry] = useState(country);
+
+  const sheetRef = useRef<BottomSheet>(null);
+  const data = ["Nigeria", "London"];
+  const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
+
+  const handleBottomSheetOpen = () => {
+    sheetRef.current?.snapToPosition("50%");
+  };
+
+  const handleItemSelect = (item: string) => {
+    setCountry(item);
+    sheetRef.current?.close();
+  };
 
   // Initial Formik - form values from Redux update shipping info state.
   const initialValues = {
     phoneNumber,
     homeAddress,
-    country,
+    country: _country,
     state,
     zipcode,
     city,
@@ -139,7 +155,8 @@ const UpdateShippingInfo = ({ closeModal }: UpdateShippingInfoProps) => {
               initialValues={initialValues}
               validationSchema={shippingInfoSchema}
               onSubmit={(values) => {
-                saveUpdatedShippingInfomartion(values);
+                const modified = {...values, country: _country};
+                saveUpdatedShippingInfomartion(modified);
               }}
             >
               {({
@@ -183,23 +200,16 @@ const UpdateShippingInfo = ({ closeModal }: UpdateShippingInfoProps) => {
                         onChangeText={handleChange("state")}
                         error={touched.state && errors.state}
                       />
-                      <View
-                        style={tw`bg-transparent mb-2 mx-0.5 w-1/2 px-0.8 border border-yellow-600 ${
+                      <Pressable
+                        onPress={handleBottomSheetOpen}
+                        style={tw`bg-transparent mb-2 mx-0.5 w-1/2 ${Platform.OS === "android" ? 'h-12': 'h-10'} px-0.8 border ${
                           errors.country
                             ? "border border-red-600"
-                            : "border dark:border-gray-700"
-                        } ${Platform.OS === "ios" ? "p-2.5" : ""} rounded-[10px]`}
+                            : "border-gray-300 dark:border-gray-700"
+                        } p-2.5 rounded-[10px]`}
                       >
-                        <RNPickerSelect
-                          value={values.country}
-                          placeholder={{ label: "Country", value: "" }}
-                          style={tw`dark:text-white`}
-                          onValueChange={handleChange(
-                            "country"
-                          )} /* (value) => console.log("Picker select values::> ", value) */
-                          items={[{ label: "Nigeria", value: "NG" }]}
-                        />
-                      </View>
+                        <Text>{_country}</Text>
+                      </Pressable>
                     </View>
 
                     <FormInput
@@ -211,6 +221,21 @@ const UpdateShippingInfo = ({ closeModal }: UpdateShippingInfoProps) => {
                       onBlur={handleBlur("city")}
                       error={touched.city && errors.city}
                     />
+
+                    {/* Bottom Sheets */}
+                    <BottomSheet
+                      ref={sheetRef}
+                      index={-1}
+                      animateOnMount={false}
+                      snapPoints={snapPoints}
+                      enablePanDownToClose={true}
+                      keyboardBlurBehavior="restore"
+                      backgroundStyle={tw`dark:bg-gray-700`}
+                    >
+                      <BottomSheetScrollView>
+                        <RenderCountries handleSelect={handleItemSelect} />
+                      </BottomSheetScrollView>
+                    </BottomSheet>
 
                     <AsyncButton
                       title="Update"

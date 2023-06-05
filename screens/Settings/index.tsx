@@ -17,6 +17,12 @@ export default function SettingsScreen() {
             >
                 <Card>
                     <LinkScreen
+                        title="Shipping Information"
+                        to="ShippingInfo"
+                        iconName="local-shipping"
+                        isSettingsView
+                    />
+                    <LinkScreen
                         title="Change password"
                         to="ChangePasswordScreen"
                         iconName="vpn-key"

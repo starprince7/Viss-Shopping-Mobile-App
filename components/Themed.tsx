@@ -4,6 +4,7 @@
  */
 
 import { Text as DefaultText, View as DefaultView, Modal as DefaultModal } from 'react-native';
+import { forwardRef } from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';

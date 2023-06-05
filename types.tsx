@@ -23,7 +23,7 @@ export type RootStackParamList = {
   SignupScreen: undefined;
   LoginScreen: undefined;
   ProductDetail: Product;
-  ShippingInfo: undefined;
+  ShippingInfo: { isSettingsView: boolean };
   OrderSummary: undefined;
   OrderSuccessScreen: { successMessage: string };
   OrderHistory: undefined;

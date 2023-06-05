@@ -6,9 +6,11 @@ import {
   KeyboardAvoidingView,
   Platform,
   Dimensions,
+  Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RNPickerSelect from "react-native-picker-select";
+import { Picker } from "@react-native-picker/picker";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 import HeaderIcon from "../components/HeaderIcon";
 import { Text, View } from "../components/Themed";
@@ -19,13 +21,15 @@ import FormTwinInput from "./FormTwinInput";
 import useColorScheme from "../hooks/useColorScheme";
 import postShippingInfo from "../utills/postShippingInfoHelper";
 import { ShippingInfo } from "../types";
-import { useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import AsyncButton from "./AsyncButton";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { setShippingInformation } from "../store/slices/shippingInfoSlice";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import RenderCountries from "./RenderCountries";
 
 type AddShippingInfoProps = {
   closeModal: () => void;
@@ -33,17 +37,29 @@ type AddShippingInfoProps = {
 
 const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
   const navigation = useNavigation();
+  const colorScheme = useColorScheme();
   const { customerId } = useSelector(selectAuth);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [country, setCountry] = useState("");
 
-  const colorScheme = useColorScheme();
+  const sheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
+
+  const handleBottomSheetOpen = () => {
+    sheetRef.current?.snapToPosition("50%");
+  };
+
+  const handleItemSelect = (item: string) => {
+    setCountry(item)
+    sheetRef.current?.close()
+  }
 
   // Initial form value
   const initialValues = {
     phoneNumber: "",
     homeAddress: "",
-    country: "",
+    country: country,
     state: "",
     zipcode: "",
     city: "",
@@ -53,7 +69,7 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
   const shippingInfoSchema = Yup.object({
     phoneNumber: Yup.string().required("Please provide a cellphone number"),
     homeAddress: Yup.string().required("Please enter a delivery address"),
-    country: Yup.string().required(),
+    country: Yup.string(),
     state: Yup.string().required("Provide your State province"),
     zipcode: Yup.string(),
     city: Yup.string().required("Please enter your current city"),
@@ -122,7 +138,8 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
               initialValues={initialValues}
               validationSchema={shippingInfoSchema}
               onSubmit={(values) => {
-                saveNewShippingInfomartion(values);
+                const modified = {...values, country: country};
+                saveNewShippingInfomartion(modified);
               }}
             >
               {({
@@ -166,25 +183,16 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
                         onChangeText={handleChange("state")}
                         error={touched.state && errors.state}
                       />
-                      <View
-                        style={tw`bg-transparent mb-2 mx-0.5 w-1/2 px-0.8 border border-yellow-600 ${
+                      <Pressable
+                        onPress={handleBottomSheetOpen}
+                        style={tw`bg-transparent mb-2 mx-0.5 w-1/2 ${Platform.OS === "android" ? 'h-12': 'h-10'} px-0.8 border ${
                           errors.country
                             ? "border border-red-600"
-                            : "border dark:border-gray-700"
-                        } ${
-                          Platform.OS === "ios" ? "p-2.5" : ""
-                        } rounded-[10px]`}
+                            : "border-gray-300 dark:border-gray-700"
+                        } p-2.5 rounded-[10px]`}
                       >
-                        <RNPickerSelect
-                          value={values.country}
-                          placeholder={{ label: "Country", value: "" }}
-                          style={tw`dark:text-white`}
-                          onValueChange={handleChange(
-                            "country"
-                          )} /* (value) => console.log("Picker select values::> ", value) */
-                          items={[{ label: "Nigeria", value: "NG" }]}
-                        />
-                      </View>
+                        <Text>{country}</Text>
+                      </Pressable>
                     </View>
 
                     <FormInput
@@ -196,6 +204,21 @@ const AddShippingInfo = ({ closeModal }: AddShippingInfoProps) => {
                       onBlur={handleBlur("city")}
                       error={touched.city && errors.city}
                     />
+
+                    {/* Bottom Sheets */}
+                    <BottomSheet
+                      ref={sheetRef}
+                      index={-1}
+                      animateOnMount={false}
+                      snapPoints={snapPoints}
+                      enablePanDownToClose={true}
+                      keyboardBlurBehavior="restore"
+                      backgroundStyle={tw`dark:bg-gray-700`}
+                    >
+                      <BottomSheetScrollView>
+                        <RenderCountries handleSelect={handleItemSelect} />
+                      </BottomSheetScrollView>
+                    </BottomSheet>
 
                     <AsyncButton
                       title="Save"
