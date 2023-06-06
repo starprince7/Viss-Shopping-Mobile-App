@@ -1,6 +1,6 @@
 import tw from "twrnc";
 import axios from "axios";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -10,6 +10,7 @@ import {
   Alert,
   Image,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { Paystack, paystackProps } from "react-native-paystack-webview";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
@@ -74,9 +75,11 @@ export default function OrderDetails() {
   const totalPriceInCart = sumCart(cart); // cart sumTotal
   const { homeAddress, city, country, zipcode, phoneNumber, state } =
     useSelector(selectSelectedShippingInfo); // get shipping information
+  const selectedShippingInformation = useSelector(selectSelectedShippingInfo); // get shipping information [Yes, same thing above!]
   const { customer } = useSelector(selectAuth); // get customer in auth state.
   const [processingFee, setProcessingFee] = React.useState(0);
   const paystackWebViewRef = useRef<paystackProps.PayStackRef>();
+  const [isloading, setIsLoading] = useState(false);
 
   React.useEffect(() => {
     if (processingFee !== 0) return;
@@ -122,29 +125,49 @@ export default function OrderDetails() {
     const { status, tx_ref, transaction_id } = flutterwaveData;
     const { data, transactionRef } = paystackData;
 
+    // MODIFY CUSTOMER OBJECT
+    let _customer = {
+      email: customer.email,
+      name: {
+        firstname: customer.name.firstname,
+        lastname: customer.name.lastname,
+      },
+      shippingInfo: selectedShippingInformation,
+    };
+
     const orderInformation = {
       paymentProcessor: flutterwave || paystack,
       status: status || data.event,
       transaction_id: transaction_id || transactionRef.trxref,
-      customer,
+      customer: _customer,
       processingFee,
       orderDetails: cart,
       transactionRef: tx_ref || transactionRef.reference,
       sumTotal: totalAmountToPay,
       shippingFee: "",
     };
+    console.log("The Content going to the server: ", orderInformation);
 
+    setIsLoading(true);
     let response;
     try {
       response = await axios.post(
         `${BASE_URL}/api/customer/order/create_order`,
         orderInformation
       );
-    } catch (e) {
+    } catch (e: any) {
+      setIsLoading(false);
       console.log("Error occured while sending order to the server.", e);
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Error",
+        textBody: `Error failed to create order, ${e.message}`,
+        button: "dismiss",
+      });
     }
 
     if (response?.data.error || response?.data.status === "Error") {
+      setIsLoading(false);
       Dialog.show({
         type: ALERT_TYPE.DANGER,
         title: "Error",
@@ -152,6 +175,7 @@ export default function OrderDetails() {
         button: "dismiss",
       });
     } else if (response?.data.msg) {
+      setIsLoading(false);
       navigation.navigate("OrderSuccessScreen", {
         successMessage: response.data.msg,
       });
@@ -166,6 +190,16 @@ export default function OrderDetails() {
         darkColor="#1B1F22"
         style={tw`flex-1 ${Platform.OS === "ios" ? `pt-6` : `pt-9`}`}
       >
+        {isloading && (
+          <>
+            <ActivityIndicator
+              size="large"
+              color="#89A67E"
+              style={tw`top-[35%]`}
+            />
+            <Text style={tw`top-[36%] left-[25%] text-xs font-regular text-gray-500`}>Awaiting payment confirmation...</Text>
+          </>
+        )}
         <TouchableOpacity
           onPress={navigation.goBack}
           style={tw`w-10.5 ml-5 px-0.5 py-1.5 mb-3 rounded-[10px] bg-[#89A67E]`}
