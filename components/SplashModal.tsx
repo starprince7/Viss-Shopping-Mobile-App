@@ -1,11 +1,10 @@
 import tw from "twrnc";
 import { Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 
 import { Modal, View } from "./Themed";
 import { Text } from "./Themed";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 type Props = {
   isSplashDoneShowing: boolean;
@@ -22,9 +21,6 @@ export default function SplashModal({ isSplashDoneShowing }: Props) {
   const handleAnimationFinish = () => {
     setHasAnimationPlayedOnce(true);
   };
-
-  // I don't want modal to be open after first app's first launch.
-
 
   const isModalVisible = !(isSplashDoneShowing && hasAnimationPlayedOnce);
 
@@ -47,11 +43,6 @@ export default function SplashModal({ isSplashDoneShowing }: Props) {
           <Text style={tw`text-gray-500 font-semibold text-xl`}>
             Viss Store
           </Text>
-          <MaterialIcons
-            size={25}
-            name="shopping-basket"
-            style={tw`mx-0.5 text-gray-500`}
-          />
         </View>
       </View>
     </Modal>

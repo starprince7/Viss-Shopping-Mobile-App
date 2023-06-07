@@ -49,7 +49,7 @@ export default function ProfileScreen({}: RootTabScreenProps<"Home">) {
           style={tw`bg-transparent flex-row items-center py-5 absolute bottom-0 left-7`}
         >
           <View
-            style={tw`flex-row items-end bg-transparent absolute -top-16 ${Platform.OS === "ios" ? "-right-12" : ""} -right-16`}
+            style={tw`flex-row items-end bg-transparent absolute -top-16 ${Platform.OS === "ios" ? "-right-16" : "-right-20"}`}
           >
             <MaterialIcons
               size={14}

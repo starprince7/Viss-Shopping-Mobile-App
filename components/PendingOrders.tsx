@@ -40,7 +40,7 @@ export const PendingOrders = () => {
     <View
       key={orderNo}
       lightColor="#ffff"
-      darkColor="#1B1F22"
+      darkColor="#52525b"
       style={tw`p-1 mt-3 rounded-xl overflow-hidden`}
     >
       <View style={tw`bg-transparent p-2`}>
@@ -99,8 +99,8 @@ export const PendingOrders = () => {
           darkColor="#1B1F22"
           style={tw`pr-3 mt-3 bg-transparent rounded-xl flex-row justify-between overflow-hidden`}
         >
-          <Text style={tw`mx-auto mt-5 text-neutral-400 dark:text-neutral-500`}>
-            There are no pending order!
+          <Text style={tw`mx-auto mt-40  text-neutral-400 dark:text-neutral-500`}>
+            You have no pending order!
           </Text>
         </View>
       )}
