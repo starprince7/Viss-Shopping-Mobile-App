@@ -2,9 +2,9 @@ import tw from "twrnc";
 import { Image, FlatList, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Naira } from "react-native-naira"
 
 import { View, Text } from "./Themed";
-import Naira from "./FormatToNaira";
 import useProducts from "../hooks/useProducts";
 import { Product } from "../store/slices/productSlice";
 import { ProductComponentSkeleton } from "./SkeletonLoader/Product";

@@ -12109,6 +12109,13 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
+react-native-naira@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-naira/-/react-native-naira-0.1.0.tgz#d3f43592d2191f63e8526d7d8afb9ac6e946477c"
+  integrity sha512-Ampf97PiL9ELFGRahg+fvdi+Dq8aSZap3PEFPQXHMx7KQxWCbdh4z7OfuimIdy6VA9QCJw6FoeDe8G3pqUkzXg==
+  dependencies:
+    intl "^1.2.5"
+
 react-native-paystack-webview@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/react-native-paystack-webview/-/react-native-paystack-webview-4.0.3.tgz#f2d7599a544c07e3ec206196bd2fce5ec989a8cd"

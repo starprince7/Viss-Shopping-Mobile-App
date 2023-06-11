@@ -49,6 +49,7 @@
     "react-native-dotenv": "^3.3.1",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-naira": "^0.1.0",
     "react-native-paystack-webview": "^4.0.3",
     "react-native-reanimated": "~2.14.4",
     "react-native-safe-area-context": "4.5.0",

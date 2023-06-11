@@ -131,7 +131,7 @@ function SearchResultItem({ item }: SearchResultItemProps) {
   const navigation = useNavigation();
   return (
     <Pressable onPress={() => navigation.navigate("ProductDetail", item)}>
-      <Text style={tw`mt-5 text-zinc-700 border-b-2 border-zinc-600`}>
+      <Text style={tw`mt-5 text-zinc-700 dark:text-zinc-400`}>
         {item.title}
       </Text>
     </Pressable>

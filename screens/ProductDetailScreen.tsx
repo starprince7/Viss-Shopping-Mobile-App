@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import tw from "twrnc";
+import { Naira } from "react-native-naira"
 
-import Naira from "../components/FormatToNaira";
 import EditScreenInfo from "../components/EditScreenInfo";
 import HeaderIcon from "../components/HeaderIcon";
 import { Text, View } from "../components/Themed";
